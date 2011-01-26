@@ -13,7 +13,7 @@ The reason for making this code public is to encourage feedback
 from users and to facilitate code contributions.
 
 We know that many people have used this work and certainly improved it
-for there personal use. It's probably a good time to share what you
+for their personal use. It's probably a good time to share what you
 came up with.
 
 Original and principal contribution is from::
