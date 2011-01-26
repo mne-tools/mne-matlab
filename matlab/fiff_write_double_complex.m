@@ -10,7 +10,7 @@ function fiff_write_double_complex(fid,kind,data)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.1  2006/09/23 14:43:56  msh
@@ -27,7 +27,7 @@ end
 
 FIFFT_COMPLEX_DOUBLE=21;
 FIFFV_NEXT_SEQ=0;
-nel=prod(size(data));
+nel=numel(data);
 datasize=2*nel*8;
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1

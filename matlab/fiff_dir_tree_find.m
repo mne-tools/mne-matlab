@@ -1,11 +1,11 @@
-function [nodes] = fiff_dir_tree_find(tree,kind)
+function [nodes] = fiff_dir_tree_find(tree, kind)
 %
 % [nodes] = fiff_dir_tree_find(tree,kind)
 %
 % Find nodes of the given kind from a directory tree structure
 %
 
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2006/11/30 05:43:29  msh
@@ -22,10 +22,10 @@ function [nodes] = fiff_dir_tree_find(tree,kind)
 %   Added fiff reading routines
 %
 
-me='MNE:fiff_dir_tree_find';
+me = 'MNE:fiff_dir_tree_find';
 
 if nargin ~= 2
-    error(me,'Incorrect number of arguments');
+    error(me, 'Incorrect number of arguments');
 end
 
 nodes = struct('block', {}, 'id', {}, 'parent_id', {}, 'nent', {}, 'nchild', {}, 'dir', {}, 'children', {});
@@ -33,14 +33,14 @@ nodes = struct('block', {}, 'id', {}, 'parent_id', {}, 'nent', {}, 'nchild', {},
 %   Am I desirable myself?
 %
 if tree.block == kind
-   nodes = [ nodes tree ];
+    nodes = [ nodes tree ];
 end
 %
 %   Search the subtrees
 %
 for k = 1:tree.nchild
-    nodes = [ nodes fiff_dir_tree_find(tree.children(k),kind) ];
+    nodes = [ nodes fiff_dir_tree_find(tree.children(k), kind) ];
 end
 
-return;
+return
 

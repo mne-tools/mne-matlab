@@ -12,7 +12,7 @@ function [label] = mne_read_label_file(filename)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 

@@ -19,7 +19,7 @@ function fiff_write_dig_file(filename,lpa,nas,rpa,hpi,eeg,eegref,extra)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.1  2008/06/04 16:23:24  msh
@@ -53,9 +53,10 @@ ey = (nas-r0);                      % y axis points from the origin to the nasio
 ey = ey/sqrt(ey*ey');               % Normalize
 ez = cross(ex,ey);                  % Use cross product to get a right-handed coordinate system
 
-T = inv([ ex 0 ; ey 0 ; ez 0 ; r0 1 ])  % The above gives the coordinate transform from the Neuromag coordinates to the
-				        % Polhemus data coordinates; inverse is needed to go the other way
-T = T(:,1:3);                           % We just need the first three columns because the result is not an augmented vector
+T = inv([ ex 0 ; ey 0 ; ez 0 ; r0 1 ]);
+% The above gives the coordinate transform from the Neuromag coordinates to the
+% Polhemus data coordinates; inverse is needed to go the other way
+T = T(:,1:3);   % We just need the first three columns because the result is not an augmented vector
 
 %
 % Ready to start

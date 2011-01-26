@@ -9,7 +9,7 @@ function [w] = mne_read_w_file(filename)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

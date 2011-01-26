@@ -1,7 +1,7 @@
 function fiff_write_complex_matrix(fid,kind,mat)
 %
 % fiff_write_complex_matrix(fid,kind,mat)
-% 
+%
 % Writes a single-precision complex matrix tag
 %
 %     fid           An open fif file descriptor
@@ -11,7 +11,7 @@ function fiff_write_complex_matrix(fid,kind,mat)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.1  2006/09/23 14:43:56  msh
@@ -31,7 +31,7 @@ FIFFT_MATRIX  = bitshift(1,30);
 FIFFT_MATRIX_COMPLEX = bitor(FIFFT_COMPLEX_FLOAT,FIFFT_MATRIX);
 FIFFV_NEXT_SEQ=0;
 
-datasize = 2*4*prod(size(mat)) + 4*3;
+datasize = 2*4*numel(mat) + 4*3;
 
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1
@@ -55,11 +55,11 @@ for j = 1:nrow
    for k = 1:ncol
       count = fwrite(fid,real(mat(j,k)),'single');
       if count ~= 1
-	 error(me,'write failed');
+          error(me,'write failed');
       end
       count = fwrite(fid,imag(mat(j,k)),'single');
       if count ~= 1
-	 error(me,'write failed');
+          error(me,'write failed');
       end
    end
 end

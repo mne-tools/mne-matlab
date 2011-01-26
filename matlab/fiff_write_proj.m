@@ -1,7 +1,7 @@
 function fiff_write_proj(fid,projs)
 %
 % fiff_write_proj(fid,projs)
-% 
+%
 % Writes the projection data into a fif file
 %
 %     fid           An open fif file descriptor
@@ -9,7 +9,7 @@ function fiff_write_proj(fid,projs)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.9  2008/08/06 17:31:11  msh
@@ -45,46 +45,40 @@ function fiff_write_proj(fid,projs)
 me='MNE:fiff_write_proj';
 
 if nargin ~= 2
-        error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if isempty(projs)
-   return;
+    return;
 end
 
 fiff_start_block(fid,FIFF.FIFFB_PROJ);
-    for k = 1:length(projs)
-       fiff_start_block(fid,FIFF.FIFFB_PROJ_ITEM);
-	   fiff_write_string(fid,FIFF.FIFF_NAME,projs(k).desc);
-	   fiff_write_int(fid,FIFF.FIFF_PROJ_ITEM_KIND,projs(k).kind);
-	   if projs(k).kind == FIFF.FIFFV_PROJ_ITEM_FIELD
-	      fiff_write_float(fid,FIFF.FIFF_PROJ_ITEM_TIME,0.0);
-       end
-       fiff_write_int(fid,FIFF.FIFF_NCHAN,projs(k).data.ncol);
-	   fiff_write_int(fid,FIFF.FIFF_PROJ_ITEM_NVEC, ...
-	      projs(k).data.nrow);
-	   fiff_write_int(fid,FIFF.FIFF_MNE_PROJ_ITEM_ACTIVE, ...
-	      projs(k).active);
-	   fiff_write_name_list(fid, ...
-	      FIFF.FIFF_PROJ_ITEM_CH_NAME_LIST, ...
-	      projs(k).data.col_names);
-	   fiff_write_float_matrix(fid,FIFF.FIFF_PROJ_ITEM_VECTORS,projs(k).data.data);
-       fiff_end_block(fid,FIFF.FIFFB_PROJ_ITEM);
+for k = 1:length(projs)
+    fiff_start_block(fid,FIFF.FIFFB_PROJ_ITEM);
+    fiff_write_string(fid,FIFF.FIFF_NAME,projs(k).desc);
+    fiff_write_int(fid,FIFF.FIFF_PROJ_ITEM_KIND,projs(k).kind);
+    if projs(k).kind == FIFF.FIFFV_PROJ_ITEM_FIELD
+        fiff_write_float(fid,FIFF.FIFF_PROJ_ITEM_TIME,0.0);
     end
+    fiff_write_int(fid,FIFF.FIFF_NCHAN,projs(k).data.ncol);
+    fiff_write_int(fid,FIFF.FIFF_PROJ_ITEM_NVEC, ...
+        projs(k).data.nrow);
+    fiff_write_int(fid,FIFF.FIFF_MNE_PROJ_ITEM_ACTIVE, ...
+        projs(k).active);
+    fiff_write_name_list(fid, ...
+        FIFF.FIFF_PROJ_ITEM_CH_NAME_LIST, ...
+        projs(k).data.col_names);
+    fiff_write_float_matrix(fid,FIFF.FIFF_PROJ_ITEM_VECTORS,projs(k).data.data);
+    fiff_end_block(fid,FIFF.FIFFB_PROJ_ITEM);
+end
 fiff_end_block(fid,FIFF.FIFFB_PROJ);
 
 return;
 
 
 end
-
-
-
-
-
-

@@ -6,7 +6,7 @@ function [ FIFF ] = fiff_define_constants()
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %    Revision 1.23  2009/03/30 11:37:37  msh
@@ -161,7 +161,7 @@ FIFF.FIFFV_EOG_CH     = 202;
 FIFF.FIFFV_EMG_CH     = 302;
 FIFF.FIFFV_ECG_CH     = 402;
 FIFF.FIFFV_MISC_CH    = 502;
-FIFF.FIFFV_RESP_CH    = 602;		     % Respiration monitoring
+FIFF.FIFFV_RESP_CH    = 602;             % Respiration monitoring
 %
 % Quaternion channels for head position monitoring
 %
@@ -202,12 +202,12 @@ FIFF.FIFF_DATA_SKIP_SAMP = 303;          % Data skip in samples
 %
 % Different aspects of data
 %
-FIFF.FIFFV_ASPECT_AVERAGE       = 100;	  % Normal average of epochs
-FIFF.FIFFV_ASPECT_STD_ERR       = 101;	  % Std. error of mean
-FIFF.FIFFV_ASPECT_SINGLE        = 102;	  % Single epoch cut out from the continuous data
+FIFF.FIFFV_ASPECT_AVERAGE       = 100;      % Normal average of epochs
+FIFF.FIFFV_ASPECT_STD_ERR       = 101;      % Std. error of mean
+FIFF.FIFFV_ASPECT_SINGLE        = 102;      % Single epoch cut out from the continuous data
 FIFF.FIFFV_ASPECT_SUBAVERAGE    = 103;
-FIFF.FIFFV_ASPECT_ALTAVERAGE    = 104;	  % Alternating subaverage
-FIFF.FIFFV_ASPECT_SAMPLE        = 105;	  % A sample cut out by graph
+FIFF.FIFFV_ASPECT_ALTAVERAGE    = 104;      % Alternating subaverage
+FIFF.FIFFV_ASPECT_SAMPLE        = 105;      % A sample cut out by graph
 FIFF.FIFFV_ASPECT_POWER_DENSITY = 106;    % Power density spectrum
 FIFF.FIFFV_ASPECT_DIPOLE_WAVE   = 200;    % Dipole amplitude curve
 %
@@ -232,9 +232,9 @@ FIFF.FIFFV_POINT_EEG      = 3;
 FIFF.FIFFV_POINT_ECG      = FIFF.FIFFV_POINT_EEG;
 FIFF.FIFFV_POINT_EXTRA    = 4;
 
-FIFF.FIFFV_POINT_LPA=1;
-FIFF.FIFFV_POINT_NASION=2;
-FIFF.FIFFV_POINT_RPA=3;
+FIFF.FIFFV_POINT_LPA = 1;
+FIFF.FIFFV_POINT_NASION = 2;
+FIFF.FIFFV_POINT_RPA = 3;
 %
 %   SSP
 %
@@ -293,9 +293,9 @@ FIFF.FIFF_MNE_COL_NAMES              = 3503;
 FIFF.FIFF_MNE_NROW                   = 3504;
 FIFF.FIFF_MNE_NCOL                   = 3505;
 FIFF.FIFF_MNE_COORD_FRAME            = 3506;      % Coordinate frame employed. Defaults:
-						  %  FIFFB_MNE_SOURCE_SPACE       FIFFV_COORD_MRI
-						  %  FIFFB_MNE_FORWARD_SOLUTION   FIFFV_COORD_HEAD
-						  %  FIFFB_MNE_INVERSE_SOLUTION   FIFFV_COORD_HEAD
+%  FIFFB_MNE_SOURCE_SPACE       FIFFV_COORD_MRI
+%  FIFFB_MNE_FORWARD_SOLUTION   FIFFV_COORD_HEAD
+%  FIFFB_MNE_INVERSE_SOLUTION   FIFFV_COORD_HEAD
 FIFF.FIFF_MNE_CH_NAME_LIST           = 3507;
 FIFF.FIFF_MNE_FILE_NAME              = 3508;      % This removes the collision with fiff_file.h (used to be 3501)
 %
@@ -332,10 +332,10 @@ FIFF.FIFF_MNE_FORWARD_SOLUTION_GRAD  = 3523;
 %
 % 3530... Covariance matrix
 %
-FIFF.FIFF_MNE_COV_KIND               = 3530;	  % What kind of a covariance matrix
-FIFF.FIFF_MNE_COV_DIM                = 3531;	  % Matrix dimension
-FIFF.FIFF_MNE_COV                    = 3532;	  % Full matrix in packed representation (lower triangle)
-FIFF.FIFF_MNE_COV_DIAG               = 3533;	  % Diagonal matrix
+FIFF.FIFF_MNE_COV_KIND               = 3530;      % What kind of a covariance matrix
+FIFF.FIFF_MNE_COV_DIM                = 3531;      % Matrix dimension
+FIFF.FIFF_MNE_COV                    = 3532;      % Full matrix in packed representation (lower triangle)
+FIFF.FIFF_MNE_COV_DIAG               = 3533;      % Diagonal matrix
 FIFF.FIFF_MNE_COV_EIGENVALUES        = 3534;       % Eigenvalues and eigenvectors of the above
 FIFF.FIFF_MNE_COV_EIGENVECTORS       = 3535;
 FIFF.FIFF_MNE_COV_NFREE              = 3536;       % Number of degrees of freedom
@@ -351,11 +351,11 @@ FIFF.FIFF_MNE_INVERSE_FIELDS             = 3541;   % The eigenfields
 FIFF.FIFF_MNE_INVERSE_SING               = 3542;   % The singular values
 FIFF.FIFF_MNE_PRIORS_USED                = 3543;   % Which kind of priors have been used for the source covariance matrix
 FIFF.FIFF_MNE_INVERSE_FULL               = 3544;   % Inverse operator as one matrix
-					           % This matrix includes the whitening operator as well
-						   % The regularization is applied
+% This matrix includes the whitening operator as well
+% The regularization is applied
 FIFF.FIFF_MNE_INVERSE_SOURCE_ORIENTATIONS = 3545;  % Contains the orientation of one source per row
-						   % The source orientations must be expressed in the coordinate system
-						   % given by FIFF_MNE_COORD_FRAME
+% The source orientations must be expressed in the coordinate system
+% given by FIFF_MNE_COORD_FRAME
 %
 % 3550... Saved environment info
 %
@@ -370,7 +370,7 @@ FIFF.FIFF_MNE_HEMI                   = 3562;     % Hemisphere association for ge
 %
 % 3570... Morphing maps
 %
-FIFF.FIFF_MNE_MORPH_MAP              = 3570;	 % Mapping of closest vertices on the sphere
+FIFF.FIFF_MNE_MORPH_MAP              = 3570;     % Mapping of closest vertices on the sphere
 FIFF.FIFF_MNE_MORPH_MAP_FROM         = 3571;     % Which subject is this map from
 FIFF.FIFF_MNE_MORPH_MAP_TO           = 3572;     % Which subject is this map to
 %
@@ -396,7 +396,7 @@ FIFF.FIFFV_MNE_SOURCE_COV           = 2;
 FIFF.FIFFV_MNE_FMRI_PRIOR_COV       = 3;
 FIFF.FIFFV_MNE_SIGNAL_COV           = 4;         % This will be potentially employed in beamformers
 FIFF.FIFFV_MNE_DEPTH_PRIOR_COV      = 5;         % The depth weighting prior
-FIFF.FIFFV_MNE_ORIENT_PRIOR_COV     = 6;	 % The orientation prior
+FIFF.FIFFV_MNE_ORIENT_PRIOR_COV     = 6;     % The orientation prior
 %
 % Projection item kinds
 %
@@ -411,7 +411,7 @@ FIFF.FIFFV_MNE_PROJ_ITEM_EEG_AVREF  = 10;
 % Additional coordinate frames
 %
 FIFF.FIFFV_MNE_COORD_TUFTS_EEG   =  300;         % For Tufts EEG data
-FIFF.FIFFV_MNE_COORD_CTF_DEVICE  = 1001;	 % CTF device coordinates
+FIFF.FIFFV_MNE_COORD_CTF_DEVICE  = 1001;     % CTF device coordinates
 FIFF.FIFFV_MNE_COORD_CTF_HEAD    = 1004;         % CTF head coordinates
 FIFF.FIFFV_MNE_COORD_MRI_VOXEL   = 2001;         % The MRI voxel coordinates
 FIFF.FIFFV_MNE_COORD_RAS         = 2002;         % Surface RAS coordinates with non-zero origin
@@ -453,7 +453,7 @@ FIFF.FIFFT_COORD_TRANS_STRUCT    = 35;
 FIFF.FIFFT_DIG_STRING_STRUCT     = 36;
 FIFF.FIFFT_STREAM_SEGMENT_STRUCT = 37;
 
-return;
+return
 
 end
 

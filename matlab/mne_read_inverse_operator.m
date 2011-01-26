@@ -9,7 +9,7 @@ function [inv] = mne_read_inverse_operator(fname)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.8  2008/05/26 10:49:26  msh

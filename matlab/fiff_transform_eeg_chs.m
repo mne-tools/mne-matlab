@@ -11,7 +11,7 @@ function [res, count] = fiff_transform_eeg_chs(chs,trans)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -62,16 +62,16 @@ count=0;
 %
 t   = trans.trans(1:3,:);
 for k = 1:length(res)
-    if res(k).kind == FIFF.FIFFV_EEG_CH 
+    if res(k).kind == FIFF.FIFFV_EEG_CH
        if res(k).coord_frame == trans.from && ~isempty(res(k).eeg_loc)
-	  %
-	  % Transform the augmented EEG location vectors
-	  %
-	  for p = 1:size(res(k).eeg_loc,2)
-	     res(k).eeg_loc(:,p) = t*[ res(k).eeg_loc(:,p) ; 1 ];
-	  end
-	  count = count + 1;
-	  res(k).coord_frame = trans.to;
+           %
+           % Transform the augmented EEG location vectors
+           %
+           for p = 1:size(res(k).eeg_loc,2)
+               res(k).eeg_loc(:,p) = t*[ res(k).eeg_loc(:,p) ; 1 ];
+           end
+           count = count + 1;
+           res(k).coord_frame = trans.to;
        end
     end
 end
@@ -83,6 +83,3 @@ end
 return;
 
 end
-
-
-    

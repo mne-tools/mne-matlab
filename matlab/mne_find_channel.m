@@ -14,7 +14,7 @@ function [which] = mne_find_channel(info,name)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

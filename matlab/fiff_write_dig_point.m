@@ -9,7 +9,7 @@ function fiff_write_dig_point(fid,dig)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2006/04/23 15:29:40  msh

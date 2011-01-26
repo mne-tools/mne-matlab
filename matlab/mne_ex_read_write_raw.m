@@ -6,7 +6,7 @@ function mne_ex_read_write_raw(infile,outfile)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 
@@ -53,7 +53,7 @@ catch
         error(me,'%s (channel list may need modification)',mne_omit_first_line(lasterr));
     end
 end
-    
+
 %
 [outfid,cals] = fiff_start_writing_raw(outfile,raw.info,picks);
 %
@@ -90,7 +90,7 @@ for first = from:quantum:to
     fprintf(1,'Writing...');
     if first_buffer
        if first > 0
-	  fiff_write_int(outfid,FIFF.FIFF_FIRST_SAMPLE,first);
+           fiff_write_int(outfid,FIFF.FIFF_FIRST_SAMPLE,first);
        end
        first_buffer = false;
     end

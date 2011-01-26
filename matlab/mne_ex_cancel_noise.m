@@ -13,7 +13,7 @@ function [res,proj,comp] = mne_ex_cancel_noise(data,dest_comp)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2006/05/05 03:50:40  msh

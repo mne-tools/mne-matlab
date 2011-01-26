@@ -7,7 +7,7 @@ function [pinfo] = mne_patch_info(nearest)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

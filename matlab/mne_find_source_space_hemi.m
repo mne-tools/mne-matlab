@@ -10,7 +10,7 @@ function [hemi] = mne_find_source_space_hemi(src)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2006/09/25 19:48:16  msh

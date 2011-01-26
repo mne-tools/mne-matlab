@@ -6,7 +6,7 @@ function [eventlist] = mne_read_events(filename)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -33,7 +33,7 @@ me='MNE:mne_read_events';
 %   Find the desired block
 %
 events = fiff_dir_tree_find(tree,FIFF.FIFFB_MNE_EVENTS);
-if length(events) == 0
+if isempty(events)
   fclose(fid);
   error(me,'Could not find event data');
 end

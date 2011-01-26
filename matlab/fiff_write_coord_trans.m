@@ -10,7 +10,7 @@ function fiff_write_coord_trans(fid,trans)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2006/04/23 15:29:40  msh
@@ -39,13 +39,13 @@ FIFFV_NEXT_SEQ=0;
 
 
 %?typedef struct _fiffCoordTransRec {
-%  fiff_int_t   from;		           /*!< Source coordinate system. */
-%  fiff_int_t   to;		               /*!< Destination coordinate system. */
-%  fiff_float_t rot[3][3];	           /*!< The forward transform (rotation part) */
-%  fiff_float_t move[3];		       /*!< The forward transform (translation part) */
-%  fiff_float_t invrot[3][3];	       /*!< The inverse transform (rotation part) */
-%  fiff_float_t invmove[3];            /*!< The inverse transform (translation part) */
-%} *fiffCoordTrans, fiffCoordTransRec; /*!< Coordinate transformation descriptor */
+%  fiff_int_t   from;                   /*!< Source coordinate system. */
+%  fiff_int_t   to;                     /*!< Destination coordinate system. */
+%  fiff_float_t rot[3][3];              /*!< The forward transform (rotation part) */
+%  fiff_float_t move[3];                /*!< The forward transform (translation part) */
+%  fiff_float_t invrot[3][3];           /*!< The inverse transform (rotation part) */
+%  fiff_float_t invmove[3];             /*!< The inverse transform (translation part) */
+%} *fiffCoordTrans, fiffCoordTransRec;  /*!< Coordinate transformation descriptor */
 
 datasize=4*2*12 + 4*2;
 count = fwrite(fid,int32(FIFF_COORD_TRANS),'int32');

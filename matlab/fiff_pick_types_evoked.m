@@ -14,7 +14,7 @@ function [res] = fiff_pick_types_evoked(orig,meg,eeg,stim,include,exclude)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -54,29 +54,29 @@ function [res] = fiff_pick_types_evoked(orig,meg,eeg,stim,include,exclude)
 me='MNE:fiff_pick_types_evoked';
 
 if nargin == 5
-   exclude = [];
+    exclude = [];
 elseif nargin == 4
-   include = [];
-   exclude = [];
+    include = [];
+    exclude = [];
 elseif nargin == 3
-   include = [];
-   exclude = [];
-   stim    = false;
+    include = [];
+    exclude = [];
+    stim    = false;
 elseif nargin == 2
-   include = [];
-   exclude = [];
-   stim    = false;
-   eeg     = false;
+    include = [];
+    exclude = [];
+    stim    = false;
+    eeg     = false;
 elseif nargin ~= 6
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 sel = fiff_pick_types(orig.info,meg,eeg,stim,include,exclude);
 
 if isempty(sel)
-   res = [];
-   fprintf(1,'Warning : No channels match the selection.\n');
-   return;
+    res = [];
+    fprintf(1,'Warning : No channels match the selection.\n');
+    return;
 end
 
 res = orig;
@@ -86,7 +86,7 @@ res.info.ch_names = res.info.ch_names(sel);
 %   Create the reduced data set
 %
 for k = 1:length(res.evoked)
-   res.evoked(k).epochs = res.evoked(k).epochs(sel,:);
+    res.evoked(k).epochs = res.evoked(k).epochs(sel,:);
 end
 res.info.nchan    = length(sel);
 

@@ -1,13 +1,13 @@
-function fiff_list_dir_tree(out,tree,indent)
+function fiff_list_dir_tree(out, tree, indent)
 
 %
-% fiff_list_dir_tree(fid,tree)
+% fiff_list_dir_tree(fid, tree)
 %
 % List the fiff directory tree structure
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2009/04/01 21:25:50  msh
@@ -22,20 +22,20 @@ function fiff_list_dir_tree(out,tree,indent)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
-me='MNE:fiff_list_dir_tree';
+me = 'MNE:fiff_list_dir_tree';
 
 if nargin == 2
     indent = 0;
 end
 
 for k = 1:indent
-   fprintf(out,'\t');
+    fprintf(out, '\t');
 end
 if tree.block ~= 0
-    fprintf(out,'{ %d\n',tree.block);
+    fprintf(out, '{ %d\n', tree.block);
 end
 
 count = 1;
@@ -43,43 +43,43 @@ for k = 1:tree.nent
     if k == 1
         print = true;
         for p = 1:indent
-            fprintf(out,'\t');
+            fprintf(out, '\t');
         end
-        fprintf(out,'tag : %d',tree.dir(k).kind);
+        fprintf(out, 'tag : %d', tree.dir(k).kind);
     else
-        if tree.dir(k).kind == tree.dir(k-1).kind
+        if tree.dir(k).kind == tree.dir(k - 1).kind
             count = count + 1;
         else
             if count > 1
-                fprintf(out,' [%d]\n',count);
+                fprintf(out, ' [%d]\n', count);
             else
-                fprintf(out,'\n');
+                fprintf(out, '\n');
             end
             for p = 1:indent
-                fprintf(out,'\t');
+                fprintf(out, '\t');
             end
-            fprintf(out,'tag : %d',tree.dir(k).kind);
+            fprintf(out, 'tag : %d', tree.dir(k).kind);
             count = 1;
         end
     end
 end
 if count > 1
-    fprintf(out,' [%d]\n',count);
+    fprintf(out, ' [%d]\n', count);
 else
-    fprintf(out,'\n');
+    fprintf(out, '\n');
 end
 
 for k = 1:tree.nchild
-    fiff_list_dir_tree(out,tree.children(k),indent+1);
+    fiff_list_dir_tree(out, tree.children(k), indent + 1);
 end
 
 for k = 1:indent
-   fprintf(out,'\t');
+    fprintf(out, '\t');
 end
 
 if tree.block ~= 0
-    fprintf(out,'} %d\n',tree.block);
+    fprintf(out, '} %d\n', tree.block);
 end
 
-return;
+return
 

@@ -10,7 +10,7 @@ function [res] = fiff_pick_info(info,sel)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -25,14 +25,14 @@ function [res] = fiff_pick_info(info,sel)
 me='MNE:fiff_pick_info';
 
 if nargin == 1
-   sel = [];
+    sel = [];
 elseif nargin ~= 2
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 res = info;
 if isempty(sel)
-   return;
+    return;
 end
 
 
@@ -43,6 +43,3 @@ res.nchan    = length(sel);
 return;
 
 end
-
-
-

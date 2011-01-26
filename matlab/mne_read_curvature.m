@@ -10,7 +10,7 @@ function [curv] = mne_read_curvature(fname)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -42,24 +42,22 @@ end;
 magic = mne_fread3(fid) ;
 NEW_VERSION_MAGIC_NUMBER = 16777215;
 if (magic == NEW_VERSION_MAGIC_NUMBER)
-    nvert = fread(fid, 1, 'int32') ;
-	nface = fread(fid, 1, 'int32') ;
-	val_per_vertex = fread(fid, 1, 'int32') ;
-    if val_per_vertex ~= 1 
+    nvert = fread(fid, 1, 'int32');
+    nface = fread(fid, 1, 'int32');
+    val_per_vertex = fread(fid, 1, 'int32');
+    if val_per_vertex ~= 1
         fclose(fid);
         error(me,'Values per vertex not equal to one');
     end
-    curv = fread(fid, nvert, 'float') ; 
+    curv = fread(fid, nvert, 'float') ;
     fprintf(1,'\t%d values read from a new style curvature file.\n',nvert);
 else
     nvert = magic;
-    nface = mne_fread3(fid) ;
-    curv = fread(fid, nvert, 'int16') ./ 100 ; 
+    nface = mne_fread3(fid);
+    curv = fread(fid, nvert, 'int16') ./ 100 ;
     fprintf(1,'\t%d values read from an old style curvature file.\n',nvert);
 end
 
 fclose(fid);
 
 return;
-
-

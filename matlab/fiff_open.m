@@ -10,7 +10,7 @@ function [fid, tree, dir] = fiff_open(fname)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.7  2009/03/30 11:37:37  msh
@@ -38,7 +38,7 @@ function [fid, tree, dir] = fiff_open(fname)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 me='MNE:fiff_open';
@@ -46,7 +46,7 @@ verbose=false;
 fid = fopen(fname,'rb','ieee-be');
 
 if (fid < 0)
-   error(me,'Cannot open file %s', fname);
+    error(me,'Cannot open file %s', fname);
 end;
 %
 %   Check that this looks like a fif file
@@ -73,7 +73,7 @@ end
 %   Read or create the directory tree
 %
 if verbose
-   fprintf(1,'\tCreating tag directory for %s...',fname);
+    fprintf(1,'\tCreating tag directory for %s...',fname);
 end
 dirpos = double(tag.data);
 if dirpos > 0
@@ -98,7 +98,7 @@ end
 %
 tree = fiff_make_dir_tree(fid,dir);
 if verbose
-   fprintf(1,'[done]\n');
+    fprintf(1,'[done]\n');
 end
 %
 %   Back to the beginning

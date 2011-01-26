@@ -14,7 +14,7 @@ function [data,times] = fiff_read_raw_segment_times(raw,from,to,sel)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2006/04/23 15:29:40  msh

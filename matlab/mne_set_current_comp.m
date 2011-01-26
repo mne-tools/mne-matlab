@@ -7,7 +7,7 @@ function new_chs = mne_set_current_comp(chs,value)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

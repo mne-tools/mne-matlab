@@ -1,7 +1,7 @@
 function fiff_write_ctf_comp(fid,comps)
 %
 % fiff_write_ctf_comp(fid,comps)
-% 
+%
 % Writes the CTF compensation data into a fif file
 %
 %     fid           An open fif file descriptor
@@ -9,7 +9,7 @@ function fiff_write_ctf_comp(fid,comps)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.6  2006/09/08 19:27:13  msh
@@ -37,45 +37,39 @@ function fiff_write_ctf_comp(fid,comps)
 me='MNE:fiff_write_ctf_comp';
 
 if nargin ~= 2
-        error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if isempty(comps)
-   return;
+    return;
 end
 %
 %  This is very simple in fact
 %
 fiff_start_block(fid,FIFF.FIFFB_MNE_CTF_COMP);
-    for k = 1:length(comps)
-       comp = comps(k);
-       fiff_start_block(fid,FIFF.FIFFB_MNE_CTF_COMP_DATA);
-           %
-	   %    Write the compensation kind
-	   %
-           fiff_write_int(fid,FIFF.FIFF_MNE_CTF_COMP_KIND, ...
-	      comp.ctfkind);
-	   fiff_write_int(fid,FIFF.FIFF_MNE_CTF_COMP_CALIBRATED,comp.save_calibrated);
-	   %
-	   %    Write an uncalibrated or calibrated matrix
-	   %
-	   comp.data.data = inv(diag(comp.rowcals))*comp.data.data*inv(diag(comp.colcals));
-	   fiff_write_named_matrix(fid,FIFF.FIFF_MNE_CTF_COMP_DATA,comp.data);
-       fiff_end_block(fid,FIFF.FIFFB_MNE_CTF_COMP_DATA);
-    end
+for k = 1:length(comps)
+    comp = comps(k);
+    fiff_start_block(fid,FIFF.FIFFB_MNE_CTF_COMP_DATA);
+    %
+    %    Write the compensation kind
+    %
+    fiff_write_int(fid,FIFF.FIFF_MNE_CTF_COMP_KIND, ...
+        comp.ctfkind);
+    fiff_write_int(fid,FIFF.FIFF_MNE_CTF_COMP_CALIBRATED,comp.save_calibrated);
+    %
+    %    Write an uncalibrated or calibrated matrix
+    %
+    comp.data.data = inv(diag(comp.rowcals))*comp.data.data*inv(diag(comp.colcals));
+    fiff_write_named_matrix(fid,FIFF.FIFF_MNE_CTF_COMP_DATA,comp.data);
+    fiff_end_block(fid,FIFF.FIFFB_MNE_CTF_COMP_DATA);
+end
 fiff_end_block(fid,FIFF.FIFFB_MNE_CTF_COMP);
 
 return;
 
 end
-
-
-
-
-
-

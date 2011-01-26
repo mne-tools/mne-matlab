@@ -11,7 +11,7 @@ function mne_write_inverse_sol_w(stem,inv,sol)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2009/03/04 22:04:31  msh

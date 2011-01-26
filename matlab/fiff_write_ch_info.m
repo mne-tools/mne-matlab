@@ -1,7 +1,7 @@
 function fiff_write_ch_info(fid,ch)
 %
 % fiff_write_ch_info(fid,ch)
-% 
+%
 % Writes a channel information record to a fif file
 %
 %     fid           An open fif file descriptor
@@ -13,7 +13,7 @@ function fiff_write_ch_info(fid,ch)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.6  2006/04/23 15:29:40  msh
@@ -40,7 +40,7 @@ function fiff_write_ch_info(fid,ch)
 me='MNE:fiff_write_ch_info';
 
 if nargin ~= 2
-        error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 FIFF_CH_INFO=203;
@@ -48,25 +48,25 @@ FIFFT_CH_INFO_STRUCT=30;
 FIFFV_NEXT_SEQ=0;
 
 %typedef struct _fiffChPosRec {
-%  fiff_int_t   coil_type;		   /*!< What kind of coil. */
-%  fiff_float_t r0[3];			   /*!< Coil coordinate system origin */
-%  fiff_float_t ex[3];			   /*!< Coil coordinate system x-axis unit vector */
-%  fiff_float_t ey[3];			   /*!< Coil coordinate system y-axis unit vector */
-%  fiff_float_t ez[3];	                   /*!< Coil coordinate system z-axis unit vector */
-%} fiffChPosRec,*fiffChPos;                /*!< Measurement channel position and coil type */
+%  fiff_int_t   coil_type;          /*!< What kind of coil. */
+%  fiff_float_t r0[3];              /*!< Coil coordinate system origin */
+%  fiff_float_t ex[3];              /*!< Coil coordinate system x-axis unit vector */
+%  fiff_float_t ey[3];              /*!< Coil coordinate system y-axis unit vector */
+%  fiff_float_t ez[3];             /*!< Coil coordinate system z-axis unit vector */
+%} fiffChPosRec,*fiffChPos;        /*!< Measurement channel position and coil type */
 
 
 %typedef struct _fiffChInfoRec {
-%  fiff_int_t    scanNo;	/*!< Scanning order # */
-%  fiff_int_t    logNo;		/*!< Logical channel # */
-%  fiff_int_t    kind;		/*!< Kind of channel */
-%  fiff_float_t  range;		/*!< Voltmeter range (only applies to raw data ) */
-%  fiff_float_t  cal;		/*!< Calibration from volts to... */
-%  fiff_ch_pos_t chpos;		/*!< Channel location */
-%  fiff_int_t    unit;		/*!< Unit of measurement */
-%  fiff_int_t    unit_mul;	/*!< Unit multiplier exponent */
-%  fiff_char_t   ch_name[16];	/*!< Descriptive name for the channel */
-%} fiffChInfoRec,*fiffChInfo;	/*!< Description of one channel */
+%  fiff_int_t    scanNo;        /*!< Scanning order # */
+%  fiff_int_t    logNo;         /*!< Logical channel # */
+%  fiff_int_t    kind;          /*!< Kind of channel */
+%  fiff_float_t  range;         /*!< Voltmeter range (only applies to raw data ) */
+%  fiff_float_t  cal;           /*!< Calibration from volts to... */
+%  fiff_ch_pos_t chpos;         /*!< Channel location */
+%  fiff_int_t    unit;          /*!< Unit of measurement */
+%  fiff_int_t    unit_mul;      /*!< Unit multiplier exponent */
+%  fiff_char_t   ch_name[16];   /*!< Descriptive name for the channel */
+%} fiffChInfoRec,*fiffChInfo;   /*!< Description of one channel */
 
 datasize=4*13 + 4*7 + 16;
 count = fwrite(fid,int32(FIFF_CH_INFO),'int32');
@@ -152,4 +152,3 @@ if len < 16
     end
 end
 return;
-

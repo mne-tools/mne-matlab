@@ -9,7 +9,7 @@ function fiff_write_raw_buffer(fid,buf,cals)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 % Revision 1.1  2007/11/07 16:05:05  msh
@@ -18,7 +18,7 @@ function fiff_write_raw_buffer(fid,buf,cals)
 
 me='MNE:fiff_write_raw_buffer';
 if nargin ~= 3
-        error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 if size(buf,1) ~= length(cals)
@@ -27,7 +27,7 @@ end
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 fiff_write_float(fid,FIFF.FIFF_DATA_BUFFER,inv(diag(cals))*buf); % XXX why not diag(1./cals) ???

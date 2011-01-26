@@ -11,7 +11,7 @@ function [comb] = mne_combine_xyz(vec)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.1  2006/05/05 03:50:40  msh

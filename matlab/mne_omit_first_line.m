@@ -7,7 +7,7 @@ function [rest] = mne_omit_first_line(str)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

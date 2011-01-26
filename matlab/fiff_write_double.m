@@ -10,7 +10,7 @@ function fiff_write_double(fid,kind,data)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2006/05/26 07:17:17  msh
@@ -32,7 +32,7 @@ end
 
 FIFFT_DOUBLE=5;
 FIFFV_NEXT_SEQ=0;
-nel=prod(size(data));
+nel=numel(data);
 datasize=nel*8;
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1

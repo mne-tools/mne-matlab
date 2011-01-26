@@ -10,7 +10,7 @@ function [cov] = mne_read_noise_cov(fname)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.5  2006/05/03 19:09:03  msh

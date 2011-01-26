@@ -11,7 +11,7 @@ function [cov] = mne_read_cov(fid,node,cov_kind)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.6  2008/09/26 20:49:26  msh
@@ -38,7 +38,7 @@ me='MNE:mne_read_cov';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 %
 %   Find all covariance matrices
@@ -92,30 +92,30 @@ for p = 1:length(covs)
             end
         else
             if ~issparse(tag.data)
-               %
-               %   Lower diagonal is stored
-               %
-               vals = tag.data;
-               data = zeros(dim,dim);
-               % XXX : should remove for loops
-               q = 1;
-               for j = 1:dim
-                  for k = 1:j
-                     data(j,k) = vals(q);
-                     q = q + 1;
-                  end
-               end
-               for j = 1:dim
-                  for k = j+1:dim
-                     data(j,k) = data(k,j);
-                  end
-               end
-               diagmat = false;
-               fprintf('\t%d x %d full covariance (kind = %d) found.\n',dim,dim,cov_kind);
+                %
+                %   Lower diagonal is stored
+                %
+                vals = tag.data;
+                data = zeros(dim,dim);
+                % XXX : should remove for loops
+                q = 1;
+                for j = 1:dim
+                    for k = 1:j
+                        data(j,k) = vals(q);
+                        q = q + 1;
+                    end
+                end
+                for j = 1:dim
+                    for k = j+1:dim
+                        data(j,k) = data(k,j);
+                    end
+                end
+                diagmat = false;
+                fprintf('\t%d x %d full covariance (kind = %d) found.\n',dim,dim,cov_kind);
             else
-               diagmat = false;
-               data = tag.data;
-               fprintf('\t%d x %d sparse covariance (kind = %d) found.\n',dim,dim,cov_kind);
+                diagmat = false;
+                data = tag.data;
+                fprintf('\t%d x %d sparse covariance (kind = %d) found.\n',dim,dim,cov_kind);
             end
         end
         %
@@ -160,18 +160,18 @@ error(me,'Did not find the desired covariance matrix');
 
 return;
 
-function [tag] = find_tag(node,findkind)
-
-    for pp = 1:node.nent
-       kind = node.dir(pp).kind;
-       pos  = node.dir(pp).pos;
-       if kind == findkind
-          tag = fiff_read_tag(fid,pos);
-          return;
-       end
+    function [tag] = find_tag(node,findkind)
+        
+        for pp = 1:node.nent
+            kind = node.dir(pp).kind;
+            pos  = node.dir(pp).pos;
+            if kind == findkind
+                tag = fiff_read_tag(fid,pos);
+                return;
+            end
+        end
+        tag = [];
+        return
     end
-    tag = [];
-    return
-end
 
 end

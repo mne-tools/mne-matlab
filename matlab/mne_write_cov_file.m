@@ -10,7 +10,7 @@ function mne_write_cov_file(fname,cov)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2008/10/10 16:13:57  msh

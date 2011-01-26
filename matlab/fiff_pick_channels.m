@@ -11,7 +11,7 @@ function [sel] = fiff_pick_channels(ch_names,include,exclude)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -39,87 +39,87 @@ me='MNE:fiff_pick_channels';
 
 nchan = length(ch_names);
 if nargin == 1
-   sel = ones(1,nchan);
-   for k = 1:nchan
-      sel(k) = k;
-   end
-   return;
+    sel = ones(1,nchan);
+    for k = 1:nchan
+        sel(k) = k;
+    end
+    return;
 elseif nargin == 2
-   exclude = [];
+    exclude = [];
 elseif nargin ~= 3
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 if isempty(include)
-   %
-   %   Include all initially
-   %
-   sel = zeros(1,nchan);
-   for k = 1:nchan
-      sel(k) = k;
-   end
-   nzero = 0;
-   for k = 1:length(exclude)
-      c = strmatch(exclude{k},ch_names,'exact');
-      nzero = 0;
-      if length(c) > 0
-	 sel(c(1)) = 0;
-	 nzero = nzero + 1;
-      end
-   end
-   %
-   %  Check for exclusions
-   %
-   if nzero > 0
-      newsel = zeros(1,nchan-nzero);
-      p = 0;
-      for k = 1:nchan
-	 if sel(k) > 0
-	    p = p + 1;
-	    newsel(p) = sel(k);
-	 end
-      end
-      sel = newsel;
-   end
+    %
+    %   Include all initially
+    %
+    sel = zeros(1,nchan);
+    for k = 1:nchan
+        sel(k) = k;
+    end
+    nzero = 0;
+    for k = 1:length(exclude)
+        c = strmatch(exclude{k},ch_names,'exact');
+        nzero = 0;
+        if length(c) > 0
+            sel(c(1)) = 0;
+            nzero = nzero + 1;
+        end
+    end
+    %
+    %  Check for exclusions
+    %
+    if nzero > 0
+        newsel = zeros(1,nchan-nzero);
+        p = 0;
+        for k = 1:nchan
+            if sel(k) > 0
+                p = p + 1;
+                newsel(p) = sel(k);
+            end
+        end
+        sel = newsel;
+    end
 else
-   %
-   %   First do the channels to be included
-   %
-   sel = zeros(1,length(include));
-   nzero = 0;
-   for k = 1:length(include)
-      c = strmatch(include{k},ch_names,'exact');
-      if ~length(c)
-	 error(me,'Missing channel %s',include{k});
-      elseif length(c) > 1
-	 disp(sprintf('Ambiguous channel, taking first occurence: %s',include{k}));
-      end
-      %
-      %  Is this channel in the exclusion list?
-      %
-      sel(k) = c(1);
-      if ~isempty(exclude)
-	 c = strmatch(include{k},exclude,'exact');
-	 if length(c) > 0
-	    sel(k) = 0;
-	    nzero = nzero + 1;
-	 end
-      end
-   end
-   %
-   %    Check whether some channels were excluded
-   %
-   if nzero > 0
-      newsel = zeros(1,length(include)-nzero);
-      p = 0;
-      for k = 1:length(include)
-	 if sel(k) > 0
-	    p = p + 1;
-	    newsel(p) = sel(k);
-	 end
-      end
-      sel = newsel;
-   end
+    %
+    %   First do the channels to be included
+    %
+    sel = zeros(1,length(include));
+    nzero = 0;
+    for k = 1:length(include)
+        c = strmatch(include{k},ch_names,'exact');
+        if ~length(c)
+            error(me,'Missing channel %s',include{k});
+        elseif length(c) > 1
+            disp(sprintf('Ambiguous channel, taking first occurence: %s',include{k}));
+        end
+        %
+        %  Is this channel in the exclusion list?
+        %
+        sel(k) = c(1);
+        if ~isempty(exclude)
+            c = strmatch(include{k},exclude,'exact');
+            if length(c) > 0
+                sel(k) = 0;
+                nzero = nzero + 1;
+            end
+        end
+    end
+    %
+    %    Check whether some channels were excluded
+    %
+    if nzero > 0
+        newsel = zeros(1,length(include)-nzero);
+        p = 0;
+        for k = 1:length(include)
+            if sel(k) > 0
+                p = p + 1;
+                newsel(p) = sel(k);
+            end
+        end
+        sel = newsel;
+    end
 end
 
 return;

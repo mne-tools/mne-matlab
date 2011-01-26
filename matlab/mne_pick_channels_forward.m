@@ -12,7 +12,7 @@ function [fwd] = mne_pick_channels_forward(orig,include,exclude)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2009/03/04 22:04:31  msh

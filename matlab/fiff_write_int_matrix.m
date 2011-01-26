@@ -11,7 +11,7 @@ function fiff_write_int_matrix(fid,kind,mat)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -35,7 +35,7 @@ FIFFT_MATRIX = bitshift(1,30);
 FIFFT_MATRIX_INT = bitor(FIFFT_INT,FIFFT_MATRIX);
 FIFFV_NEXT_SEQ=0;
 
-datasize = 4*prod(size(mat)) + 4*3;
+datasize = 4*numel(mat) + 4*3;
 
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1
@@ -54,7 +54,7 @@ if count ~= 1
     error(me,'write failed');
 end
 count = fwrite(fid,int32(mat'),'int32');
-if count ~= prod(size(mat))
+if count ~= numel(mat)
     error(me,'write failed');
 end
 dims(1) = size(mat,2);

@@ -3,7 +3,7 @@ function bd = mne_block_diag(A,n);
 %   function bd = mne_block_diag(A,n)
 %
 %   Make or extract a sparse block diagonal matrix
-% 
+%
 %   If A is not sparse, then returns a sparse block diagonal "bd", diagonalized from the
 %   elements in "A".
 %   "A" is ma x na, comprising bdn=(na/"n") blocks of submatrices.
@@ -26,12 +26,12 @@ function bd = mne_block_diag(A,n);
 %    Los Alamos National Laboratory, Los Alamos, NM
 % ** Sylvain Baillet, PhD, Cognitive Neuroscience & Brain Imaging Laboratory,
 %    CNRS, Hopital de la Salpetriere, Paris, France
-% 
+%
 % Copyright (c) 2005 BrainStorm by the University of Southern California
 % This software distributed  under the terms of the GNU General Public License
 % as published by the Free Software Foundation. Further details on the GPL
 % license can be found at http://www.gnu.org/copyleft/gpl.html .
-% 
+%
 % FOR RESEARCH PURPOSES ONLY. THE SOFTWARE IS PROVIDED "AS IS," AND THE
 % UNIVERSITY OF SOUTHERN CALIFORNIA AND ITS COLLABORATORS DO NOT MAKE ANY
 % WARRANTY, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF
@@ -55,54 +55,54 @@ function bd = mne_block_diag(A,n);
 %
 
 
-if(~issparse(A)),		% then make block sparse
-  [ma,na] = size(A);
-  bdn = na/n; 			% number of submatrices
+if(~issparse(A)),        % then make block sparse
+    [ma,na] = size(A);
+    bdn = na/n;             % number of submatrices
 
-  if(bdn - fix(bdn)),
-    error('Width of matrix must be even multiple of n');
-  end
+    if(bdn - fix(bdn)),
+        error('Width of matrix must be even multiple of n');
+    end
 
-  tmp = reshape([1:(ma*bdn)]',ma,bdn);
-  i = zeros(ma*n,bdn);
-  for iblock = 1:n,
-    i((iblock-1)*ma+[1:ma],:) = tmp;
-  end
-  
-  i = i(:); 			% row indices foreach sparse bd
-  
-  
-  j = [1:na];
-  j = j(ones(ma,1),:);
-  j = j(:); 			% column indices foreach sparse bd
-  
-  bd = sparse(i,j,A(:));
+    tmp = reshape([1:(ma*bdn)]',ma,bdn);
+    i = zeros(ma*n,bdn);
+    for iblock = 1:n,
+        i((iblock-1)*ma+[1:ma],:) = tmp;
+    end
 
-else 				% already is sparse, unblock it
-  
-  [mA,na] = size(A);		% matrix always has na columns
-  % how many entries in the first column?
-  bdn = na/n;			% number of blocks
-  ma = mA/bdn;			% rows in first block
-  
-  % blocks may themselves contain zero entries.  Build indexing as above
-  tmp = reshape([1:(ma*bdn)]',ma,bdn);
-  i = zeros(ma*n,bdn);
-  for iblock = 1:n,
-    i((iblock-1)*ma+[1:ma],:) = tmp;
-  end  
-
-  i = i(:); 			% row indices foreach sparse bd
+    i = i(:);             % row indices foreach sparse bd
 
 
-  j = [0:mA:(mA*(na-1))];
-  j = j(ones(ma,1),:);
-  j = j(:);
-  
-  i = i + j;
-  
-  bd = full(A(i)); 	% column vector
-  bd = reshape(bd,ma,na);	% full matrix
-end  
+    j = [1:na];
+    j = j(ones(ma,1),:);
+    j = j(:);             % column indices foreach sparse bd
+
+    bd = sparse(i,j,A(:));
+
+else                 % already is sparse, unblock it
+
+    [mA,na] = size(A);        % matrix always has na columns
+    % how many entries in the first column?
+    bdn = na/n;            % number of blocks
+    ma = mA/bdn;            % rows in first block
+
+    % blocks may themselves contain zero entries.  Build indexing as above
+    tmp = reshape([1:(ma*bdn)]',ma,bdn);
+    i = zeros(ma*n,bdn);
+    for iblock = 1:n,
+        i((iblock-1)*ma+[1:ma],:) = tmp;
+    end
+
+    i = i(:);             % row indices foreach sparse bd
+
+
+    j = [0:mA:(mA*(na-1))];
+    j = j(ones(ma,1),:);
+    j = j(:);
+
+    i = i + j;
+
+    bd = full(A(i));     % column vector
+    bd = reshape(bd,ma,na);    % full matrix
+end
 
 return

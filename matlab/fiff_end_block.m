@@ -1,7 +1,7 @@
-function fiff_end_block(fid,kind)
+function fiff_end_block(fid, kind)
 %
-% fiff_end_block(fid,kind)
-% 
+% fiff_end_block(fid, kind)
+%
 % Writes a FIFF_BLOCK_END tag
 %
 %     fid           An open fif file descriptor
@@ -9,7 +9,7 @@ function fiff_end_block(fid,kind)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2006/04/23 15:29:40  msh
@@ -22,13 +22,13 @@ function fiff_end_block(fid,kind)
 %   Added an initial set of fiff writing routines.
 %
 
-me='MNE:fiff_end_block';
+me = 'MNE:fiff_end_block';
 
 if nargin ~= 2
-    error(me,'Incorrect number of arguments');
+    error(me, 'Incorrect number of arguments');
 end
 
-FIFF_BLOCK_END=105;
-fiff_write_int(fid,FIFF_BLOCK_END,kind);
+FIFF_BLOCK_END = 105;
+fiff_write_int(fid, FIFF_BLOCK_END, kind);
 
-return;
+return

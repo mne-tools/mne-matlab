@@ -14,7 +14,7 @@ function [proj,nproj,U] = mne_make_projector(projs,ch_names,bads)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -60,14 +60,14 @@ function [proj,nproj,U] = mne_make_projector(projs,ch_names,bads)
 me='MNE:mne_make_projector';
 
 if nargin == 2
-   bads = [];
+    bads = [];
 elseif nargin ~= 3
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 nchan = length(ch_names);
 if nchan == 0
-   error(me,'No channel names specified');
+    error(me,'No channel names specified');
 end
 
 proj  = eye(nchan,nchan);
@@ -77,7 +77,7 @@ U     = [];
 %   Check trivial cases first
 %
 if isempty(projs)
-   return;
+    return;
 end
 
 nactive = 0;
@@ -90,7 +90,7 @@ for k = 1:length(projs)
 end
 
 if nactive == 0
-   return;
+    return;
 end
 %
 %   Pick the appropriate entries
@@ -99,52 +99,52 @@ vecs = zeros(nchan,nvec);
 nvec = 0;
 nonzero = 0;
 for k = 1:length(projs)
-   if projs(k).active
-      one = projs(k);
-      sel = [];
-      vecsel = [];
-      if length(one.data.col_names) ~= length(unique(one.data.col_names))
-	 error(me,'Channel name list in projection item %d contains duplicate items',k);
-      end
-      %
-      % Get the two selection vectors to pick correct elements from
-      % the projection vectors omitting bad channels
-      %
-      p = 0;
-      for c = 1:nchan
-	 match = strmatch(ch_names{c},one.data.col_names);
-	 if ~isempty(match) && isempty(strmatch(ch_names{c},bads))
-	    p = p + 1;
-	    sel(p)    = c;
-	    vecsel(p) = match(1);
-	 end
-      end
-      %
-      % If there is something to pick, pickit
-      %
-      if ~isempty(sel)
-	 for v = 1:one.data.nrow
-	    vecs(sel,nvec+v) = one.data.data(v,vecsel)';
-	 end
-	 %
-	 %   Rescale for more straightforward detection of small singular values
-	 %
-	 for v = 1:one.data.nrow
-	    onesize = sqrt(vecs(:,nvec+v)'*vecs(:,nvec+v));
-	    if onesize > 0
-	       vecs(:,nvec+v) = vecs(:,nvec+v)/onesize;
-	       nonzero = nonzero + 1;
-	    end
-	 end
-	 nvec = nvec + one.data.nrow;
-      end
-   end
+    if projs(k).active
+        one = projs(k);
+        sel = [];
+        vecsel = [];
+        if length(one.data.col_names) ~= length(unique(one.data.col_names))
+            error(me,'Channel name list in projection item %d contains duplicate items',k);
+        end
+        %
+        % Get the two selection vectors to pick correct elements from
+        % the projection vectors omitting bad channels
+        %
+        p = 0;
+        for c = 1:nchan
+            match = strmatch(ch_names{c},one.data.col_names);
+            if ~isempty(match) && isempty(strmatch(ch_names{c},bads))
+                p = p + 1;
+                sel(p)    = c;
+                vecsel(p) = match(1);
+            end
+        end
+        %
+        % If there is something to pick, pickit
+        %
+        if ~isempty(sel)
+            for v = 1:one.data.nrow
+                vecs(sel,nvec+v) = one.data.data(v,vecsel)';
+            end
+            %
+            %   Rescale for more straightforward detection of small singular values
+            %
+            for v = 1:one.data.nrow
+                onesize = sqrt(vecs(:,nvec+v)'*vecs(:,nvec+v));
+                if onesize > 0
+                    vecs(:,nvec+v) = vecs(:,nvec+v)/onesize;
+                    nonzero = nonzero + 1;
+                end
+            end
+            nvec = nvec + one.data.nrow;
+        end
+    end
 end
 %
 %   Check whether all of the vectors are exactly zero
 %
 if nonzero == 0
-   return;
+    return;
 end
 %
 %   Reorthogonalize the vectors

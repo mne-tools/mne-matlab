@@ -14,7 +14,7 @@ function [res] = mne_ex_read_evoked(fname,setno,apply_proj,dest_comp,use_ctf_hea
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2008/11/18 02:38:51  msh
@@ -51,7 +51,7 @@ elseif nargin == 4
     use_ctf_head = false;
     keep_comp    = false;
 elseif nargin == 5
-   keep_comp     = false;
+    keep_comp     = false;
 else
     error(me,'Incorrect number of arguments');
 end
@@ -60,7 +60,7 @@ end
 %
 fprintf(1,'\nLoading set %d from %s...\n\n',setno,fname);
 %
-try 
+try
     res = fiff_read_evoked(fname,setno);
 catch
     error(me,'%s',mne_omit_first_line(lasterr));
@@ -96,46 +96,46 @@ end
 if current_comp ~= dest_comp
     try
         comp = mne_make_compensator(res.info,current_comp,dest_comp);
-	res.info.chs  = mne_set_current_comp(res.info.chs,dest_comp);
+        res.info.chs  = mne_set_current_comp(res.info.chs,dest_comp);
         fprintf(1,'\tAppropriate compensator created to change to grade %d.\n',dest_comp);
     catch
         error(me,'%s',mne_omit_first_line(lasterr));
     end
 end
 if ~isempty(comp)
-   for k = 1:length(res.evoked)
-      res.evoked(k).epochs = comp*res.evoked(k).epochs;
-   end
-   fprintf(1,'\tThe data are now compensated to grade %d.\n',dest_comp);
+    for k = 1:length(res.evoked)
+        res.evoked(k).epochs = comp*res.evoked(k).epochs;
+    end
+    fprintf(1,'\tThe data are now compensated to grade %d.\n',dest_comp);
 end
 %
 %   Set up projection
 %
-if apply_proj 
-   if isempty(res.info.projs)
-      fprintf(1,'\tNo projector specified in these data\n');
-   else
-      %
-      %   Activate the projection items
-      %
-      for k = 1:length(res.info.projs)
-	 res.info.projs(k).active = true;
-      end
-      fprintf(1,'\t%d projection items activated\n',length(res.info.projs)); 
-      %
-      %   Create the projector
-      %
-      [res.info.proj,nproj] = mne_make_projector_info(res.info);
-      if nproj == 0
-	 fprintf(1,'\tThe projection vectors do not apply to these channels\n');
-      else
-	 fprintf(1,'\tCreated an SSP operator (subspace dimension = %d)\n',nproj);
-	 for k = 1:length(res.evoked)
-	    res.evoked(k).epochs = res.info.proj*res.evoked(k).epochs;
-	 end
-	 fprintf(1,'\tSSP operator applied to the evoked data\n');
-      end
-   end
+if apply_proj
+    if isempty(res.info.projs)
+        fprintf(1,'\tNo projector specified in these data\n');
+    else
+        %
+        %   Activate the projection items
+        %
+        for k = 1:length(res.info.projs)
+            res.info.projs(k).active = true;
+        end
+        fprintf(1,'\t%d projection items activated\n',length(res.info.projs));
+        %
+        %   Create the projector
+        %
+        [res.info.proj,nproj] = mne_make_projector_info(res.info);
+        if nproj == 0
+            fprintf(1,'\tThe projection vectors do not apply to these channels\n');
+        else
+            fprintf(1,'\tCreated an SSP operator (subspace dimension = %d)\n',nproj);
+            for k = 1:length(res.evoked)
+                res.evoked(k).epochs = res.info.proj*res.evoked(k).epochs;
+            end
+            fprintf(1,'\tSSP operator applied to the evoked data\n');
+        end
+    end
 end
 %
 %   Select the head coordinate system
@@ -147,7 +147,7 @@ if use_ctf_head
     meg_trans = res.info.dev_ctf_t;
     eeg_trans = fiff_invert_transform(res.info.ctf_head_t);
     fprintf(1,'\tEmploying the CTF/4D head coordinate system\n');
-else    
+else
     meg_trans = res.info.dev_head_t;
     eeg_trans = [];
     fprintf(1,'\tEmploying the Neuromag head coordinate system\n');
@@ -161,10 +161,10 @@ res.info.chs = fiff_transform_eeg_chs(res.info.chs,eeg_trans);
 %   Create the coil definitions
 %
 try
-   accuracy = 1;       %   Use accuracy = 2 for accurate coil definitions
-   res.info.chs = mne_add_coil_defs(res.info.chs,accuracy);
+    accuracy = 1;       %   Use accuracy = 2 for accurate coil definitions
+    res.info.chs = mne_add_coil_defs(res.info.chs,accuracy);
 catch
-   fprintf(1,'\tCoil definitions not added\n');
+    fprintf(1,'\tCoil definitions not added\n');
 end
 %
 %   N.B. If a nonstandard (in MNE sense) coil def file is used, do

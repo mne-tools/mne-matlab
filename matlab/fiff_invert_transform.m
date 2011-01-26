@@ -7,7 +7,7 @@ function [itrans] = fiff_invert_transform(trans)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2006/04/23 15:29:40  msh
@@ -18,10 +18,10 @@ function [itrans] = fiff_invert_transform(trans)
 %
 %
 
-me='MNE:fiff_invert_transform';
+me = 'MNE:fiff_invert_transform';
 
 if nargin ~= 1
-    error(me,'Incorrect number of arguments');
+    error(me, 'Incorrect number of arguments');
 end
 
 itrans        = trans;
@@ -30,6 +30,6 @@ itrans.from   = itrans.to;
 itrans.to     = help;
 itrans.trans  = inv(itrans.trans);
 
-return;
+return
 
 

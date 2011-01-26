@@ -10,7 +10,7 @@ function mne_write_cov(fid,cov)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2007/12/10 01:02:55  msh
@@ -63,10 +63,10 @@ else
       q = 1;
       vals = zeros(cov.dim*(cov.dim+1)/2,1);
       for j = 1:cov.dim
-	 for k = 1:j
-	    vals(q) = cov.data(j,k);
-	    q = q + 1;
-	 end
+          for k = 1:j
+              vals(q) = cov.data(j,k);
+              q = q + 1;
+          end
       end
       fiff_write_double(fid,FIFF.FIFF_MNE_COV,vals);
    end

@@ -1,6 +1,6 @@
-function [res] = fiff_reset_channel_pos(chs)
+function [res] = fiff_reset_ch_pos(chs)
 %
-% [res] = fiff_meg_chs_to_head(chs)
+% [res] = fiff_reset_ch_pos(chs)
 %
 % Reset channel position data to their original values as listed in
 % the fif file
@@ -11,7 +11,7 @@ function [res] = fiff_reset_channel_pos(chs)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -34,31 +34,28 @@ me='MNE:fiff_reset_channel_pos';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin ~= 1
-   error(me,'Wrong number of arguments');
+    error(me,'Wrong number of arguments');
 end
 
 res = chs;
 for k = 1:length(res)
-   loc = res(k).loc;
-   if res(k).kind == FIFF.FIFFV_MEG_CH || ...
-      res(k).kind == FIFF.FIFFV_REF_MEG_CH 
-      res(k).coil_trans = [ [ loc(4:6) loc(7:9) ...
-	    loc(10:12) ...
-	    loc(1:3) ] ; [ 0 0 0 1 ] ];
-      res(k).coord_frame = FIFF.FIFFV_COORD_DEVICE;
-   elseif res(k).kind == FIFF.FIFFV_EEG_CH
-      res(k).eeg_loc = [ loc(1:3) loc(4:6) ];
-      res(k).coord_frame = FIFF.FIFFV_COORD_HEAD;
-   end
+    loc = res(k).loc;
+    if res(k).kind == FIFF.FIFFV_MEG_CH || ...
+            res(k).kind == FIFF.FIFFV_REF_MEG_CH
+        res(k).coil_trans = [ [ loc(4:6) loc(7:9) ...
+            loc(10:12) ...
+            loc(1:3) ] ; [ 0 0 0 1 ] ];
+        res(k).coord_frame = FIFF.FIFFV_COORD_DEVICE;
+    elseif res(k).kind == FIFF.FIFFV_EEG_CH
+        res(k).eeg_loc = [ loc(1:3) loc(4:6) ];
+        res(k).coord_frame = FIFF.FIFFV_COORD_HEAD;
+    end
 end
 
 return;
 
 end
-
-
-    

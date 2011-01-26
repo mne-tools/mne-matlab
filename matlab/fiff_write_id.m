@@ -12,7 +12,7 @@ function fiff_write_id(fid,kind,id)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.6  2009/03/30 11:37:37  msh

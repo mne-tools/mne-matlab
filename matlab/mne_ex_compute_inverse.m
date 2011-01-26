@@ -19,7 +19,7 @@ function [res] = mne_ex_compute_inverse(fname_data,setno,fname_inv,nave,lambda2,
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2008/05/26 10:49:26  msh

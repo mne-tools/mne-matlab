@@ -7,7 +7,7 @@ function fiff_finish_writing_raw(fid)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -18,20 +18,17 @@ function fiff_finish_writing_raw(fid)
 % New routines for writing raw files
 %
 
-me='MNE:fiff_finish_writing_raw';
+me = 'MNE:fiff_finish_writing_raw';
 if nargin ~= 1
-        error(me,'File id required as an argument');
+    error(me, 'File id required as an argument');
 end
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
-fiff_end_block(fid,FIFF.FIFFB_RAW_DATA);
-fiff_end_block(fid,FIFF.FIFFB_MEAS);
+fiff_end_block(fid, FIFF.FIFFB_RAW_DATA);
+fiff_end_block(fid, FIFF.FIFFB_MEAS);
 fiff_end_file(fid);
 
-return;
-
-
-
+return

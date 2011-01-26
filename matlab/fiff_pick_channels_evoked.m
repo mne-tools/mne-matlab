@@ -11,7 +11,7 @@ function [res] = fiff_pick_channels_evoked(orig,include,exclude)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -66,9 +66,9 @@ end
 
 sel = fiff_pick_channels(orig.info.ch_names,include,exclude);
 if isempty(sel)
-   res = [];
-   fprintf(1,'Warning : No channels match the selection.\n');
-   return;
+    res = [];
+    fprintf(1,'Warning : No channels match the selection.\n');
+    return;
 end
 
 res = orig;

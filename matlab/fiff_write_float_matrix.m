@@ -11,7 +11,7 @@ function fiff_write_float_matrix(fid,kind,mat)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2006/04/23 15:29:40  msh
@@ -40,7 +40,7 @@ FIFFT_MATRIX = bitshift(1,30);
 FIFFT_MATRIX_FLOAT = bitor(FIFFT_FLOAT,FIFFT_MATRIX);
 FIFFV_NEXT_SEQ=0;
 
-datasize = 4*prod(size(mat)) + 4*3;
+datasize = 4*numel(mat) + 4*3;
 
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1
@@ -59,7 +59,7 @@ if count ~= 1
     error(me,'write failed');
 end
 count = fwrite(fid,single(mat'),'single');
-if count ~= prod(size(mat))
+if count ~= numel(mat)
     error(me,'write failed');
 end
 dims(1) = size(mat,2);

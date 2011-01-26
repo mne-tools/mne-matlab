@@ -10,7 +10,7 @@ function fiff_write_float_sparse_ccs(fid,kind,mat)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 

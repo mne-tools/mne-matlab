@@ -15,7 +15,7 @@ function [ values, times, vertices ] = mne_label_time_courses(labelfile,stcfile)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

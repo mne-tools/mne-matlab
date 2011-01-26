@@ -23,7 +23,7 @@ function [data,times] = mne_ex_read_raw(fname,from,to,in_samples,dest_comp)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.5  2008/11/18 02:38:51  msh
@@ -92,7 +92,7 @@ else
     for k = 1:length(raw.info.projs)
         raw.info.projs(k).active = true;
     end
-    fprintf(1,'%d projection items activated\n',length(raw.info.projs)); 
+    fprintf(1,'%d projection items activated\n',length(raw.info.projs));
     %
     %   Create the projector
     %
@@ -118,7 +118,7 @@ end
 if current_comp ~= dest_comp
     try
         raw.comp = mne_make_compensator(raw.info,current_comp,dest_comp);
-	raw.info.chs  = mne_set_current_comp(raw.info.chs,dest_comp);
+        raw.info.chs  = mne_set_current_comp(raw.info.chs,dest_comp);
         fprintf(1,'Appropriate compensator added to change to grade %d.\n',dest_comp);
     catch
         error(me,'%s',mne_omit_first_line(lasterr));
@@ -131,7 +131,7 @@ end
 try
     if in_samples
         [ data, times ] = fiff_read_raw_segment(raw,from,to,picks);
-    else    
+    else
         [ data, times ] = fiff_read_raw_segment_times(raw,from,to,picks);
     end
 catch

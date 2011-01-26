@@ -1,4 +1,4 @@
-function [w] = mne_read_w_file(filename)
+function [w] = mne_read_w_file1(filename)
 %
 % [w] = mne_read_w_file(filename)
 %
@@ -9,26 +9,20 @@ function [w] = mne_read_w_file(filename)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 
 me='MNE:mne_read_w_file1';
 if(nargin ~= 1)
-   error(me,'usage: [w] = mne_read_w_file1(filename)');
+    error(me,'usage: [w] = mne_read_w_file1(filename)');
 end
 
 try
-   w = mne_read_w_file(filename);
-   w.vertices = w.vertices + 1;
+    w = mne_read_w_file(filename);
+    w.vertices = w.vertices + 1;
 catch
-   error(me,'%s',mne_omit_first_line(lasterr));
+    error(me,'%s',mne_omit_first_line(lasterr));
 end
 
 return;
-
-
-
-
-
-

@@ -13,7 +13,7 @@ function [fwd] = mne_read_forward_solution(fname,force_fixed,surf_ori,include,ex
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.11  2008/06/07 21:22:10  msh
@@ -61,7 +61,7 @@ me='MNE:mne_read_forward_solution';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin == 1
@@ -110,7 +110,7 @@ catch
     error(me,'Could not read the source spaces (%s)',mne_omit_first_line(lasterr));
 end
 for k = 1:length(src)
-   src(k).id = mne_find_source_space_hemi(src(k));
+    src(k).id = mne_find_source_space_hemi(src(k));
 end
 fwd = [];
 %
@@ -125,9 +125,9 @@ megnode = [];
 eegnode = [];
 for k = 1:length(fwds)
     tag = find_tag(fwds(k),FIFF.FIFF_MNE_INCLUDED_METHODS);
-    if isempty(tag) 
-       fclose(fid);
-       error(me,'Methods not listed for one of the forward solutions');
+    if isempty(tag)
+        fclose(fid);
+        error(me,'Methods not listed for one of the forward solutions');
     end
     if tag.data == FIFF.FIFFV_MNE_MEG
         megnode = fwds(k);
@@ -161,7 +161,7 @@ end
 %
 if ~isempty(megfwd) && ~isempty(eegfwd)
     if size(megfwd.sol.data,2) ~= size(eegfwd.sol.data,2) || ...
-        megfwd.source_ori ~= eegfwd.source_ori || ...
+            megfwd.source_ori ~= eegfwd.source_ori || ...
             megfwd.nsource ~= eegfwd.nsource || ...
             megfwd.coord_frame ~= eegfwd.coord_frame
         fclose(fid);
@@ -190,19 +190,19 @@ clear('eegfwd');
 %
 tag = find_tag(parent_mri,FIFF.FIFF_COORD_TRANS);
 if isempty(tag)
-   fclose(fid);
-   error(me,'MRI/head coordinate transformation not found');
+    fclose(fid);
+    error(me,'MRI/head coordinate transformation not found');
 else
     mri_head_t = tag.data;
     if mri_head_t.from ~= FIFF.FIFFV_COORD_MRI || mri_head_t.to ~= FIFF.FIFFV_COORD_HEAD
         mri_head_t = fiff_invert_transform(mri_head_t);
         if mri_head_t.from ~= FIFF.FIFFV_COORD_MRI || mri_head_t.to ~= FIFF.FIFFV_COORD_HEAD
-	   fclose(fid);
-	   error(me,'MRI/head coordinate transformation not found');
+            fclose(fid);
+            error(me,'MRI/head coordinate transformation not found');
         end
     end
- end
- fclose(fid);
+end
+fclose(fid);
 %
 fwd.mri_head_t = mri_head_t;
 %
@@ -216,15 +216,15 @@ end
 %
 nuse = 0;
 for k = 1:length(src)
-   try
-      src(k) = mne_transform_source_space_to(src(k),fwd.coord_frame,mri_head_t);
-   catch
-      error(me,'Could not transform source space (%s)',mne_omit_first_line(lasterr));
-   end
-   nuse = nuse + src(k).nuse;
+    try
+        src(k) = mne_transform_source_space_to(src(k),fwd.coord_frame,mri_head_t);
+    catch
+        error(me,'Could not transform source space (%s)',mne_omit_first_line(lasterr));
+    end
+    nuse = nuse + src(k).nuse;
 end
 if nuse ~= fwd.nsource
-   error(me,'Source spaces do not match the forward solution.\n');
+    error(me,'Source spaces do not match the forward solution.\n');
 end
 fprintf(1,'\tSource spaces transformed to the forward solution coordinate frame\n');
 fwd.src = src;
@@ -232,7 +232,7 @@ fwd.src = src;
 %   Handle the source locations and orientations
 %
 if fwd.source_ori == FIFF.FIFFV_MNE_FIXED_ORI || ...
-    force_fixed == true
+        force_fixed == true
     nuse = 0;
     fwd.source_rr = zeros(fwd.nsource,3);
     fwd.source_nn = zeros(fwd.nsource,3);
@@ -246,15 +246,15 @@ if fwd.source_ori == FIFF.FIFFV_MNE_FIXED_ORI || ...
     %
     if fwd.source_ori ~= FIFF.FIFFV_MNE_FIXED_ORI
         fprintf(1,'\tChanging to fixed-orientation forward solution...');
-    	fix_rot        = mne_block_diag(fwd.source_nn',1);
+        fix_rot        = mne_block_diag(fwd.source_nn',1);
         fwd.sol.data   = fwd.sol.data*fix_rot;
         fwd.sol.ncol   = fwd.nsource;
         fwd.source_ori = FIFF.FIFFV_MNE_FIXED_ORI;
-
+        
         if  ~isempty(fwd.sol_grad)
-    	   fwd.sol_grad.data   = fwd.sol_grad.data*kron(fix_rot,eye(3));
-           fwd.sol_grad.ncol   = 3*fwd.nsource;
-    	end
+            fwd.sol_grad.data   = fwd.sol_grad.data*kron(fix_rot,eye(3));
+            fwd.sol_grad.ncol   = 3*fwd.nsource;
+        end
         fprintf(1,'[done]\n');
     end
 else
@@ -269,27 +269,27 @@ else
         for k = 1:length(src)
             fwd.source_rr(nuse+1:nuse+src(k).nuse,:) = src(k).rr(src(k).vertno,:);
             for p = 1:src(k).nuse
-	       %
-	       %  Project out the surface normal and compute SVD
-	       %
-	       nn = src(k).nn(src(k).vertno(p),:)';
-	       [ U, S, V ]  = svd(eye(3,3) - nn*nn');
-	       %
-	       %  Make sure that ez is in the direction of nn
-	       %
-	       if nn'*U(:,3) < 0
-		  U = -U;
-	       end
-	       fwd.source_nn(pp:pp+2,:) = U';
-	       pp = pp + 3;
-	     end
-	     nuse = nuse + src(k).nuse;
+                %
+                %  Project out the surface normal and compute SVD
+                %
+                nn = src(k).nn(src(k).vertno(p),:)';
+                [ U, S, V ]  = svd(eye(3,3) - nn*nn');
+                %
+                %  Make sure that ez is in the direction of nn
+                %
+                if nn'*U(:,3) < 0
+                    U = -U;
+                end
+                fwd.source_nn(pp:pp+2,:) = U';
+                pp = pp + 3;
+            end
+            nuse = nuse + src(k).nuse;
         end
         surf_rot = mne_block_diag(fwd.source_nn',3);
         fwd.sol.data = fwd.sol.data*surf_rot;
         if  ~isempty(fwd.sol_grad)
             fwd.sol_grad.data   = fwd.sol_grad.data*kron(surf_rot,eye(3));
-    	end
+        end
         fprintf(1,'[done]\n');
     else
         fprintf(1,'\tCartesian source orientations...');
@@ -366,19 +366,19 @@ if ~isempty(include) || ~isempty(exclude) || ~isempty(bads)
     fwd.sol.data      = fwd.sol.data(sel,:);
     fwd.sol.nrow      = nuse;
     fwd.sol.row_names = fwd.sol.row_names(sel);
-
+    
     if  ~isempty(fwd.sol_grad)
         fwd.sol_grad.data      = fwd.sol_grad.data(sel,:);
         fwd.sol_grad.nrow      = nuse;
         fwd.sol_grad.row_names = fwd.sol_grad.row_names(sel);
     end
-
+    
 end
 
 return;
 
     function [tag] = find_tag(node,findkind)
-
+        
         for p = 1:node.nent
             if node.dir(p).kind == findkind
                 tag = fiff_read_tag(fid,node.dir(p).pos);
@@ -427,24 +427,24 @@ return;
             fclose(fid);
             error(me,'Forward solution data not found (%s)',mne_omit_first_line(lasterr));
         end
-	try
+        try
             one.sol_grad = mne_transpose_named_matrix(fiff_read_named_matrix(fid,node,FIFF.FIFF_MNE_FORWARD_SOLUTION_GRAD));
-	 catch
-	    one.sol_grad = [];
+        catch
+            one.sol_grad = [];
         end
         if size(one.sol.data,1) ~= one.nchan || ...
-	   (size(one.sol.data,2) ~= one.nsource && size(one.sol.data,2) ~= 3*one.nsource)
-	   fclose(fid);
-	   error(me,'Forward solution matrix has wrong dimensions');
-	end
-	if ~isempty(one.sol_grad)
-	   if size(one.sol_grad.data,1) ~= one.nchan || ...
-	       (size(one.sol_grad.data,2) ~= 3*one.nsource && size(one.sol_grad.data,2) ~= 3*3*one.nsource)
-	       fclose(fid);
-	       error(me,'Forward solution gradient matrix has wrong dimensions');
-	    end
-	 end
-	 return;
+                (size(one.sol.data,2) ~= one.nsource && size(one.sol.data,2) ~= 3*one.nsource)
+            fclose(fid);
+            error(me,'Forward solution matrix has wrong dimensions');
+        end
+        if ~isempty(one.sol_grad)
+            if size(one.sol_grad.data,1) ~= one.nchan || ...
+                    (size(one.sol_grad.data,2) ~= 3*one.nsource && size(one.sol_grad.data,2) ~= 3*3*one.nsource)
+                fclose(fid);
+                error(me,'Forward solution gradient matrix has wrong dimensions');
+            end
+        end
+        return;
     end
-        
+
 end

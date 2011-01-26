@@ -8,7 +8,7 @@ function [ compdata ] = fiff_read_ctf_comp(fid,node,chs)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -42,7 +42,7 @@ function [ compdata ] = fiff_read_ctf_comp(fid,node,chs)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 me='MNE:fiff_read_ctf_comp';
@@ -55,96 +55,96 @@ compdata = struct('ctfkind',{},'kind',{},'save_calibrated',{},'rowcals',{},'colc
 comps = fiff_dir_tree_find(node,FIFF.FIFFB_MNE_CTF_COMP_DATA);
 
 for k = 1:length(comps)
-   node = comps(k);
-   %
-   %   Read the data we need
-   %
-   mat  = fiff_read_named_matrix(fid,node,FIFF.FIFF_MNE_CTF_COMP_DATA);
-   for p = 1:node.nent
-      kind = node.dir(p).kind;
-      pos  = node.dir(p).pos;
-      if kind == FIFF.FIFF_MNE_CTF_COMP_KIND
-	 tag = fiff_read_tag(fid,pos);
-	 break;
-      end
-   end
-   if ~exist('tag','var') 
-      error(me,'Compensation type not found');
-   end
-   %
-   %   Get the compensation kind and map it to a simple number
-   %
-   one.ctfkind = tag.data;
-   clear('tag');
-   one.kind    = int32(-1);
-   if one.ctfkind     == hex2dec('47314252')
-      one.kind = int32(1);
-   elseif one.ctfkind == hex2dec('47324252')
-      one.kind = int32(2);
-   elseif one.ctfkind == hex2dec('47334252')
-      one.kind = int32(3);
-   else
-      one.kind = one.ctfkind;
-   end
-   for p = 1:node.nent
-      kind = node.dir(p).kind;
-      pos  = node.dir(p).pos;
-      if kind == FIFF.FIFF_MNE_CTF_COMP_CALIBRATED
-	 tag = fiff_read_tag(fid,pos);
-	 break;
-      end
-   end
-   if ~exist('tag','var')
-      calibrated = false;
-   else
-      calibrated = tag.data;
-   end
-   one.save_calibrated = calibrated;
-   one.rowcals = ones(1,size(mat.data,1));
-   one.colcals = ones(1,size(mat.data,2));
-   if ~calibrated
-      %
-      %   Calibrate...
-      %
-      %
-      %   Do the columns first
-      %
-      for p  = 1:length(chs)
-	 ch_names{p} = chs(p).ch_name;
-      end
-      for col = 1:size(mat.data,2)
-	 p = strmatch(mat.col_names{col},ch_names,'exact');
-	 if isempty(p)
-	    error(me,'Channel %s is not available in data',mat.col_names{col});
-	 elseif length(p) > 1
-	    error(me,'Ambiguous channel %s',mat.col_names{col});
-	 end
-	 col_cals(col) = 1.0/(chs(p).range*chs(p).cal);
-      end
-      %
-      %    Then the rows
-      %
-      for row = 1:size(mat.data,1)
-	 p = strmatch(mat.row_names{row},ch_names,'exact');
-	 if isempty(p)
-	    error(me,'Channel %s is not available in data',mat.row_names{row});
-	 elseif length(p) > 1
-	    error(me,'Ambiguous channel %s',mat.row_names{row});
-	 end
-	 row_cals(row) = chs(p).range*chs(p).cal;
-      end
-      mat.data            = diag(row_cals)*mat.data*diag(col_cals);
-      one.rowcals         = row_cals;
-      one.colcals         = col_cals;
-   end
-   one.data       = mat;
-   compdata(k)    = one;
-   clear('row_cals');
-   clear('col_cals');
+    node = comps(k);
+    %
+    %   Read the data we need
+    %
+    mat  = fiff_read_named_matrix(fid,node,FIFF.FIFF_MNE_CTF_COMP_DATA);
+    for p = 1:node.nent
+        kind = node.dir(p).kind;
+        pos  = node.dir(p).pos;
+        if kind == FIFF.FIFF_MNE_CTF_COMP_KIND
+            tag = fiff_read_tag(fid,pos);
+            break;
+        end
+    end
+    if ~exist('tag','var')
+        error(me,'Compensation type not found');
+    end
+    %
+    %   Get the compensation kind and map it to a simple number
+    %
+    one.ctfkind = tag.data;
+    clear('tag');
+    one.kind    = int32(-1);
+    if one.ctfkind     == hex2dec('47314252')
+        one.kind = int32(1);
+    elseif one.ctfkind == hex2dec('47324252')
+        one.kind = int32(2);
+    elseif one.ctfkind == hex2dec('47334252')
+        one.kind = int32(3);
+    else
+        one.kind = one.ctfkind;
+    end
+    for p = 1:node.nent
+        kind = node.dir(p).kind;
+        pos  = node.dir(p).pos;
+        if kind == FIFF.FIFF_MNE_CTF_COMP_CALIBRATED
+            tag = fiff_read_tag(fid,pos);
+            break;
+        end
+    end
+    if ~exist('tag','var')
+        calibrated = false;
+    else
+        calibrated = tag.data;
+    end
+    one.save_calibrated = calibrated;
+    one.rowcals = ones(1,size(mat.data,1));
+    one.colcals = ones(1,size(mat.data,2));
+    if ~calibrated
+        %
+        %   Calibrate...
+        %
+        %
+        %   Do the columns first
+        %
+        for p  = 1:length(chs)
+            ch_names{p} = chs(p).ch_name;
+        end
+        for col = 1:size(mat.data,2)
+            p = strmatch(mat.col_names{col},ch_names,'exact');
+            if isempty(p)
+                error(me,'Channel %s is not available in data',mat.col_names{col});
+            elseif length(p) > 1
+                error(me,'Ambiguous channel %s',mat.col_names{col});
+            end
+            col_cals(col) = 1.0/(chs(p).range*chs(p).cal);
+        end
+        %
+        %    Then the rows
+        %
+        for row = 1:size(mat.data,1)
+            p = strmatch(mat.row_names{row},ch_names,'exact');
+            if isempty(p)
+                error(me,'Channel %s is not available in data',mat.row_names{row});
+            elseif length(p) > 1
+                error(me,'Ambiguous channel %s',mat.row_names{row});
+            end
+            row_cals(row) = chs(p).range*chs(p).cal;
+        end
+        mat.data            = diag(row_cals)*mat.data*diag(col_cals);
+        one.rowcals         = row_cals;
+        one.colcals         = col_cals;
+    end
+    one.data       = mat;
+    compdata(k)    = one;
+    clear('row_cals');
+    clear('col_cals');
 end
 
 if length(compdata) > 0
-   fprintf(1,'\tRead %d compensation matrices\n',length(compdata));
+    fprintf(1,'\tRead %d compensation matrices\n',length(compdata));
 end
 
 return;

@@ -6,7 +6,7 @@ function [tree, last] = fiff_make_dir_tree(fid,dir,start,indent)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.6  2009/04/01 21:25:50  msh
@@ -82,47 +82,48 @@ while this <= length(dir)
             [ child , this ] = fiff_make_dir_tree(fid,dir,this,indent+1);
             tree.nchild = tree.nchild + 1;
             tree.children(tree.nchild) = child;
-            
+
         end
     elseif dir(this).kind == FIFF_BLOCK_END
         tag = fiff_read_tag(fid,dir(start).pos);
         if tag.data == block
             break;
         end
-     else
+    else
         tree.nent = tree.nent + 1;
         tree.dir(tree.nent) = dir(this);
-	%
-	%  Add the id information if available
-	%
-	if block == 0
-	   if dir(this).kind == FIFF_FILE_ID
-	      tag = fiff_read_tag(fid,dir(this).pos);
-	      tree.id = tag.data;
-	   end
-	else
-	   if dir(this).kind == FIFF_BLOCK_ID
-	      tag = fiff_read_tag(fid,dir(this).pos);
-	      tree.id = tag.data;
-	   elseif dir(this).kind == FIFF_PARENT_BLOCK_ID
-	      tag = fiff_read_tag(fid,dir(this).pos);
-	      tree.parent_id = tag.data;
-	   end 
-	end
+        %
+        %  Add the id information if available
+        %
+        if block == 0
+            if dir(this).kind == FIFF_FILE_ID
+                tag = fiff_read_tag(fid,dir(this).pos);
+                tree.id = tag.data;
+            end
+        else
+            if dir(this).kind == FIFF_BLOCK_ID
+                tag = fiff_read_tag(fid,dir(this).pos);
+                tree.id = tag.data;
+            elseif dir(this).kind == FIFF_PARENT_BLOCK_ID
+                tag = fiff_read_tag(fid,dir(this).pos);
+                tree.parent_id = tag.data;
+            end
+        end
     end
     this = this + 1;
- end
- %
- % Eliminate the empty directory
- %
+end
+%
+% Eliminate the empty directory
+%
 if tree.nent == 0
-   tree.dir = [];
+    tree.dir = [];
 end
 if verbose ~= 0
     for k = 1:indent+1
         fprintf(1,'\t');
     end
-    fprintf(1,'block = %d nent = %d nchild = %d\n',tree.block,tree.nent,tree.nchild);
+    % fprintf(1,'block = %d nent = %d nchild = %d\n',tree.block,tree.nent,tree.nchild);
+    fprintf(1,'block=%d\n',tree.block);
     for k = 1:indent
         fprintf(1,'\t');
     end
@@ -132,6 +133,4 @@ end
 last = this;
 
 return;
-
-
 

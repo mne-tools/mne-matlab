@@ -7,7 +7,7 @@ function [comp] = mne_get_current_comp(info)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

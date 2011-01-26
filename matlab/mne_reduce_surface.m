@@ -11,7 +11,7 @@ function [verts, faces] = mne_reduce_surface(surfin,desired_ntri,surfout)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

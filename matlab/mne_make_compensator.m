@@ -15,7 +15,7 @@ function [comp] = mne_make_compensator(info,from,to,exclude_comp_chs)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -50,13 +50,13 @@ me='MNE:mne_make_compensator';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin == 3
-   exclude_comp_chs = false;
+    exclude_comp_chs = false;
 elseif nargin ~= 4
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 if from == to
@@ -65,28 +65,28 @@ if from == to
 end
 
 if from == 0
-   C1 = zeros(info.nchan,info.nchan);
+    C1 = zeros(info.nchan,info.nchan);
 else
-   try
-      C1 = make_compensator(info,from);
-   catch
-      error(me,'Cannot create compensator C1 (%s)',mne_omit_first_line(lasterr));
-   end
-   if isempty(C1)
-      error(me,'Desired compensation matrix (kind = %d) not found',from);
-   end
+    try
+        C1 = make_compensator(info,from);
+    catch
+        error(me,'Cannot create compensator C1 (%s)',mne_omit_first_line(lasterr));
+    end
+    if isempty(C1)
+        error(me,'Desired compensation matrix (kind = %d) not found',from);
+    end
 end
 if to == 0
-   C2 = zeros(info.nchan,info.nchan);
+    C2 = zeros(info.nchan,info.nchan);
 else
-   try
-      C2 = make_compensator(info,to);
-   catch
-      error(me,'Cannot create compensator C2 (%s)',mne_omit_first_line(lasterr));
-   end
-   if isempty(C2)
-      error(me,'Desired compensation matrix (kind = %d) not found',to);
-   end
+    try
+        C2 = make_compensator(info,to);
+    catch
+        error(me,'Cannot create compensator C2 (%s)',mne_omit_first_line(lasterr));
+    end
+    if isempty(C2)
+        error(me,'Desired compensation matrix (kind = %d) not found',to);
+    end
 end
 %
 %   s_orig = s_from + C1*s_from = (I + C1)*s_from
@@ -96,24 +96,24 @@ end
 comp = eye(info.nchan,info.nchan) + C1 - C2 - C2*C1;
 
 if exclude_comp_chs
-   pick  = zeros(info.nchan);
-   npick = 0;
-   for k = 1:info.nchan
-      if info.chs(k).kind ~= FIFF.FIFFV_REF_MEG_CH
-	 npick = npick + 1;
-	 pick(npick) = k;
-      end
-   end
-   if npick == 0
-      error(me,'Nothing remains after excluding the compensation channels');
-   end
-   comp = comp(pick(1:npick),:);
+    pick  = zeros(info.nchan);
+    npick = 0;
+    for k = 1:info.nchan
+        if info.chs(k).kind ~= FIFF.FIFFV_REF_MEG_CH
+            npick = npick + 1;
+            pick(npick) = k;
+        end
+    end
+    if npick == 0
+        error(me,'Nothing remains after excluding the compensation channels');
+    end
+    comp = comp(pick(1:npick),:);
 end
 
 return;
 
     function this_comp = make_compensator(info,kind)
-        
+
         for k = 1:length(info.comps)
             if info.comps(k).kind == kind
                 this_data = info.comps(k).data;
@@ -122,25 +122,25 @@ return;
                 %
                 presel  = zeros(this_data.ncol,info.nchan);
                 for col = 1:this_data.ncol
-                   c = strmatch(this_data.col_names{col},info.ch_names,'exact');
-                   if isempty(c)
-                      error(me,'Channel %s is not available in data',this_data.col_names{col});
-                   elseif length(c) > 1
-                      error(me,'Ambiguous channel %s',mat.col_names{col});
-                   end
-                   presel(col,c) = 1.0;
+                    c = strmatch(this_data.col_names{col},info.ch_names,'exact');
+                    if isempty(c)
+                        error(me,'Channel %s is not available in data',this_data.col_names{col});
+                    elseif length(c) > 1
+                        error(me,'Ambiguous channel %s',mat.col_names{col});
+                    end
+                    presel(col,c) = 1.0;
                 end
                 %
                 %   Create the postselector
                 %
                 postsel = zeros(info.nchan,this_data.nrow);
                 for c = 1:info.nchan
-		   row = strmatch(info.ch_names{c},this_data.row_names,'exact');
-		   if length(row) > 1
-		      error(me,'Ambiguous channel %s', info.ch_names{c});
-		   elseif length(row) == 1   
-		      postsel(c,row) = 1.0;
-                   end
+                    row = strmatch(info.ch_names{c},this_data.row_names,'exact');
+                    if length(row) > 1
+                        error(me,'Ambiguous channel %s', info.ch_names{c});
+                    elseif length(row) == 1
+                        postsel(c,row) = 1.0;
+                    end
                 end
                 this_comp = postsel*this_data.data*presel;
                 return;

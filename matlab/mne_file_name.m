@@ -9,7 +9,7 @@ function [res] = mne_file_name(dir,name)
 %   
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

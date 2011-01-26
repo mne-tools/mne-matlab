@@ -8,7 +8,7 @@ function [ mat ] = fiff_read_named_matrix(fid,node,matkind)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -29,7 +29,7 @@ function [ mat ] = fiff_read_named_matrix(fid,node,matkind)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 me='MNE:fiff_read_named_matrix';
@@ -42,45 +42,45 @@ end
 %
 found_it=false;
 if node.block ~= FIFF.FIFFB_MNE_NAMED_MATRIX
-   for k = 1:node.nchild
-      if node.children(k).block == FIFF.FIFFB_MNE_NAMED_MATRIX
-	 if has_tag(node.children(k),matkind) 
-	    node = node.children(k);
-	    found_it = true;
-	    break;
-	 end
-      end
-   end
-   if ~found_it
-      error(me,'Desired named matrix (kind = %d) not available',matkind);
-   end
+    for k = 1:node.nchild
+        if node.children(k).block == FIFF.FIFFB_MNE_NAMED_MATRIX
+            if has_tag(node.children(k),matkind)
+                node = node.children(k);
+                found_it = true;
+                break;
+            end
+        end
+    end
+    if ~found_it
+        error(me,'Desired named matrix (kind = %d) not available',matkind);
+    end
 else
-   if ~has_tag(node,matkind)
-      error(me,'Desired named matrix (kind = %d) not available',matkind);
-   end
+    if ~has_tag(node,matkind)
+        error(me,'Desired named matrix (kind = %d) not available',matkind);
+    end
 end
 %
 %   Read everything we need
 %
 tag = find_tag(node,matkind);
 if isempty(tag)
-   error(me,'Matrix data missing');
+    error(me,'Matrix data missing');
 else
-   data = tag.data;
+    data = tag.data;
 end
 nrow = size(data,1);
 ncol = size(data,2);
 tag = find_tag(node,FIFF.FIFF_MNE_NROW);
 if ~isempty(tag)
-   if tag.data ~= nrow
-      error(me,'Number of rows in matrix data and FIFF_MNE_NROW tag do not match');
-   end
+    if tag.data ~= nrow
+        error(me,'Number of rows in matrix data and FIFF_MNE_NROW tag do not match');
+    end
 end
 tag = find_tag(node,FIFF.FIFF_MNE_NCOL);
 if ~isempty(tag)
-   if tag.data ~= ncol
-      error(me,'Number of columns in matrix data and FIFF_MNE_NCOL tag do not match');
-   end
+    if tag.data ~= ncol
+        error(me,'Number of columns in matrix data and FIFF_MNE_NCOL tag do not match');
+    end
 end
 tag = find_tag(node,FIFF.FIFF_MNE_ROW_NAMES);
 if ~isempty(tag)
@@ -111,32 +111,28 @@ return;
 
 
     function [tag] = find_tag(node,findkind)
-
-         for p = 1:node.nent
-	    if node.dir(p).kind == findkind
-	       tag = fiff_read_tag(fid,node.dir(p).pos);
-	       return;
-           end
+        
+        for p = 1:node.nent
+            if node.dir(p).kind == findkind
+                tag = fiff_read_tag(fid,node.dir(p).pos);
+                return;
+            end
         end
         tag = [];
-	return;
+        return;
     end
 
     function [has] = has_tag(this,findkind)
-    
-       for p = 1:this.nent
-	  if this.dir(p).kind == findkind
-	     has = true;
-	     return;
-	  end
-       end
-       has = false;
-       return;
-
+        
+        for p = 1:this.nent
+            if this.dir(p).kind == findkind
+                has = true;
+                return;
+            end
+        end
+        has = false;
+        return;
+        
     end
 
 end
-
-
-
-

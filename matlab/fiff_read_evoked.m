@@ -7,7 +7,7 @@ function [data] = fiff_read_evoked(fname,setno)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -51,18 +51,18 @@ function [data] = fiff_read_evoked(fname,setno)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 me='MNE:fiff_read_evoked';
 
 if nargin == 1
-   setno = 1;
+    setno = 1;
 elseif nargin ~= 2
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 if setno <= 0
-   error(me,'Data set selector must be positive');
+    error(me,'Data set selector must be positive');
 end
 %
 %   Open the file
@@ -94,20 +94,20 @@ end
 naspect = 0;
 is_smsh = [];
 for k = 1:length(evoked)
-   sets(k).aspects = fiff_dir_tree_find(evoked(k),FIFF.FIFFB_ASPECT);
-   sets(k).naspect = length(sets(k).aspects);
-   if sets(k).naspect > 0
-      is_smsh = [ is_smsh zeros(1,sets(k).naspect) ];
-      naspect = naspect + sets(k).naspect;
-   end
-   saspects  = fiff_dir_tree_find(evoked(k), FIFF.FIFFB_SMSH_ASPECT);
-   nsaspects = length(saspects);
-   if nsaspects > 0
-      sets(k).naspect = sets(k).naspect + nsaspects;
-      sets(k).aspects = [ sets(k).aspects saspects ];
-      is_smsh = [ is_smsh ones(1,sets(k).naspect) ];
-      naspect = naspect + nsaspects;
-   end
+    sets(k).aspects = fiff_dir_tree_find(evoked(k),FIFF.FIFFB_ASPECT);
+    sets(k).naspect = length(sets(k).aspects);
+    if sets(k).naspect > 0
+        is_smsh = [ is_smsh zeros(1,sets(k).naspect) ];
+        naspect = naspect + sets(k).naspect;
+    end
+    saspects  = fiff_dir_tree_find(evoked(k), FIFF.FIFFB_SMSH_ASPECT);
+    nsaspects = length(saspects);
+    if nsaspects > 0
+        sets(k).naspect = sets(k).naspect + nsaspects;
+        sets(k).aspects = [ sets(k).aspects saspects ];
+        is_smsh = [ is_smsh ones(1,sets(k).naspect) ];
+        naspect = naspect + nsaspects;
+    end
 end
 fprintf(1,'\t%d evoked data sets containing a total of %d data aspects in %s\n',length(evoked),naspect,fname);
 if setno > naspect || setno < 1
@@ -147,59 +147,59 @@ nchan = 0;
 sfreq = -1;
 q = 0;
 for k = 1:my_evoked.nent
-   kind = my_evoked.dir(k).kind;
-   pos  = my_evoked.dir(k).pos;
-   switch kind
-   case FIFF.FIFF_COMMENT
-      tag = fiff_read_tag(fid,pos);
-      comment = tag.data;
-   case FIFF.FIFF_FIRST_SAMPLE
-      tag = fiff_read_tag(fid,pos);
-      first = tag.data;
-   case FIFF.FIFF_LAST_SAMPLE
-      tag = fiff_read_tag(fid,pos);
-      last = tag.data;
-   case FIFF.FIFF_NCHAN
-      tag = fiff_read_tag(fid,pos);
-      nchan = tag.data;
-   case FIFF.FIFF_SFREQ
-      tag = fiff_read_tag(fid,pos);
-      sfreq = tag.data;
-   case FIFF.FIFF_CH_INFO
-      q = q+1;
-      tag = fiff_read_tag(fid,pos);
-      chs(q) = tag.data;
-   end
+    kind = my_evoked.dir(k).kind;
+    pos  = my_evoked.dir(k).pos;
+    switch kind
+        case FIFF.FIFF_COMMENT
+            tag = fiff_read_tag(fid,pos);
+            comment = tag.data;
+        case FIFF.FIFF_FIRST_SAMPLE
+            tag = fiff_read_tag(fid,pos);
+            first = tag.data;
+        case FIFF.FIFF_LAST_SAMPLE
+            tag = fiff_read_tag(fid,pos);
+            last = tag.data;
+        case FIFF.FIFF_NCHAN
+            tag = fiff_read_tag(fid,pos);
+            nchan = tag.data;
+        case FIFF.FIFF_SFREQ
+            tag = fiff_read_tag(fid,pos);
+            sfreq = tag.data;
+        case FIFF.FIFF_CH_INFO
+            q = q+1;
+            tag = fiff_read_tag(fid,pos);
+            chs(q) = tag.data;
+    end
 end
 if ~exist('comment','var')
-   comment = 'No comment';
+    comment = 'No comment';
 end
 %
 %   Local channel information?
 %
 if nchan > 0
-   if ~exist('chs','var')
-      fclose(fid);
-      error(me, ...
-         'Local channel information was not found when it was expected.');
-   end
-   if length(chs) ~= nchan
-      fclose(fid);
-      error(me, ...
-         'Number of channels and number of channel definitions are different');
-   end
-   info.chs   = chs;
-   info.nchan = nchan;
-   fprintf(1, ...
-      '\tFound channel information in evoked data. nchan = %d\n',nchan);
-   if sfreq > 0
-      info.sfreq = sfreq;
-   end
+    if ~exist('chs','var')
+        fclose(fid);
+        error(me, ...
+            'Local channel information was not found when it was expected.');
+    end
+    if length(chs) ~= nchan
+        fclose(fid);
+        error(me, ...
+            'Number of channels and number of channel definitions are different');
+    end
+    info.chs   = chs;
+    info.nchan = nchan;
+    fprintf(1, ...
+        '\tFound channel information in evoked data. nchan = %d\n',nchan);
+    if sfreq > 0
+        info.sfreq = sfreq;
+    end
 end
 nsamp = last-first+1;
 fprintf(1,'\tFound the data of interest:\n');
 fprintf(1,'\t\tt = %10.2f ... %10.2f ms (%s)\n',...
-     1000*double(first)/info.sfreq,1000*double(last)/info.sfreq,comment);
+    1000*double(first)/info.sfreq,1000*double(last)/info.sfreq,comment);
 if ~isempty(info.comps)
     fprintf(1,'\t\t%d CTF compensation matrices available\n',length(info.comps));
 end
@@ -208,26 +208,26 @@ end
 %
 nepoch = 0;
 for k = 1:my_aspect.nent
-   kind = my_aspect.dir(k).kind;
-   pos  = my_aspect.dir(k).pos;
-   switch kind
-       case FIFF.FIFF_COMMENT
-           tag = fiff_read_tag(fid,pos);
-           comment = tag.data;
-       case FIFF.FIFF_ASPECT_KIND
-           tag = fiff_read_tag(fid,pos);
-           aspect_kind = tag.data;
-       case FIFF.FIFF_NAVE
-           tag = fiff_read_tag(fid,pos);
-           nave = tag.data;
-       case FIFF.FIFF_EPOCH
-           nepoch = nepoch + 1;
-           tag = fiff_read_tag(fid,pos);
-           epoch(nepoch) = tag;
-   end
+    kind = my_aspect.dir(k).kind;
+    pos  = my_aspect.dir(k).pos;
+    switch kind
+        case FIFF.FIFF_COMMENT
+            tag = fiff_read_tag(fid,pos);
+            comment = tag.data;
+        case FIFF.FIFF_ASPECT_KIND
+            tag = fiff_read_tag(fid,pos);
+            aspect_kind = tag.data;
+        case FIFF.FIFF_NAVE
+            tag = fiff_read_tag(fid,pos);
+            nave = tag.data;
+        case FIFF.FIFF_EPOCH
+            nepoch = nepoch + 1;
+            tag = fiff_read_tag(fid,pos);
+            epoch(nepoch) = tag;
+    end
 end
 if ~exist('nave','var')
-   nave = 1;
+    nave = 1;
 end
 fprintf(1,'\t\tnave = %d aspect type = %d\n',...
     nave,aspect_kind);
@@ -237,20 +237,20 @@ if nepoch ~= 1 && nepoch ~= info.nchan
 end
 %
 if nepoch == 1
-   %
-   %   Only one epoch
-   %
-   all = epoch(1).data;
-   %
-   %   May need a transpose if the number of channels is one
-   %
-   if size(all,2) == 1 && info.nchan == 1
-      all = all';
-   end
+    %
+    %   Only one epoch
+    %
+    all = epoch(1).data;
+    %
+    %   May need a transpose if the number of channels is one
+    %
+    if size(all,2) == 1 && info.nchan == 1
+        all = all';
+    end
 else
-   %
-   %   Put the old style epochs together
-   %
+    %
+    %   Put the old style epochs together
+    %
     all = epoch(1).data';
     for k = 2:nepoch
         all = [ all ; epoch(k).data' ];
@@ -294,19 +294,19 @@ fclose(fid);
 
 return;
 
-function [tag] = find_tag(node,findkind)
-
-    for p = 1:node.nent
-       kind = node.dir(p).kind;
-       pos  = node.dir(p).pos;
-       if kind == findkind
-          tag = fiff_read_tag(fid,pos);
-          return;
-       end
+    function [tag] = find_tag(node,findkind)
+        
+        for p = 1:node.nent
+            kind = node.dir(p).kind;
+            pos  = node.dir(p).pos;
+            if kind == findkind
+                tag = fiff_read_tag(fid,pos);
+                return;
+            end
+        end
+        tag = [];
+        return
     end
-    tag = [];
-    return
-end
 
 end
 

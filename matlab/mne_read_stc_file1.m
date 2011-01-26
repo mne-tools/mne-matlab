@@ -13,7 +13,7 @@ function [stc] = mne_read_stc_file1(filename)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 me='MNE:mne_read_stc_file1';

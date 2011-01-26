@@ -10,7 +10,7 @@ function fiff_write_short(fid,kind,data)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.1  2006/04/27 22:38:37  msh
@@ -29,7 +29,7 @@ end
 
 FIFFT_SHORT=2;
 FIFFV_NEXT_SEQ=0;
-nel=prod(size(data));
+nel=numel(data);
 datasize=nel*4;
 count = fwrite(fid,int32(kind),'int32');
 if count ~= 1

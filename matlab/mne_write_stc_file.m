@@ -15,7 +15,7 @@ function mne_write_stc_file(filename,stc)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

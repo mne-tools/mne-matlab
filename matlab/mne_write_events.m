@@ -6,7 +6,7 @@ function mne_write_events(filename,eventlist)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2008/10/31 13:07:05  msh
@@ -23,7 +23,7 @@ end
 
 me='MNE:mne_write_events';
 
-eventlist = reshape(eventlist',prod(size(eventlist)),1);
+eventlist = reshape(eventlist',numel(eventlist),1);
 %
 %   Start writing...
 %

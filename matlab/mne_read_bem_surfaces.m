@@ -12,7 +12,7 @@ function [surf] = mne_read_bem_surfaces(source,add_geom,tree)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2006/09/27 13:07:25  msh
@@ -62,8 +62,8 @@ FIFFB_BEM_SURF          = 311;    % One of the surfaces
 %
 FIFF_BEM_SURF_ID        = 3101;   % int    surface number
 FIFF_BEM_SURF_NAME      = 3102;   % string surface name
-FIFF_BEM_SURF_NNODE	    = 3103;   % int    # of nodes on a surface
-FIFF_BEM_SURF_NTRI	    = 3104;   % int    # number of triangles on a surface
+FIFF_BEM_SURF_NNODE     = 3103;   % int    # of nodes on a surface
+FIFF_BEM_SURF_NTRI      = 3104;   % int    # number of triangles on a surface
 FIFF_BEM_SURF_NODES     = 3105;   % float  surface nodes (nnode,3)
 FIFF_BEM_SURF_TRIANGLES = 3106;   % int    surface triangles (ntri,3)
 FIFF_BEM_SURF_NORMALS   = 3107;   % float  surface node normal unit vectors (nnode,3)
@@ -136,14 +136,14 @@ return;
         else
             res.id = tag.data;
         end
-        
+
         tag = find_tag(this,FIFF_BEM_SIGMA);
         if isempty(tag)
             res.sigma = 1.0;
         else
             res.sigma = tag.data;
         end
-        
+
         tag = find_tag(this,FIFF_BEM_SURF_NNODE);
         if isempty(tag)
             close_file();
@@ -239,9 +239,9 @@ return;
         for p = 1:this.ntri
             size = sqrt(this.tri_nn(p,:)*this.tri_nn(p,:)');
             this.tri_area(p) = size/2.0;
-	    if size > 0.0
-	       this.tri_nn(p,:) = this.tri_nn(p,:)/size;
-	    end
+            if size > 0.0
+                this.tri_nn(p,:) = this.tri_nn(p,:)/size;
+            end
         end
         %
         %   Accumulate the vertex normals
@@ -253,7 +253,7 @@ return;
         end
         %
         %   Compute the lengths of the vertex normals and scale
-        %   
+        %
         fprintf(1,'normalize...');
         for p = 1:this.np
             size = sqrt(this.nn(p,:)*this.nn(p,:)');

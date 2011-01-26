@@ -24,7 +24,7 @@ function [surfs] = mne_read_surfaces(surfname,read_curv,read_left,read_right,sub
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -60,54 +60,54 @@ me='MNE:mne_read_surfaces';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin < 7
-   add_info = true;
-   if nargin < 6
-      subjects_dir=getenv('SUBJECTS_DIR');
-      if isempty(subjects_dir)
-	 error(me,'SUBJECTS_DIR not set');
-      end
-      if nargin < 5
-	 subject=getenv('SUBJECT');
-	 if isempty(subject)
-	    error(me,'SUBJECT not set');
-	 end
-      end
-      if nargin < 4
-	 read_right = true;
-      end
-      if nargin < 3
-	 read_left = true;
-      end
-   end
+    add_info = true;
+    if nargin < 6
+        subjects_dir=getenv('SUBJECTS_DIR');
+        if isempty(subjects_dir)
+            error(me,'SUBJECTS_DIR not set');
+        end
+        if nargin < 5
+            subject=getenv('SUBJECT');
+            if isempty(subject)
+                error(me,'SUBJECT not set');
+            end
+        end
+        if nargin < 4
+            read_right = true;
+        end
+        if nargin < 3
+            read_left = true;
+        end
+    end
 elseif nargin ~= 7
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 %
 %   Read both hemispheres
 %
-if read_left 
-   [ lhvert, lhtri ] = mne_read_surface(sprintf('%s/%s/surf/lh.%s',subjects_dir,subject,surfname));
-   fprintf(1,'\n');
+if read_left
+    [ lhvert, lhtri ] = mne_read_surface(sprintf('%s/%s/surf/lh.%s',subjects_dir,subject,surfname));
+    fprintf(1,'\n');
 end
 if read_right
-   [ rhvert, rhtri ] = mne_read_surface(sprintf('%s/%s/surf/rh.%s',subjects_dir,subject,surfname));
-   fprintf(1,'\n');
+    [ rhvert, rhtri ] = mne_read_surface(sprintf('%s/%s/surf/rh.%s',subjects_dir,subject,surfname));
+    fprintf(1,'\n');
 end
 %
 if read_curv
-   if read_left
-      lhcurv = mne_read_curvature(sprintf('%s/%s/surf/lh.curv', ...
-	    subjects_dir,subject));
-   end
-   if read_right
-      rhcurv = mne_read_curvature(sprintf('%s/%s/surf/rh.curv', ...
-	    subjects_dir,subject));
-   end
-   fprintf(1,'\n');
+    if read_left
+        lhcurv = mne_read_curvature(sprintf('%s/%s/surf/lh.curv', ...
+            subjects_dir,subject));
+    end
+    if read_right
+        rhcurv = mne_read_curvature(sprintf('%s/%s/surf/rh.curv', ...
+            subjects_dir,subject));
+    end
+    fprintf(1,'\n');
 else
     lhcurv = [];
     rhcurv = [];
@@ -116,52 +116,52 @@ end
 %   Compose the source space structure
 %
 nsurf = 0;
-if read_left 
-   this.id           = int32(FIFF.FIFFV_MNE_SURF_LEFT_HEMI);
-   this.np           = int32(size(lhvert,1));
-   this.ntri         = int32(size(lhtri,1));
-   this.coord_frame  = int32(FIFF.FIFFV_COORD_MRI);
-   this.rr           = lhvert;
-   this.nn           = [];
-   this.tris         = cast(lhtri,'int32');
-   this.nuse         = this.np;
-   this.inuse        = ones(1,this.np);
-   this.vertno       = [ 1 : this.np ];
-   this.curv         = lhcurv;
-   %
-   %   Add the derived geometry data
-   %
-   hemi='left';
-   if add_info == true
-      complete_surface_info;
-   end
-   nsurf = nsurf + 1;
-   surfs(nsurf) = this;
-   clear('this');
+if read_left
+    this.id           = int32(FIFF.FIFFV_MNE_SURF_LEFT_HEMI);
+    this.np           = int32(size(lhvert,1));
+    this.ntri         = int32(size(lhtri,1));
+    this.coord_frame  = int32(FIFF.FIFFV_COORD_MRI);
+    this.rr           = lhvert;
+    this.nn           = [];
+    this.tris         = cast(lhtri,'int32');
+    this.nuse         = this.np;
+    this.inuse        = ones(1,this.np);
+    this.vertno       = [ 1 : this.np ];
+    this.curv         = lhcurv;
+    %
+    %   Add the derived geometry data
+    %
+    hemi='left';
+    if add_info == true
+        complete_surface_info;
+    end
+    nsurf = nsurf + 1;
+    surfs(nsurf) = this;
+    clear('this');
 end
 if read_right
-   this.id           = int32(FIFF.FIFFV_MNE_SURF_RIGHT_HEMI);
-   this.np           = int32(size(rhvert,1));
-   this.ntri         = int32(size(rhtri,1));
-   this.coord_frame  = int32(FIFF.FIFFV_COORD_MRI);
-   this.rr           = rhvert;
-   this.nn           = [];
-   this.tris         = cast(rhtri,'int32');
-   this.nuse         = int32(this.np);
-   this.inuse        = int32(ones(1,this.np));
-   this.vertno       = int32([ 1 : this.np ]);
-   this.curv         = rhcurv;
-   hemi='right';
-   if add_info == true
-      complete_surface_info;
-   end
-   nsurf = nsurf + 1;
-   surfs(nsurf) = this;
-   clear('this');
+    this.id           = int32(FIFF.FIFFV_MNE_SURF_RIGHT_HEMI);
+    this.np           = int32(size(rhvert,1));
+    this.ntri         = int32(size(rhtri,1));
+    this.coord_frame  = int32(FIFF.FIFFV_COORD_MRI);
+    this.rr           = rhvert;
+    this.nn           = [];
+    this.tris         = cast(rhtri,'int32');
+    this.nuse         = int32(this.np);
+    this.inuse        = int32(ones(1,this.np));
+    this.vertno       = int32([ 1 : this.np ]);
+    this.curv         = rhcurv;
+    hemi='right';
+    if add_info == true
+        complete_surface_info;
+    end
+    nsurf = nsurf + 1;
+    surfs(nsurf) = this;
+    clear('this');
 end
 
 if nsurf == 0
-   surfs = [];
+    surfs = [];
 end
 
 return;
@@ -171,7 +171,7 @@ return;
         %   Main triangulation
         %
         fprintf(1,'\tCompleting triangulation info for the %s hemisphere...',hemi);
-	        this.tri_area = zeros(1,this.ntri);
+        this.tri_area = zeros(1,this.ntri);
         fprintf(1,'triangle normals...');
         r1 = this.rr(this.tris(:,1),:);
         r2 = this.rr(this.tris(:,2),:);
@@ -184,9 +184,9 @@ return;
         for p = 1:this.ntri
             size = sqrt(this.tri_nn(p,:)*this.tri_nn(p,:)');
             this.tri_area(p) = size/2.0;
-	    if size > 0.0
-	       this.tri_nn(p,:) = this.tri_nn(p,:)/size;
-	    end
+            if size > 0.0
+                this.tri_nn(p,:) = this.tri_nn(p,:)/size;
+            end
         end
         %
         %   Accumulate the vertex normals
@@ -198,7 +198,7 @@ return;
         end
         %
         %   Compute the lengths of the vertex normals and scale
-        %   
+        %
         fprintf(1,'normalize...');
         for p = 1:this.np
             size = sqrt(this.nn(p,:)*this.nn(p,:)');
@@ -209,11 +209,3 @@ return;
         fprintf(1,'[done]\n');
     end
 end
-
-
-
-
-
-    
-
-

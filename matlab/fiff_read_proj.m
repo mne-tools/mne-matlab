@@ -7,7 +7,7 @@ function [ projdata ] = fiff_read_proj(fid,node)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -39,7 +39,7 @@ function [ projdata ] = fiff_read_proj(fid,node)
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 me='MNE:fiff_read_proj';
@@ -54,7 +54,7 @@ projdata = struct('kind',{},'active',{},'desc',{},'data',{});
 %
 nodes = fiff_dir_tree_find(node,FIFF.FIFFB_PROJ);
 if length(nodes) == 0
-   return;
+    return;
 end
 tag = find_tag(nodes(1),FIFF.FIFF_NCHAN);
 if ~isempty(tag)
@@ -119,7 +119,7 @@ for i = 1:length(items)
     else
         active = false;
     end
-    if size(data,2) ~= length(names) 
+    if size(data,2) ~= length(names)
         error(me,'Number of channel names does not match the size of data matrix');
     end
     one.kind           = kind;
@@ -139,15 +139,15 @@ end
 
 if length(projdata) > 0
     fprintf(1,'\tRead a total of %d projection items:\n', ...
-       length(projdata));
+        length(projdata));
     for k = 1:length(projdata)
-       fprintf(1,'\t\t%s (%d x %d)',projdata(k).desc, ...
-	  projdata(k).data.nrow,projdata(k).data.ncol);
-       if projdata(k).active
-	  fprintf(1,' active\n');
-       else
-	  fprintf(1,' idle\n');
-       end
+        fprintf(1,'\t\t%s (%d x %d)',projdata(k).desc, ...
+            projdata(k).data.nrow,projdata(k).data.ncol);
+        if projdata(k).active
+            fprintf(1,' active\n');
+        else
+            fprintf(1,' idle\n');
+        end
     end
 end
 
@@ -155,16 +155,15 @@ end
 return;
 
     function [tag] = find_tag(node,findkind)
-
+        
         for p = 1:node.nent
-           if node.dir(p).kind == findkind
-              tag = fiff_read_tag(fid,node.dir(p).pos);
-              return;
-           end
+            if node.dir(p).kind == findkind
+                tag = fiff_read_tag(fid,node.dir(p).pos);
+                return;
+            end
         end
         tag = [];
     end
 
 
 end
-

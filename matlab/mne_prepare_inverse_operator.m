@@ -12,7 +12,7 @@ function [inv] = mne_prepare_inverse_operator(orig,nave,lambda2,dSPM)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2009/03/09 11:22:23  msh
@@ -37,7 +37,7 @@ me='MNE:mne_prepare_inverse_operator';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin ~= 4
@@ -58,7 +58,7 @@ inv.noise_cov.eig   = scale*inv.noise_cov.eig;
 inv.source_cov.data = scale*inv.source_cov.data;
 %
 if inv.eigen_leads_weighted
-   inv.eigen_leads.data = sqrt(scale)*inv.eigen_leads.data;
+    inv.eigen_leads.data = sqrt(scale)*inv.eigen_leads.data;
 end
 %
 fprintf(1,'\tScaled noise and source covariance from nave = %d to nave = %d\n',inv.nave,nave);
@@ -73,7 +73,7 @@ fprintf(1,'\tCreated the regularized inverter\n');
 %
 [ inv.proj, ncomp ] = mne_make_projector(inv.projs,inv.noise_cov.names);
 if ncomp > 0
-
+    
     fprintf(1,'\tCreated an SSP operator (subspace dimension = %d)\n',ncomp);
 end
 %
@@ -86,17 +86,17 @@ if inv.noise_cov.diag == 0
     %
     nnzero = 0;
     for k = ncomp+1:inv.noise_cov.dim
-       if inv.noise_cov.eig(k) > 0
-          inv.whitener(k,k) = 1.0/sqrt(inv.noise_cov.eig(k));
-          nnzero = nnzero + 1;
-       end
+        if inv.noise_cov.eig(k) > 0
+            inv.whitener(k,k) = 1.0/sqrt(inv.noise_cov.eig(k));
+            nnzero = nnzero + 1;
+        end
     end
     %
     %   Rows of eigvec are the eigenvectors
     %
     inv.whitener = inv.whitener*inv.noise_cov.eigvec;
     fprintf(1,'\tCreated the whitener using a full noise covariance matrix (%d small eigenvalues omitted)\n', ...
-       inv.noise_cov.dim - nnzero);
+        inv.noise_cov.dim - nnzero);
 else
     %
     %   No need to omit the zeroes due to projection
@@ -113,15 +113,15 @@ if dSPM
     fprintf(1,'\tComputing noise-normalization factors...');
     noise_norm = zeros(inv.eigen_leads.nrow,1);
     if inv.eigen_leads_weighted
-       for k = 1:inv.eigen_leads.nrow
-          one = inv.eigen_leads.data(k,:).*inv.reginv';
-          noise_norm(k) = sqrt(one*one');
-       end
+        for k = 1:inv.eigen_leads.nrow
+            one = inv.eigen_leads.data(k,:).*inv.reginv';
+            noise_norm(k) = sqrt(one*one');
+        end
     else
-       for k = 1:inv.eigen_leads.nrow
-          one = sqrt(inv.source_cov.data(k))*(inv.eigen_leads.data(k,:).*inv.reginv');
-          noise_norm(k) = sqrt(one*one');
-       end
+        for k = 1:inv.eigen_leads.nrow
+            one = sqrt(inv.source_cov.data(k))*(inv.eigen_leads.data(k,:).*inv.reginv');
+            noise_norm(k) = sqrt(one*one');
+        end
     end
     %
     %   Compute the final result

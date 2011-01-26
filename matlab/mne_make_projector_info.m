@@ -6,7 +6,7 @@ function [proj,nproj] = mne_make_projector_info(info)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

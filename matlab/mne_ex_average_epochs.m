@@ -15,7 +15,7 @@ function [data] = mne_ex_average_epochs(dataname,origname,outname)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2007/11/13 10:55:32  msh

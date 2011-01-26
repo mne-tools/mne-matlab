@@ -10,7 +10,7 @@ function [bads] = fiff_read_bad_channels(fid,node)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.5  2006/05/03 18:53:04  msh
@@ -31,7 +31,7 @@ me='MNE:fiff_read_bad_channels';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 node = fiff_dir_tree_find(node,FIFF.FIFFB_MNE_BAD_CHANNELS);
@@ -47,7 +47,7 @@ end
 return;
 
     function [tag] = find_tag(node,findkind)
-    
+        
         for p = 1:node.nent
             kind = node.dir(p).kind;
             pos  = node.dir(p).pos;

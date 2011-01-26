@@ -7,7 +7,7 @@ function [res] = mne_transpose_named_matrix(mat)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.2  2006/04/23 15:29:41  msh

@@ -1,6 +1,6 @@
 function err = mne_write_w_file1(filename, w)
 % mne_write_w_file1(filename, w)
-% 
+%
 %  writes a binary 'w' file
 %
 %  filename - name of file to write to
@@ -11,7 +11,7 @@ function err = mne_write_w_file1(filename, w)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 % Revision 1.5  2006/04/23 15:29:41  msh
@@ -32,16 +32,16 @@ function err = mne_write_w_file1(filename, w)
 
 me='MNE:mne_write_w_file1';
 if(nargin ~= 2)
-  error(me,'usage: mne_write_w_file1(filename, w)');
-  return;
+    error(me,'usage: mne_write_w_file1(filename, w)');
+    return;
 end
 
 try
-   w.vertices = w.vertices - 1;
-   mne_write_w_file(filename,w);
+    w.vertices = w.vertices - 1;
+    mne_write_w_file(filename,w);
 catch
-   w.vertices = w.vertices - 1; 
-   error(me,'%s',mne_omit_first_line(lasterr));
+    w.vertices = w.vertices - 1;
+    error(me,'%s',mne_omit_first_line(lasterr));
 end
 
 return;

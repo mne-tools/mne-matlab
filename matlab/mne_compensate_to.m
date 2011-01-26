@@ -7,7 +7,7 @@ function [newdata] = mne_compensate_to(data,to)
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

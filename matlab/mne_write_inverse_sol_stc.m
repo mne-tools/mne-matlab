@@ -13,7 +13,7 @@ function mne_write_inverse_sol_stc(stem,inv,sol,tmin,tstep)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2009/03/04 03:47:15  msh

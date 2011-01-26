@@ -12,7 +12,7 @@ function [cov] = mne_pick_channels_cov(orig,include,exclude)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.9  2006/11/21 12:53:49  msh

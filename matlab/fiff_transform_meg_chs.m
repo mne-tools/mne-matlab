@@ -11,7 +11,7 @@ function [res, count] = fiff_transform_meg_chs(chs,trans)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -64,9 +64,9 @@ t   = trans.trans;
 for k = 1:length(res)
     if res(k).kind == FIFF.FIFFV_MEG_CH || res(k).kind == FIFF.FIFFV_REF_MEG_CH
        if res(k).coord_frame == trans.from && ~isempty(res(k).coil_trans)
-	  res(k).coil_trans  = t*res(k).coil_trans;
-	  res(k).coord_frame = trans.to;
-	  count = count + 1;
+           res(k).coil_trans  = t*res(k).coil_trans;
+           res(k).coord_frame = trans.to;
+           count = count + 1;
        end
     end
 end
@@ -78,6 +78,3 @@ end
 return;
 
 end
-
-
-    

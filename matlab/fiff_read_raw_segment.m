@@ -16,7 +16,7 @@ function [data,times] = fiff_read_raw_segment(raw,from,to,sel)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.9  2007/11/22 05:04:25  msh
@@ -49,16 +49,16 @@ function [data,times] = fiff_read_raw_segment(raw,from,to,sel)
 me='MNE:fiff_read_raw_segment';
 
 if nargin == 3
-   sel = [];
+    sel = [];
 elseif nargin == 2
-   to  = raw.last_samp;
-   sel = [];
+    to  = raw.last_samp;
+    sel = [];
 elseif nargin == 1
-   from = raw.first_samp;
-   to   = raw.last_samp;
-   sel  = [];
+    from = raw.first_samp;
+    to   = raw.last_samp;
+    sel  = [];
 elseif nargin ~= 4
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 %
 %  Initial checks
@@ -66,17 +66,17 @@ end
 from = double(from);
 to   = double(to);
 if from < raw.first_samp
-   from = raw.first_samp;
+    from = raw.first_samp;
 end
 if to > raw.last_samp
-   to = raw.last_samp;
+    to = raw.last_samp;
 end
 %
 if from > to
-   error(me,'No data in this range');
+    error(me,'No data in this range');
 end
 fprintf(1,'Reading %d ... %d  =  %9.3f ... %9.3f secs...', ...
-   from,to,from/raw.info.sfreq,to/raw.info.sfreq);
+    from,to,from/raw.info.sfreq,to/raw.info.sfreq);
 %
 %  Initialize the data and calibration vector
 %
@@ -85,143 +85,140 @@ dest  = 1;
 cal   = diag(raw.cals);
 %
 if isempty(sel)
-   data = zeros(nchan,to-from+1);
-   if isempty(raw.proj) && isempty(raw.comp)
-      mult = [];
-   else
-      if isempty(raw.proj)
-	 mult = raw.comp*cal;
-      elseif isempty(raw.comp)
-	 mult = raw.proj*cal;
-      else
-	 mult = raw.proj*raw.comp*cal;
-      end
-   end
+    data = zeros(nchan,to-from+1);
+    if isempty(raw.proj) && isempty(raw.comp)
+        mult = [];
+    else
+        if isempty(raw.proj)
+            mult = raw.comp*cal;
+        elseif isempty(raw.comp)
+            mult = raw.proj*cal;
+        else
+            mult = raw.proj*raw.comp*cal;
+        end
+    end
 else
-   data = zeros(length(sel),to-from+1);
-   if isempty(raw.proj) && isempty(raw.comp)
-      mult = [];
-      cal  = diag(raw.cals(sel));
-   else
-      if isempty(raw.proj)
-	 mult = raw.comp(sel,:)*cal;
-      elseif isempty(raw.comp)
-	 mult = raw.proj(sel,:)*cal;
-      else
-	 mult = raw.proj(sel,:)*raw.comp*cal;
-      end
-   end
+    data = zeros(length(sel),to-from+1);
+    if isempty(raw.proj) && isempty(raw.comp)
+        mult = [];
+        cal  = diag(raw.cals(sel));
+    else
+        if isempty(raw.proj)
+            mult = raw.comp(sel,:)*cal;
+        elseif isempty(raw.comp)
+            mult = raw.proj(sel,:)*cal;
+        else
+            mult = raw.proj(sel,:)*raw.comp*cal;
+        end
+    end
 end
 do_debug=false;
 if ~isempty(cal)
-   cal = sparse(cal);
+    cal = sparse(cal);
 end
 if ~isempty(mult)
-   mult = sparse(mult);
+    mult = sparse(mult);
 end
 for k = 1:length(raw.rawdir)
-   this = raw.rawdir(k);
-   %
-   %  Do we need this buffer
-   %
-   if this.last > from
-      if isempty(this.ent)
-	 %
-	 %  Take the easy route: skip is translated to zeros
-	 %
-	 if do_debug
-	    fprintf(1,'S');
-	 end
-	 doing_whole = false;
-	 if isempty(sel)
-	    one = zeros(nchan,this.nsamp);
-	 else
-	    one = zeros(length(sel),this.nsamp);
-	 end
-      else
-	 tag = fiff_read_tag(raw.fid,this.ent.pos);
-	 %
-	 %   Depending on the state of the projection and selection
-	 %   we proceed a little bit differently
-	 %
-	 if isempty(mult)
-	    if isempty(sel)
-	       one = cal*double(reshape(tag.data,nchan,this.nsamp));
-	    else
-	       one = double(reshape(tag.data,nchan,this.nsamp));
-	       one = cal*one(sel,:);
-	    end
-	 else
-	    one = mult*double(reshape(tag.data,nchan,this.nsamp));
-	 end
-      end
-      %
-      %  The picking logic is a bit complicated
-      %
-      if to >= this.last && from <= this.first
-	 %
-	 %    We need the whole buffer
-	 %
-	 first_pick = 1;
-	 last_pick  = this.nsamp;
-	 if do_debug
-	    fprintf(1,'W');
-	 end
-      elseif from > this.first
-	 first_pick = from - this.first + 1;
-	 if to < this.last
-	    %
-	    %   Something from the middle
-	    %
-	    last_pick = this.nsamp + to - this.last;
-	    if do_debug
-	       fprintf(1,'M');
-	    end
-	 else
-	    %
-	    %   From the middle to the end
-	    %
-	    last_pick = this.nsamp;
-	    if do_debug
-	       fprintf(1,'E');
-	    end
-	 end
-      else
-	 %
-	 %    From the beginning to the middle
-	 %
-	 first_pick = 1;
-	 last_pick  = to - this.first + 1;
-	 if do_debug
-	    fprintf(1,'B');
-	 end
-      end
-      %
-      %   Now we are ready to pick
-      %
-      picksamp = last_pick - first_pick + 1;
-      if picksamp > 0
-	 data(:,dest:dest+picksamp-1) = one(:,first_pick:last_pick);
-	 dest = dest + picksamp;
-      end
-   end
-   %
-   %   Done?
-   %
-   if this.last >= to
-      fprintf(1,' [done]\n');
-      break;
-   end
+    this = raw.rawdir(k);
+    %
+    %  Do we need this buffer
+    %
+    if this.last > from
+        if isempty(this.ent)
+            %
+            %  Take the easy route: skip is translated to zeros
+            %
+            if do_debug
+                fprintf(1,'S');
+            end
+            doing_whole = false;
+            if isempty(sel)
+                one = zeros(nchan,this.nsamp);
+            else
+                one = zeros(length(sel),this.nsamp);
+            end
+        else
+            tag = fiff_read_tag(raw.fid,this.ent.pos);
+            %
+            %   Depending on the state of the projection and selection
+            %   we proceed a little bit differently
+            %
+            if isempty(mult)
+                if isempty(sel)
+                    one = cal*double(reshape(tag.data,nchan,this.nsamp));
+                else
+                    one = double(reshape(tag.data,nchan,this.nsamp));
+                    one = cal*one(sel,:);
+                end
+            else
+                one = mult*double(reshape(tag.data,nchan,this.nsamp));
+            end
+        end
+        %
+        %  The picking logic is a bit complicated
+        %
+        if to >= this.last && from <= this.first
+            %
+            %    We need the whole buffer
+            %
+            first_pick = 1;
+            last_pick  = this.nsamp;
+            if do_debug
+                fprintf(1,'W');
+            end
+        elseif from > this.first
+            first_pick = from - this.first + 1;
+            if to < this.last
+                %
+                %   Something from the middle
+                %
+                last_pick = this.nsamp + to - this.last;
+                if do_debug
+                    fprintf(1,'M');
+                end
+            else
+                %
+                %   From the middle to the end
+                %
+                last_pick = this.nsamp;
+                if do_debug
+                    fprintf(1,'E');
+                end
+            end
+        else
+            %
+            %    From the beginning to the middle
+            %
+            first_pick = 1;
+            last_pick  = to - this.first + 1;
+            if do_debug
+                fprintf(1,'B');
+            end
+        end
+        %
+        %   Now we are ready to pick
+        %
+        picksamp = last_pick - first_pick + 1;
+        if picksamp > 0
+            data(:,dest:dest+picksamp-1) = one(:,first_pick:last_pick);
+            dest = dest + picksamp;
+        end
+    end
+    %
+    %   Done?
+    %
+    if this.last >= to
+        fprintf(1,' [done]\n');
+        break;
+    end
 end
 
 if nargout == 2
-   times = [ from:to ];
-   times = double(times)/raw.info.sfreq;
+    times = [ from:to ];
+    times = double(times)/raw.info.sfreq;
 end
 
 return;
 
 end
-
-
-

@@ -9,7 +9,7 @@ function [ names ] = fiff_split_name_list(list);
 
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.3  2006/04/27 22:38:37  msh

@@ -11,7 +11,7 @@ function [res] = mne_transform_source_space_to(src,dest,trans)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %   Revision 1.4  2008/04/04 16:00:28  msh

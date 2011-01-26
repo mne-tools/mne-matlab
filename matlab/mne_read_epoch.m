@@ -17,7 +17,7 @@ function [data,fid] = mne_read_epoch(epoch_info,which,prev_fid)
 
 %
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %

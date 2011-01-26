@@ -14,7 +14,7 @@ function [sel] = fiff_pick_types(info,meg,eeg,stim,include,exclude)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -39,59 +39,59 @@ me='MNE:fiff_pick_types';
 
 global FIFF;
 if isempty(FIFF)
-   FIFF = fiff_define_constants();
+    FIFF = fiff_define_constants();
 end
 
 if nargin == 5
-   exclude = [];
+    exclude = [];
 elseif nargin == 4
-   include = [];
-   exclude = [];
+    include = [];
+    exclude = [];
 elseif nargin == 3
-   include = [];
-   exclude = [];
-   stim    = false;
+    include = [];
+    exclude = [];
+    stim    = false;
 elseif nargin == 2
-   include = [];
-   exclude = [];
-   stim    = false;
-   eeg     = false;
+    include = [];
+    exclude = [];
+    stim    = false;
+    eeg     = false;
 elseif nargin ~= 6
-   error(me,'Incorrect number of arguments');
+    error(me,'Incorrect number of arguments');
 end
 
 pick = zeros(1,info.nchan);
 
 for k = 1:info.nchan
-   kind = info.chs(k).kind;
-   if (kind == FIFF.FIFFV_MEG_CH || kind == FIFF.FIFFV_REF_MEG_CH) && meg
-      pick(k) = true;
-   elseif kind == FIFF.FIFFV_EEG_CH && eeg
-      pick(k) = true;
-   elseif kind == FIFF.FIFFV_STIM_CH && stim
-      pick(k) = true;
-   end
+    kind = info.chs(k).kind;
+    if (kind == FIFF.FIFFV_MEG_CH || kind == FIFF.FIFFV_REF_MEG_CH) && meg
+        pick(k) = true;
+    elseif kind == FIFF.FIFFV_EEG_CH && eeg
+        pick(k) = true;
+    elseif kind == FIFF.FIFFV_STIM_CH && stim
+        pick(k) = true;
+    end
 end
 
 p = 0;
 for k = 1:info.nchan
-   if pick(k)
-      p = p + 1;
-      myinclude{p} = info.ch_names{k};
-   end
+    if pick(k)
+        p = p + 1;
+        myinclude{p} = info.ch_names{k};
+    end
 end
 
 if ~isempty(include)
-   for k = 1:length(include)
-      p = p + 1;
-      myinclude{p} = include{k};
-   end
+    for k = 1:length(include)
+        p = p + 1;
+        myinclude{p} = include{k};
+    end
 end
 
 if p == 0
-   sel = [];
+    sel = [];
 else
-   sel = fiff_pick_channels(info.ch_names,myinclude,exclude);
+    sel = fiff_pick_channels(info.ch_names,myinclude,exclude);
 end
 
 return;

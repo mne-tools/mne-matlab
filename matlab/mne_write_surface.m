@@ -11,7 +11,7 @@ function mne_write_surface(fname,verts,faces,comment)
 %
 
 %
-%   Author : Matti Hamalainen
+%   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
 %
@@ -22,7 +22,7 @@ function mne_write_surface(fname,verts,faces,comment)
 me='MNE:mne_write_surface';
 
 if nargin < 4
-   comment = 'Triangle file written with MNE Matlab tools';
+    comment = 'Triangle file written with MNE Matlab tools';
 end
 %
 %   The input file will be big endian
@@ -30,7 +30,7 @@ end
 fid = fopen(fname,'wb','ieee-be');
 
 if (fid < 0)
-   error(me,'Cannot open file %s', fname);
+    error(me,'Cannot open file %s', fname);
 end
 %
 %   Magic number to identify a TRIANGLE file
@@ -42,8 +42,8 @@ mne_fwrite3(fid,TRIANGLE_FILE_MAGIC_NUMBER) ;
 fprintf(fid,'%s\n\n',comment);
 fwrite(fid, size(verts,1), 'int32') ;
 fwrite(fid, size(faces,1), 'int32') ;
-fwrite(fid, 1000.0*reshape(verts',1,prod(size(verts))), 'float32') ;
-fwrite(fid, reshape(faces',1,prod(size(faces))) - 1, 'int32') ;
+fwrite(fid, 1000.0*reshape(verts',1,numel(verts)), 'float32') ;
+fwrite(fid, reshape(faces',1,numel(faces)) - 1, 'int32') ;
 fclose(fid) ;
 fprintf(1,'\tWrote the surface file %s with %d vertices and %d triangles\n',fname,size(verts,1),size(faces,1));
 
