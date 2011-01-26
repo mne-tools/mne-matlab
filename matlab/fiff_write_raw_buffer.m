@@ -30,6 +30,6 @@ if isempty(FIFF)
    FIFF = fiff_define_constants();
 end
 
-fiff_write_float(fid,FIFF.FIFF_DATA_BUFFER,inv(diag(cals))*buf);
+fiff_write_float(fid,FIFF.FIFF_DATA_BUFFER,inv(diag(cals))*buf); % XXX why not diag(1./cals) ???
 
 return;

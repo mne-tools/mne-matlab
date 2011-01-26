@@ -96,7 +96,7 @@ is_smsh = [];
 for k = 1:length(evoked)
    sets(k).aspects = fiff_dir_tree_find(evoked(k),FIFF.FIFFB_ASPECT);
    sets(k).naspect = length(sets(k).aspects);
-   if sets(k).naspect > 0 
+   if sets(k).naspect > 0
       is_smsh = [ is_smsh zeros(1,sets(k).naspect) ];
       naspect = naspect + sets(k).naspect;
    end
@@ -118,18 +118,18 @@ end
 %   Next locate the evoked data set
 %
 p = 0;
+goon = true;
 for k = 1:length(evoked)
     for a = 1:sets(k).naspect
         p = p + 1;
         if p == setno
             my_evoked = evoked(k);
             my_aspect = sets(k).aspects(a);
-        end
-        if exist('my_evoked','var')
+            goon = false;
             break;
         end
     end
-    if exist('my_evoked','var')
+    if ~goon
         break;
     end
 end
@@ -181,12 +181,12 @@ if nchan > 0
    if ~exist('chs','var')
       fclose(fid);
       error(me, ...
-	 'Local channel information was not found when it was expected.');
+         'Local channel information was not found when it was expected.');
    end
    if length(chs) ~= nchan
       fclose(fid);
       error(me, ...
-	 'Number of channels and number of channel definitions are different');
+         'Number of channels and number of channel definitions are different');
    end
    info.chs   = chs;
    info.nchan = nchan;
@@ -246,9 +246,9 @@ if nepoch == 1
    %
    if size(all,2) == 1 && info.nchan == 1
       all = all';
-   end   
+   end
 else
-   % 
+   %
    %   Put the old style epochs together
    %
     all = epoch(1).data';

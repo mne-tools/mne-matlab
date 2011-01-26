@@ -73,7 +73,7 @@ fprintf(1,'\tCreated the regularized inverter\n');
 %
 [ inv.proj, ncomp ] = mne_make_projector(inv.projs,inv.noise_cov.names);
 if ncomp > 0
-    
+
     fprintf(1,'\tCreated an SSP operator (subspace dimension = %d)\n',ncomp);
 end
 %
@@ -86,9 +86,9 @@ if inv.noise_cov.diag == 0
     %
     nnzero = 0;
     for k = ncomp+1:inv.noise_cov.dim
-       if inv.noise_cov.eig(k) > 0 
-	  inv.whitener(k,k) = 1.0/sqrt(inv.noise_cov.eig(k));
-	  nnzero = nnzero + 1;
+       if inv.noise_cov.eig(k) > 0
+          inv.whitener(k,k) = 1.0/sqrt(inv.noise_cov.eig(k));
+          nnzero = nnzero + 1;
        end
     end
     %
@@ -114,13 +114,13 @@ if dSPM
     noise_norm = zeros(inv.eigen_leads.nrow,1);
     if inv.eigen_leads_weighted
        for k = 1:inv.eigen_leads.nrow
-	  one = inv.eigen_leads.data(k,:).*inv.reginv';
-	  noise_norm(k) = sqrt(one*one');
+          one = inv.eigen_leads.data(k,:).*inv.reginv';
+          noise_norm(k) = sqrt(one*one');
        end
     else
        for k = 1:inv.eigen_leads.nrow
-	  one = sqrt(inv.source_cov.data(k))*(inv.eigen_leads.data(k,:).*inv.reginv');
-	  noise_norm(k) = sqrt(one*one');
+          one = sqrt(inv.source_cov.data(k))*(inv.eigen_leads.data(k,:).*inv.reginv');
+          noise_norm(k) = sqrt(one*one');
        end
     end
     %
@@ -151,6 +151,3 @@ end
 return;
 
 end
-
-
- 

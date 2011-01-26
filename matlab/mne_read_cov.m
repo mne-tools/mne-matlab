@@ -86,36 +86,37 @@ for p = 1:length(covs)
                 %
                 %   Diagonal is stored
                 %
-		data = tag.data;
+                data = tag.data;
                 diagmat = true;
                 fprintf('\t%d x %d diagonal covariance (kind = %d) found.\n',dim,dim,cov_kind);
             end
-	 else
-	    if ~issparse(tag.data)
-	       %
-	       %   Lower diagonal is stored
-	       %
-	       vals = tag.data;
-	       data = zeros(dim,dim);
-	       q = 1;
-	       for j = 1:dim
-		  for k = 1:j
-		     data(j,k) = vals(q);
-		     q = q + 1;
-		  end
-	       end
-	       for j = 1:dim
-		  for k = j+1:dim
-		     data(j,k) = data(k,j);
-		  end
-	       end
-	       diagmat = false;
-	       fprintf('\t%d x %d full covariance (kind = %d) found.\n',dim,dim,cov_kind);
-	    else
-	       diagmat = false;
-	       data = tag.data;
-	       fprintf('\t%d x %d sparse covariance (kind = %d) found.\n',dim,dim,cov_kind);
-	    end
+        else
+            if ~issparse(tag.data)
+               %
+               %   Lower diagonal is stored
+               %
+               vals = tag.data;
+               data = zeros(dim,dim);
+               % XXX : should remove for loops
+               q = 1;
+               for j = 1:dim
+                  for k = 1:j
+                     data(j,k) = vals(q);
+                     q = q + 1;
+                  end
+               end
+               for j = 1:dim
+                  for k = j+1:dim
+                     data(j,k) = data(k,j);
+                  end
+               end
+               diagmat = false;
+               fprintf('\t%d x %d full covariance (kind = %d) found.\n',dim,dim,cov_kind);
+            else
+               diagmat = false;
+               data = tag.data;
+               fprintf('\t%d x %d sparse covariance (kind = %d) found.\n',dim,dim,cov_kind);
+            end
         end
         %
         %   Read the possibly precomputed decomposition
@@ -147,7 +148,7 @@ for p = 1:length(covs)
         cov.data   = data;
         cov.projs  = projs;
         cov.bads   = bads;
-	cov.nfree  = nfree;
+        cov.nfree  = nfree;
         cov.eig    = eig;
         cov.eigvec = eigvec;
         %
