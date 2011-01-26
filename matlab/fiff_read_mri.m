@@ -86,9 +86,9 @@ for p = 1:set.nent
    if kind == FIFF.FIFF_COORD_TRANS
       tag = fiff_read_tag(fid,set.dir(p).pos);
       if tag.data.to == FIFF.FIFFV_COORD_MRI && tag.data.from == FIFF.FIFFV_COORD_HEAD
-	 stack.trans = tag.data;
+          stack.trans = tag.data;
       elseif tag.data.to == FIFF.FIFFV_MNE_COORD_RAS && tag.data.from == FIFF.FIFFV_COORD_MRI
-	 stack.ras_trans = tag.data;
+          stack.ras_trans = tag.data;
       end
    end
 end
@@ -98,9 +98,9 @@ if isempty(stack.trans)
    stack.trans.trans = eye(4,4);
 end
 if isempty(stack.ras_trans)
-   stack.trans.from   = FIFF.FIFFV_COORD_MRI;
-   stack.trans.to     = FIFF.FIFFV_MNE_COORD_RAS;
-   stack.trans.trans = eye(4,4);
+   stack.ras_trans.from   = FIFF.FIFFV_COORD_MRI;
+   stack.ras_trans.to     = FIFF.FIFFV_MNE_COORD_RAS;
+   stack.ras_trans.trans = eye(4,4);
 end
 stack.voxel_trans = [];
 stack.nslice = length(slices);
@@ -130,49 +130,49 @@ fclose(fid);
 return;
 
     function add_voxel_transform
-        
+
         if stack.nslice < 2
-	   fprintf(1,'\tOnly one slice in the stack. Voxel transformation will not be included\n');
-	   return;
-	end
-	%
-	%   Check that the slices really form a stack
-	%
-	for k = 1:stack.nslice-1
-	   d = stack.slices(k+1).trans.trans(1:3,4)-stack.slices(k).trans.trans(1:3,4);
-	   d = sqrt(d'*d);
-	   if k == 1
-	      d0 = d;
-	      r0 = stack.slices(k).trans.trans(1:3,4);
-	      n0 = stack.slices(k).trans.trans(1:3,3);
-	   else
-	      if abs(stack.slices(k).pixel_width-stack.slices(1).pixel_width) > 1e-4 || abs(stack.slices(k).pixel_height-stack.slices(1).pixel_height) > 1e-4
-		 fprintf(1,'\tPixel sizes are not equal. Voxel transformation will not be included\n');
-		 return;
-	      end
-	      if stack.slices(k).width ~= stack.slices(1).width || stack.slices(k).height ~= stack.slices(1).height
-		 fprintf(1,'\tImage sizes are not equal. Voxel transformation will not be included\n');
-		 return;
-	      end
-	      if abs(d-d0) > 1e-4
-		 fprintf(1,'\tThe slices are not equally spaced. Voxel transformation will not be included\n');
-		 return;
-	      end
-	      %
-	      %   Rectangular volume?
-	      %
-	      r1 = r0 + (k-1)*d0*n0;
-	      d = stack.slices(k).trans.trans(1:3,4) - r1;
-	      d = sqrt(d'*d);
-	      if abs(d) > 1e-4
-		 fprintf(1,'\tThe slices do not form a rectangular volume. Voxel transformation will not be included\n');
-		 return;
-	      end
-	   end
-	end
+           fprintf(1,'\tOnly one slice in the stack. Voxel transformation will not be included\n');
+           return;
+        end
         %
-	%   Ready to proceed
-	%
+        %   Check that the slices really form a stack
+        %
+        for k = 1:stack.nslice-1
+           d = stack.slices(k+1).trans.trans(1:3,4)-stack.slices(k).trans.trans(1:3,4);
+           d = sqrt(d'*d);
+           if k == 1
+              d0 = d;
+              r0 = stack.slices(k).trans.trans(1:3,4);
+              n0 = stack.slices(k).trans.trans(1:3,3);
+           else
+              if abs(stack.slices(k).pixel_width-stack.slices(1).pixel_width) > 1e-4 || abs(stack.slices(k).pixel_height-stack.slices(1).pixel_height) > 1e-4
+                 fprintf(1,'\tPixel sizes are not equal. Voxel transformation will not be included\n');
+                 return;
+              end
+              if stack.slices(k).width ~= stack.slices(1).width || stack.slices(k).height ~= stack.slices(1).height
+                 fprintf(1,'\tImage sizes are not equal. Voxel transformation will not be included\n');
+                 return;
+              end
+              if abs(d-d0) > 1e-4
+                 fprintf(1,'\tThe slices are not equally spaced. Voxel transformation will not be included\n');
+                 return;
+              end
+              %
+              %   Rectangular volume?
+              %
+              r1 = r0 + (k-1)*d0*n0;
+              d = stack.slices(k).trans.trans(1:3,4) - r1;
+              d = sqrt(d'*d);
+              if abs(d) > 1e-4
+                 fprintf(1,'\tThe slices do not form a rectangular volume. Voxel transformation will not be included\n');
+                 return;
+              end
+           end
+        end
+        %
+        %   Ready to proceed
+        %
         voxel_trans = stack.slices(1).trans;
         t = eye(4);
         t(1,1) = stack.slices(1).pixel_width;
@@ -190,7 +190,7 @@ return;
     function [slice] = read_slice(node)
         %
         %   Read all components of a single slice
-        %   
+        %
         tag = find_tag(node,FIFF.FIFF_COORD_TRANS);
         if isempty(tag)
             error(me,'Could not find slice coordinate transformation');
@@ -201,9 +201,9 @@ return;
             error(me,'Illegal slice coordinate transformation');
         end
         %
-        %   Change the coordinate transformation so that 
+        %   Change the coordinate transformation so that
         %   ex is right
-        %   ey is down (up in the fif file) 
+        %   ey is down (up in the fif file)
         %   ez steps to the next slice in the series
         %
         slice.trans.trans(1:3,2) = -slice.trans.trans(1:3,2);
@@ -213,20 +213,20 @@ return;
         tag = find_tag(node,FIFF.FIFF_MRI_PIXEL_ENCODING);
         if isempty(tag)
             error(me,'Pixel encoding tag missing');
-        end 
+        end
         slice.encoding = tag.data;
-	%
-	%    Offset in the MRI data file if not embedded
-	%
+        %
+        %    Offset in the MRI data file if not embedded
+        %
         tag = find_tag(node,FIFF.FIFF_MRI_PIXEL_DATA_OFFSET);
         if isempty(tag)
             slice.offset = -1;
         else
             slice.offset = tag.data;
         end
-	%
-	%    Format of the MRI source file
-	%
+        %
+        %    Format of the MRI source file
+        %
         tag = find_tag(node,FIFF.FIFF_MRI_SOURCE_FORMAT);
         if isempty(tag)
             slice.source_format = 0;
@@ -234,9 +234,9 @@ return;
             slice.source_format = tag.data;
         end
         %
-	%   Suggested scaling for the pixel values
-	%   (not applied here)
-	%
+        %   Suggested scaling for the pixel values
+        %   (not applied here)
+        %
         tag = find_tag(node,FIFF.FIFF_MRI_PIXEL_SCALE);
         if isempty(tag)
             slice.scale = 1.0;
@@ -249,13 +249,13 @@ return;
         tag = find_tag(node,FIFF.FIFF_MRI_WIDTH);
         if isempty(tag)
             error(me,'Slice width missing');
-        end 
+        end
         slice.width = tag.data;
         %
         tag = find_tag(node,FIFF.FIFF_MRI_HEIGHT);
         if isempty(tag)
             error(me,'Slice height missing');
-        end 
+        end
         slice.height = tag.data;
         %
         %   Pixel sizes
@@ -263,70 +263,70 @@ return;
         tag = find_tag(node,FIFF.FIFF_MRI_WIDTH_M);
         if isempty(tag)
             error(me,'Pixel width missing');
-        end 
+        end
         slice.pixel_width = double(tag.data)/double(slice.width);
         %
         tag = find_tag(node,FIFF.FIFF_MRI_HEIGHT_M);
         if isempty(tag)
             error(me,'Pixel height missing');
-        end 
+        end
         slice.pixel_height = double(tag.data)/double(slice.height);
         %
         %   Are the data here or in another file?
         %
-	tag = find_tag(node,FIFF.FIFF_MRI_SOURCE_PATH);
-	if isempty(tag)
-	   slice.offset = -1;
-	   slice.source = [];
-	   %
-	   %   Pixel data are embedded in the fif file
-	   %
-	   if read_data
-	      tag = find_tag(node,FIFF.FIFF_MRI_PIXEL_DATA);
-	      if isempty(tag)
-		 error(me,'Embedded pixel data missing');
-	      end
-	      if slice.encoding == FIFF.FIFFV_MRI_PIXEL_WORD
-		 if tag.type ~= slice.encoding && tag.type ~= FIFF.FIFFT_USHORT
-		    error(me,'Embedded data is in wrong format (expected %d, got %d)',...
-		       slice.encoding,tag.type);
-		 end
-	      else 
-		 if tag.type ~= slice.encoding
-		    error(me,'Embedded data is in wrong format (expected %d, got %d)',...
-		       slice.encoding,tag.type);
-		 end
-	      end
-	      if length(tag.data) ~= slice.width*slice.height
-		 error(me,'Wrong length of pixel data');
-	      end
-	      %
-	      %   Reshape into an image
-	      %
-	      slice.data = reshape(tag.data,slice.width,slice.height)';
-	   end
-	else
-	   if slice.offset < 0
-	      error(me,'Offset to external file missing');
-	   end
-	   slice.source = tag.data;
-	   %
-	   %   External slice reading follows
-	   %
-	   if read_data
-	      pname = search_pixel_file(slice.source,fname);
-	      if isempty(pname)
-		 error(me,'Could not locate pixel file %s',slice.source);
-	      else
-		 try
-		    slice.data   = read_external_pixels(pname,...
-		       slice.offset,slice.encoding,slice.width,slice.height);
-		 catch
-		    error(me,'%s',mne_omit_first_line(lasterr));
-		 end
-	      end
-	   end
-	end
+        tag = find_tag(node,FIFF.FIFF_MRI_SOURCE_PATH);
+        if isempty(tag)
+           slice.offset = -1;
+           slice.source = [];
+           %
+           %   Pixel data are embedded in the fif file
+           %
+           if read_data
+              tag = find_tag(node,FIFF.FIFF_MRI_PIXEL_DATA);
+              if isempty(tag)
+                 error(me,'Embedded pixel data missing');
+              end
+              if slice.encoding == FIFF.FIFFV_MRI_PIXEL_WORD
+                 if tag.type ~= slice.encoding && tag.type ~= FIFF.FIFFT_USHORT
+                    error(me,'Embedded data is in wrong format (expected %d, got %d)',...
+                       slice.encoding,tag.type);
+                 end
+              else
+                 if tag.type ~= slice.encoding
+                    error(me,'Embedded data is in wrong format (expected %d, got %d)',...
+                       slice.encoding,tag.type);
+                 end
+              end
+              if length(tag.data) ~= slice.width*slice.height
+                 error(me,'Wrong length of pixel data');
+              end
+              %
+              %   Reshape into an image
+              %
+              slice.data = reshape(tag.data,slice.width,slice.height)';
+           end
+        else
+           if slice.offset < 0
+              error(me,'Offset to external file missing');
+           end
+           slice.source = tag.data;
+           %
+           %   External slice reading follows
+           %
+           if read_data
+              pname = search_pixel_file(slice.source,fname);
+              if isempty(pname)
+                 error(me,'Could not locate pixel file %s',slice.source);
+              else
+                 try
+                    slice.data   = read_external_pixels(pname,...
+                       slice.offset,slice.encoding,slice.width,slice.height);
+                 catch
+                    error(me,'%s',mne_omit_first_line(lasterr));
+                 end
+              end
+           end
+        end
     end
 
     function [name] = search_pixel_file(pname,sname)
@@ -382,7 +382,7 @@ return;
         %   Proceed carefully according to the encoding
         %
         switch encoding
-            
+
             case FIFF.FIFFV_MRI_PIXEL_BYTE
                 pixels = fread(sfid,double(width*height),'uint8=>uint8');
             case FIFF.FIFFV_MRI_PIXEL_WORD
@@ -414,7 +414,7 @@ return;
         end
         tag = [];
         return
-        
+
     end
 
 end
