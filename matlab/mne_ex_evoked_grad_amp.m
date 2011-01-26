@@ -20,11 +20,6 @@ function [res] = mne_ex_evoked_grad_amp(inname,bmin,bmax,outname)
 %   Author : Matti Hamalainen
 %   License : BSD 3-clause
 %
-%
-%   $Id$
-%   $Log
-%
-%
 
 me='MNE:mne_ex_evoked_grad_amp';
 
@@ -57,7 +52,7 @@ while k < data.info.nchan
    coil1 = data.info.chs(k).coil_type;
    coil2 = data.info.chs(k+1).coil_type;
    if (coil1 == coil2 && ...
-	 (coil1 == 2 || coil1 == 3012 || coil1 == 3013))
+         (coil1 == 2 || coil1 == 3012 || coil1 == 3013))
       one = data.info.ch_names{k};
       two = data.info.ch_names{k+1};
       lastone = one(length(one));
@@ -66,14 +61,14 @@ while k < data.info.nchan
       %   Then the channel names
       %
       if (strcmp(one(1:3),'MEG') && strcmp(one(1:3),'MEG'))
-	 if (strcmp(one(1:7),two(1:7)) && ...
-	       ((lastone == '2' && lasttwo == '3') || ...
-		  (lastone == '3' && lasttwo == '2')))
-	    npair = npair + 1;  
-	    pairs(npair,1) = k;
-	    pairs(npair,2) = k+1;
-	    k = k + 1;
-	 end
+         if (strcmp(one(1:7),two(1:7)) && ...
+               ((lastone == '2' && lasttwo == '3') || ...
+                  (lastone == '3' && lasttwo == '2')))
+            npair = npair + 1;  
+            pairs(npair,1) = k;
+            pairs(npair,2) = k+1;
+            k = k + 1;
+         end
       end
    end
    k = k + 1;
@@ -99,10 +94,10 @@ for k = 1:length(data.evoked)
       b1 = double(data.info.sfreq*bmin - data.evoked(k).first);
       b2 = double(data.info.sfreq*bmax - data.evoked(k).first);
       if b1 < 1
-	 b1 = 1;
+         b1 = 1;
       end
       if b2 > size(epochs,2)
-	 b2 = size(epochs,2)
+         b2 = size(epochs,2)
       end
    else
       b1 = 1;
@@ -115,13 +110,13 @@ for k = 1:length(data.evoked)
       one = pairs(p,1);
       two = pairs(p,2);
       if b2 > b1
-	 base1 = sum(epochs(one,b1:b2))/(b2-b1);
-	 base2 = sum(epochs(two,b1:b2))/(b2-b1);
-	 epochs(one,:) = sqrt((epochs(one,:)-base1).*(epochs(one, ...
-	       :)-base1)+(epochs(two,:)-base2).*(epochs(two,:)-base2));
+         base1 = sum(epochs(one,b1:b2))/(b2-b1);
+         base2 = sum(epochs(two,b1:b2))/(b2-b1);
+         epochs(one,:) = sqrt((epochs(one,:)-base1).*(epochs(one, ...
+               :)-base1)+(epochs(two,:)-base2).*(epochs(two,:)-base2));
       else
-	 epochs(one,:) = sqrt(epochs(one,:).*epochs(one, ...
-	       :)+epochs(two,:).*epochs(two,:));
+         epochs(one,:) = sqrt(epochs(one,:).*epochs(one, ...
+               :)+epochs(two,:).*epochs(two,:));
       end
    end
    data.evoked(k).epochs = epochs;
@@ -157,13 +152,13 @@ if ~isempty(data.info.bads)
       %   add the other to the bad channel list
       %
       if (~isempty(strmatch(one,data.info.bads)) && ...
-	    isempty(strmatch(two,data.info.bads)))
-	 nbad = nbad + 1;
-	 data.info.bads{nbad} = two;
+            isempty(strmatch(two,data.info.bads)))
+         nbad = nbad + 1;
+         data.info.bads{nbad} = two;
       elseif (isempty(strmatch(one,data.info.bads)) && ...
-	    ~isempty(strmatch(two,data.info.bads)))
-	 nbad = nbad + 1;
-	 data.info.bads{nbad} = one;
+            ~isempty(strmatch(two,data.info.bads)))
+         nbad = nbad + 1;
+         data.info.bads{nbad} = one;
       end
    end
 end
