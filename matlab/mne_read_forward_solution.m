@@ -102,6 +102,24 @@ if isempty(parent_mri)
     fclose(fid);
     error(me,'No parent MRI information in %s',fname);
 end
+%
+%   Parent MEG data
+%
+parent_meg = fiff_dir_tree_find(tree,FIFF.FIFFB_MNE_PARENT_MEAS_FILE);
+if isempty(parent_meg)
+    fclose(fid);
+    error(me,'No parent MEG information in %s',fname);
+end
+p = 0;
+for k = 1:parent_meg.nent
+    kind = parent_meg.dir(k).kind;
+    pos  = parent_meg.dir(k).pos;
+    if kind == FIFF.FIFF_CH_INFO
+        p = p+1;
+        tag = fiff_read_tag(fid,pos);
+        chs(p) = tag.data;
+    end
+end
 
 try
     src = mne_read_source_spaces(fid,false,tree);
@@ -250,7 +268,7 @@ if fwd.source_ori == FIFF.FIFFV_MNE_FIXED_ORI || ...
         fwd.sol.data   = fwd.sol.data*fix_rot;
         fwd.sol.ncol   = fwd.nsource;
         fwd.source_ori = FIFF.FIFFV_MNE_FIXED_ORI;
-        
+
         if  ~isempty(fwd.sol_grad)
             fwd.sol_grad.data   = fwd.sol_grad.data*kron(fix_rot,eye(3));
             fwd.sol_grad.ncol   = 3*fwd.nsource;
@@ -288,7 +306,7 @@ else
         surf_rot = mne_block_diag(fwd.source_nn',3);
         fwd.sol.data = fwd.sol.data*surf_rot;
         if  ~isempty(fwd.sol_grad)
-            fwd.sol_grad.data   = fwd.sol_grad.data*kron(surf_rot,eye(3));
+            fwd.sol_grad.data = fwd.sol_grad.data*kron(surf_rot,eye(3));
         end
         fprintf(1,'[done]\n');
     else
@@ -303,6 +321,10 @@ else
         fprintf(1,'[done]\n');
     end
 end
+%
+% Add channel information
+%
+fwd.chs = chs;
 %
 %   Do the channel selection
 %
@@ -366,19 +388,20 @@ if ~isempty(include) || ~isempty(exclude) || ~isempty(bads)
     fwd.sol.data      = fwd.sol.data(sel,:);
     fwd.sol.nrow      = nuse;
     fwd.sol.row_names = fwd.sol.row_names(sel);
-    
+
     if  ~isempty(fwd.sol_grad)
         fwd.sol_grad.data      = fwd.sol_grad.data(sel,:);
         fwd.sol_grad.nrow      = nuse;
         fwd.sol_grad.row_names = fwd.sol_grad.row_names(sel);
     end
-    
+
+    fwd.chs = fwd.chs(sel);
 end
 
 return;
 
     function [tag] = find_tag(node,findkind)
-        
+
         for p = 1:node.nent
             if node.dir(p).kind == findkind
                 tag = fiff_read_tag(fid,node.dir(p).pos);
