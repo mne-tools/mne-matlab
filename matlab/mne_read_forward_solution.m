@@ -389,7 +389,7 @@ if ~isempty(include) || ~isempty(exclude) || ~isempty(bads)
     fwd.sol.nrow      = nuse;
     fwd.sol.row_names = fwd.sol.row_names(sel);
 
-    if  ~isempty(fwd.sol_grad)
+    if ~isempty(fwd.sol_grad)
         fwd.sol_grad.data      = fwd.sol_grad.data(sel,:);
         fwd.sol_grad.nrow      = nuse;
         fwd.sol_grad.row_names = fwd.sol_grad.row_names(sel);

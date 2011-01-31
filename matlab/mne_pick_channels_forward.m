@@ -47,11 +47,12 @@ fwd = orig;
 %
 %   First do the channels to be included
 %
-sel = fiff_pick_channels(orig.sol.row_names,include,exclude);
+sel = fiff_pick_channels(orig.sol.row_names, include, exclude);
 if isempty(sel)
-   error(me,'Nothing remains after picking');
+   error(me, 'Nothing remains after picking');
 end
 fwd.sol.data = fwd.sol.data(sel,:);
+fwd.chs = fwd.chs(sel);
 %
 %   Select the desired stuff
 %
