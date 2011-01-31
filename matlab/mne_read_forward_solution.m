@@ -12,7 +12,6 @@ function [fwd] = mne_read_forward_solution(fname,force_fixed,surf_ori,include,ex
 %
 
 %
-%
 %   Author : Matti Hamalainen, MGH Martinos Center
 %   License : BSD 3-clause
 %
@@ -131,11 +130,6 @@ for k = 1:length(src)
     src(k).id = mne_find_source_space_hemi(src(k));
 end
 fwd = [];
-%
-%   Bad channel list
-%
-bads = fiff_read_bad_channels(fid,tree);
-fprintf(1,'\t%d bad channels read\n',length(bads));
 %
 %   Locate and read the forward solutions
 %
@@ -328,7 +322,7 @@ fwd.chs = chs;
 %
 %   Do the channel selection
 %
-if ~isempty(include) || ~isempty(exclude) || ~isempty(bads)
+if ~isempty(include) || ~isempty(exclude)
     %
     %   First do the channels to be included
     %
@@ -349,14 +343,6 @@ if ~isempty(include) || ~isempty(exclude) || ~isempty(bads)
     if ~isempty(exclude)
         for k = 1:length(exclude)
             c = strmatch(exclude{k},fwd.sol.row_names,'exact');
-            for p = 1:length(c)
-                pick(c(p)) = 0;
-            end
-        end
-    end
-    if ~isempty(bads)
-        for k = 1:length(bads)
-            c = strmatch(bads{k},fwd.sol.row_names,'exact');
             for p = 1:length(c)
                 pick(c(p)) = 0;
             end
