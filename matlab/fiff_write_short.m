@@ -1,7 +1,7 @@
-function fiff_write_short(fid,kind,data)
+function fiff_write_short(fid, kind, data)
 %
-% fiff_write_short(fid,kind,data)
-% 
+% fiff_write_short(fid, kind, data)
+%
 % Writes a 16-bit integer tag to a fif file
 %
 %     fid           An open fif file descriptor
@@ -21,35 +21,35 @@ function fiff_write_short(fid,kind,data)
 %
 %
 
-me='MNE:fiff_write_int';
+me = 'MNE:fiff_write_short';
 
 if nargin ~= 3
-        error(me,'Incorrect number of arguments');
+    error(me, 'Incorrect number of arguments');
 end
 
-FIFFT_SHORT=2;
-FIFFV_NEXT_SEQ=0;
-nel=numel(data);
-datasize=nel*4;
-count = fwrite(fid,int32(kind),'int32');
+FIFFT_SHORT = 2;
+FIFFV_NEXT_SEQ = 0;
+nel = numel(data);
+datasize = nel * 2;
+count = fwrite(fid, int32(kind), 'int32');
 if count ~= 1
-    error(me,'write failed');
+    error(me, 'write failed');
 end
-count = fwrite(fid,int32(FIFFT_INT),'int32');
+count = fwrite(fid, int32(FIFFT_SHORT), 'int32');
 if count ~= 1
-    error(me,'write failed');
+    error(me, 'write failed');
 end
-count = fwrite(fid,int32(datasize),'int32');
+count = fwrite(fid, int32(datasize), 'int32');
 if count ~= 1
-    error(me,'write failed');
+    error(me, 'write failed');
 end
-count = fwrite(fid,int32(FIFFV_NEXT_SEQ),'int32');
+count = fwrite(fid, int32(FIFFV_NEXT_SEQ), 'int32');
 if count ~= 1
-    error(me,'write failed');
+    error(me, 'write failed');
 end
-count = fwrite(fid,int16(data),'int16');
+count = fwrite(fid, int16(data), 'int16');
 if count ~= nel
-    error(me,'write failed');
+    error(me, 'write failed');
 end
 
-return;
+return
