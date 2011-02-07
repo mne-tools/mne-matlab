@@ -1,20 +1,21 @@
-function fiff_write_raw_segment(fname, raw, from, to, sel)
+function fiff_write_raw_segment(fname, raw, from, to, sel, drop_small_buffer, buffer_size)
 %   FIFF_WRITE_RAW_SEGMENT   Write chunck of raw data to disk
 %       [] = FIFF_WRITE_RAW_SEGMENT(FNAME, RAW, FROM, TO, SEL)
 %
 %   The functions reads data from a file specified by raw
 %   which is obtained with fiff_setup_read_raw
 %
-% fname  - the name of the file where to write
-% raw    - structure returned by fiff_setup_read_raw
-% from   - first sample to include. If omitted, defaults to the
-%          first sample in data
-% to     - last sample to include. If omitted, defaults to the last
-%          sample in data
-% sel    - optional channel selection vector
-
-% from   - starting time of the segment in seconds
-% to     - end time of the segment in seconds
+% fname                - the name of the file where to write
+% raw                  - structure returned by fiff_setup_read_raw
+% from                 - first sample to include. If omitted, defaults to the
+%                        first sample in data
+% to                   - last sample to include. If omitted, defaults to the last
+%                        sample in data
+% sel                  - optional channel selection vector
+% drop_small_buffer    - optional bool to say if the last data buffer is dropped
+%                        to make sure all buffers have the same size
+%                        (required by maxfilter)
+% buffer_size          - float (size of data buffers)
 
 %
 %   Author : Alexandre Gramfort, MGH Martinos Center
@@ -37,20 +38,22 @@ end
 if nargin < 4 | isempty(to)
     to = raw.last_samp;
 end
-if nargin < 5
+if nargin < 5 | isempty(sel)
     sel = 1:raw.info.nchan;
+end
+if nargin < 6
+    drop_small_buffer = false;
+end
+if nargin < 7
+    buffer_size_sec = 25; % read by chunks of 30 seconds
+    buffer_size = ceil(buffer_size_sec * raw.info.sfreq);
 end
 %
 [outfid, cals] = fiff_start_writing_raw(fname, raw.info, sel);
 %
-%   Set up the reading parameters
-%
-quantum_sec = 30; % read by chunks of 30 seconds
-quantum     = ceil(quantum_sec * raw.info.sfreq);
-%
 first_buffer = true;
-for first = from:quantum:to
-    last = first + quantum - 1;
+for first = from:buffer_size:to
+    last = first + buffer_size - 1;
     if last > to
         last = to;
     end
@@ -60,6 +63,10 @@ for first = from:quantum:to
         fclose(raw.fid);
         fclose(outfid);
         error(me, '%s', mne_omit_first_line(lasterr));
+    end
+    if drop_small_buffer && first_buffer == false && length(times) < buffer_size
+        fprintf(1, 'Skipping due to small buffer ... [done]\n');
+        break
     end
     %
     %   You can add your own miracle here
