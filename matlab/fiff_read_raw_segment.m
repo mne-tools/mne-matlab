@@ -119,6 +119,16 @@ end
 if ~isempty(mult)
     mult = sparse(mult);
 end
+
+if isempty(fopen(raw.fid))
+   fid = fopen(raw.info.filename,'rb','ieee-be');
+   if (fid < 0)
+      error(me,'Cannot open file %s',raw.info.filename);
+   end
+else
+   fid = raw.fid;
+end
+
 for k = 1:length(raw.rawdir)
     this = raw.rawdir(k);
     %
@@ -139,7 +149,7 @@ for k = 1:length(raw.rawdir)
                 one = zeros(length(sel),this.nsamp);
             end
         else
-            tag = fiff_read_tag(raw.fid,this.ent.pos);
+            tag = fiff_read_tag(fid,this.ent.pos);
             %
             %   Depending on the state of the projection and selection
             %   we proceed a little bit differently
@@ -213,6 +223,8 @@ for k = 1:length(raw.rawdir)
         break;
     end
 end
+
+fclose(fid);
 
 if nargout == 2
     times = [ from:to ];
