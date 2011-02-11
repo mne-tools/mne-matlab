@@ -139,11 +139,6 @@ catch
     error(me,'%s',mne_omit_first_line(lasterr));
 end
 fprintf(1,'Read %d samples.\n',size(data,2));
-%
-%   Remember to close the file descriptor
-%
-fclose(raw.fid);
-fprintf(1,'File closed.\n');
 
 return;
 

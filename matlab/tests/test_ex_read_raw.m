@@ -15,7 +15,6 @@ assertTrue(all(times > 49))
 
 raw = fiff_setup_read_raw(fname);
 fiff_write_raw_segment_times('foo.fif', raw, 51, 53);
-fclose(raw.fid)
 
 raw = fiff_setup_read_raw('foo.fif');
 [data, times] = fiff_read_raw_segment(raw);

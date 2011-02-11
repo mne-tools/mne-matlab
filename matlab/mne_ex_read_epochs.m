@@ -254,11 +254,6 @@ for p = 1:count
     end
 end
 fprintf(1,'Read %d epochs, %d samples each.\n',count,length(data(1).epoch));
-%
-%   Remember to close the file descriptor
-%
-fclose(raw.fid);
-fprintf(1,'File closed.\n');
 
 return;
 
