@@ -19,6 +19,12 @@ function [dmap_sel] = mne_morph_data(from,src,to,data,grade)
 %  data{1} = randn(4098, 10);
 %  data{2} = randn(4098, 10);
 %  dmap_sel = mne_morph_data(from,src,to,data,5);
+%
+%  Note: Since vertices may have been omitted due to being too close
+% to the skull in the forward model calculation, it is recommended
+% that the source space information is read from the forward model
+% or inverse operator file rather than from the original source space
+%
 
 %
 %   Author : Alexandre Gramfort, MGH Martinos Center
