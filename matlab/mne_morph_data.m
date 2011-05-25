@@ -1,13 +1,13 @@
-function [dmap_sel] = mne_morph_data(from,src,to,data,grade)
+function [stcs] = mne_morph_data(from,src,to,stcs,grade)
 % MNE_MORPH_DATA   Returns data morphed to a new subject.
 %
 %   SYNTAX
-%       [EDGES] = MNE_MORPH_DATA(FROM, SRC, TO, DATA, GRADE)
+%       [STCS] = MNE_MORPH_DATA(FROM, SRC, TO, STCS, GRADE)
 %
 %   from : name of origin subject
 %   src : source space of subject "from" read with mne_read_source_spaces
 %   to : name of destination subject
-%   data : data to morph
+%   stcs : stc data to morph
 %   grade : (optional) resolution of the icosahedral mesh (typically 5)
 %
 % Note : The functions requires to set MNE_ROOT and SUBJECTS_DIR variables.
@@ -16,9 +16,7 @@ function [dmap_sel] = mne_morph_data(from,src,to,data,grade)
 %  from = 'sample';
 %  to = 'fsaverage';
 %  src = mne_read_source_spaces([getenv('SUBJECTS_DIR'),'/', from, '/bem/sample-oct-6-src.fif']);
-%  data{1} = randn(4098, 10);
-%  data{2} = randn(4098, 10);
-%  dmap_sel = mne_morph_data(from,src,to,data,5);
+%  stcs_morph = mne_morph_data(from,src,to,stcs,5);
 %
 %  Note: Since vertices may have been omitted due to being too close
 % to the skull in the forward model calculation, it is recommended
@@ -47,18 +45,18 @@ for hemi = 1:2
     n_iter = 100; % nb of smoothing iterations
     for k = 1:n_iter
         data1 = e(:,idx_use) * ones(length(idx_use),1);
-        data{hemi}  = e(:,idx_use)*data{hemi};
+        stcs{hemi}.data  = e(:,idx_use)*stcs{hemi}.data;
         idx_use = find(data1);
         fprintf(1,'%d/%d ',k,length(idx_use));
         if ( k == n_iter ) || ( length(idx_use) >= n_vertices )
-            data{hemi}(idx_use,:) = bsxfun(@rdivide, data{hemi}(idx_use,:), data1(idx_use));
+            stcs{hemi}.data(idx_use,:) = bsxfun(@rdivide, stcs{hemi}.data(idx_use,:), data1(idx_use));
             break;
         else
-            data{hemi} = bsxfun(@rdivide, data{hemi}(idx_use,:), data1(idx_use));
+            stcs{hemi}.data = bsxfun(@rdivide, stcs{hemi}.data(idx_use,:), data1(idx_use));
         end
     end
     fprintf(1,'\n');
-    dmap{hemi} = map{hemi}*data{hemi};
+    stcs{hemi}.data = map{hemi}*stcs{hemi}.data;
 end
 
 ico_file_name = [getenv('MNE_ROOT'),'/share/mne/icos.fif'];
@@ -90,7 +88,9 @@ for k = 1:size(ico.rr,1)
     [tmp, nearest{2}(k)] = max(dots);
 end
 
-dmap_sel{1} = dmap{1}(nearest{1},:);
-dmap_sel{2} = dmap{2}(nearest{2},:);
+stcs{1}.data = stcs{1}.data(nearest{1},:);
+stcs{2}.data = stcs{2}.data(nearest{2},:);
+stcs{1}.vertices = nearest{1}-1;
+stcs{2}.vertices = nearest{2}-1;
 
 fprintf(1, '\n');
