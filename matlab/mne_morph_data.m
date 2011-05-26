@@ -1,11 +1,10 @@
-function [stcs] = mne_morph_data(from,src,to,stcs,grade)
+function [stcs] = mne_morph_data(from,to,stcs,grade)
 % MNE_MORPH_DATA   Returns data morphed to a new subject.
 %
 %   SYNTAX
-%       [STCS] = MNE_MORPH_DATA(FROM, SRC, TO, STCS, GRADE)
+%       [STCS] = MNE_MORPH_DATA(FROM, TO, STCS, GRADE)
 %
 %   from : name of origin subject
-%   src : source space of subject "from" read with mne_read_source_spaces
 %   to : name of destination subject
 %   stcs : stc data to morph
 %   grade : (optional) resolution of the icosahedral mesh (typically 5)
@@ -15,8 +14,7 @@ function [stcs] = mne_morph_data(from,src,to,stcs,grade)
 % Example:
 %  from = 'sample';
 %  to = 'fsaverage';
-%  src = mne_read_source_spaces([getenv('SUBJECTS_DIR'),'/', from, '/bem/sample-oct-6-src.fif']);
-%  stcs_morph = mne_morph_data(from,src,to,stcs,5);
+%  stcs_morph = mne_morph_data(from,to,stcs,5);
 %
 %  Note: Since vertices may have been omitted due to being too close
 % to the skull in the forward model calculation, it is recommended
@@ -34,14 +32,19 @@ if nargin < 5
     grade = 5;
 end
 
+sphere_from = [getenv('SUBJECTS_DIR'),'/',from,'/surf/lh.sphere.reg'];
+[tmp, tris{1}] = mne_read_surface(sphere_from);
+sphere_from = [getenv('SUBJECTS_DIR'),'/',from,'/surf/rh.sphere.reg'];
+[tmp, tris{2}] = mne_read_surface(sphere_from);
+
 [map{1}, map{2}] = mne_read_morph_map(from,to);
 
 for hemi = 1:2
-    e = mne_mesh_edges(src(hemi).tris);
+    e = mne_mesh_edges(tris{hemi});
     e = e==2;
     n_vertices = length(e);
     e = e + speye(n_vertices, n_vertices);
-    idx_use = find(src(hemi).inuse);
+    idx_use = stcs{hemi}.vertices + 1;
     n_iter = 100; % nb of smoothing iterations
     for k = 1:n_iter
         data1 = e(:,idx_use) * ones(length(idx_use),1);
