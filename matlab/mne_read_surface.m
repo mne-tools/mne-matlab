@@ -68,36 +68,36 @@ if(magic == QUAD_FILE_MAGIC_NUMBER || magic == NEW_QUAD_FILE_MAGIC_NUMBER)
     if (nargout > 1)
         quads = fread3_many(fid,nquad*4);
         quads = reshape(quads,4,nquad)';
-    end
-    %
-    %   Face splitting follows
-    %
-    faces = zeros(2*nquad,3);
-    nface = 0;
-    for k = 1:nquad
-        quad = quads(k,:);
-        if quad(1) % 2 == 0
-            nface = nface + 1;
-            faces(nface,1) = quad(1);
-            faces(nface,2) = quad(2);
-            faces(nface,3) = quad(4);
-
-            nface = nface + 1;
-            faces(nface,1) = quad(3);
-            faces(nface,2) = quad(4);
-            faces(nface,3) = quad(2);
-        else
-            nface = nface + 1;
-            faces(nface,1) = quad(1);
-            faces(nface,2) = quad(2);
-            faces(nface,3) = quad(3);
-
-            nface = nface + 1;
-            faces(nface,1) = quad(1);
-            faces(nface,2) = quad(3);
-            faces(nface,3) = quad(4);
+        %
+        %   Face splitting follows
+        %
+        faces = zeros(2*nquad,3);
+        nface = 0;
+        for k = 1:nquad
+           quad = quads(k,:);
+           if quad(1) % 2 == 0
+              nface = nface + 1;
+              faces(nface,1) = quad(1);
+              faces(nface,2) = quad(2);
+              faces(nface,3) = quad(4);
+              
+              nface = nface + 1;
+              faces(nface,1) = quad(3);
+              faces(nface,2) = quad(4);
+              faces(nface,3) = quad(2);
+           else
+              nface = nface + 1;
+              faces(nface,1) = quad(1);
+              faces(nface,2) = quad(2);
+              faces(nface,3) = quad(3);
+              
+              nface = nface + 1;
+              faces(nface,1) = quad(1);
+              faces(nface,2) = quad(3);
+              faces(nface,3) = quad(4);
+           end
         end
-    end
+     end
 elseif (magic == TRIANGLE_FILE_MAGIC_NUMBER)
     s = fgets(fid);
     fgets(fid);
