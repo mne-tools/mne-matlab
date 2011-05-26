@@ -16,10 +16,6 @@ function [stcs] = mne_morph_data(from,to,stcs,grade)
 %  to = 'fsaverage';
 %  stcs_morph = mne_morph_data(from,to,stcs,5);
 %
-%  Note: Since vertices may have been omitted due to being too close
-% to the skull in the forward model calculation, it is recommended
-% that the source space information is read from the forward model
-% or inverse operator file rather than from the original source space
 %
 
 %
