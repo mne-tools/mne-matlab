@@ -75,7 +75,7 @@ if(magic == QUAD_FILE_MAGIC_NUMBER || magic == NEW_QUAD_FILE_MAGIC_NUMBER)
         nface = 0;
         for k = 1:nquad
             quad = quads(k,:);
-            if quad(1) % 2 == 0
+            if mod(quad(1),2) == 0
                 nface = nface + 1;
                 faces(nface,1) = quad(1);
                 faces(nface,2) = quad(2);
