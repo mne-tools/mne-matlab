@@ -388,8 +388,8 @@ return;
 
     function [tag] = find_tag(nodes,findkind)
 
-   for k = 1:length(nodes)
-      node = nodes(k);
+   for kk = 1:length(nodes)
+      node = nodes(kk);
       for p = 1:node.nent
          if node.dir(p).kind == findkind
             tag = fiff_read_tag(fid,node.dir(p).pos);
