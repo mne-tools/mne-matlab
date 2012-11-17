@@ -24,7 +24,7 @@ classdef mne_rt_data_client < mne_rt_client
             % port          - fiff data port of the mne_rt_Server
             % numOfRetries  - number of connection retries, when a
             %                 connection fails
-            
+            %
             %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
             %   License : BSD 3-clause
             %
