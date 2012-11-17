@@ -26,14 +26,38 @@ classdef mne_rt_client < handle
         % =================================================================
         %% mne_rt_client
         function obj = mne_rt_client(host, port, number_of_retries)
+            %
+            % obj = mne_rt_client(host, port, numOfRetries)
+            %
             % Constructor
+            %
+            % host          - ip adress of the mne_rt_Server
+            % port          - comand port of the mne_rt_Server
+            % numOfRetries  - number of connection retries, when a
+            %                 connection fails
+
+            %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
+            %   License : BSD 3-clause
+            %
             obj.init(host, port, number_of_retries);
         end % mne_rt_client
         
         % =================================================================
         %% init
         function result = init(obj, host, port, numOfRetries) 
+            %
+            % result = init(obj, host, port, numOfRetries) 
+            %
             % Init the connection
+            %
+            % host          - ip adress of the mne_rt_Server
+            % port          - comand port of the mne_rt_Server
+            % numOfRetries  - number of connection retries, when a
+            %                 connection fails
+
+            %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
+            %   License : BSD 3-clause
+            %
             import java.net.Socket
             import java.io.*
 
@@ -86,7 +110,13 @@ classdef mne_rt_client < handle
         % =================================================================
         %% close
         function close(obj)
+            %
             % Close the connection
+            %
+
+            %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
+            %   License : BSD 3-clause
+            %
             if ~isempty(obj.m_TcpSocket)
                 obj.m_TcpSocket.close();
             end
