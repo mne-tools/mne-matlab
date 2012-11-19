@@ -386,7 +386,7 @@ FIFF.FIFF_MNE_CTF_COMP_CALIBRATED   = 3582;     % Are the coefficients calibrate
 % 3700... Real-Time Communication
 %
 FIFF.FIFF_MNE_RT_COMMAND            = 3700;    	% Fiff Real-Time Command
-FIFF.FIFF_MNE_RT_CLIENT_ID          = 3701;     % Fiff Real-Time mne_t_server client id
+FIFF.FIFF_MNE_RT_CLIENT_ID          = 3701;     % Fiff Real-Time mne_rt_server client id
 
 
 %
