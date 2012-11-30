@@ -223,14 +223,19 @@ classdef mne_rt_data_client < mne_rt_client
         
         % =================================================================
         %% readRawBuffer
-        function [buf] = readRawBuffer(obj, p_nChannels)
+        function [kind, data] = readRawBuffer(obj, p_nChannels)
             %
-            % [buf] = readRawBuffer(obj, p_nChannels)
+            % [kind, data] = readRawBuffer(obj, p_nChannels)
             %
             % reads a raw buffer
             %
             % p_nChannels - number of channels to reshape the incomming 
             %               float array
+            %
+            % kind        - FIFF_DATA_BUFFER ->
+            %               FIFF_BLOCK_START -> data = FIFFB_RAW_DATA
+            %               FIFF_BLOCK_END -> data = FIFFB_RAW_DATA
+            % data        - the read buffer
             
             %
             %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
@@ -245,7 +250,8 @@ classdef mne_rt_data_client < mne_rt_client
                 FIFF = fiff_define_constants();
             end
             
-            buf = [];
+            data = [];
+            kind = [];
             
             if ~isempty(obj.m_DataInputStream)
 
@@ -257,11 +263,13 @@ classdef mne_rt_data_client < mne_rt_client
 
                 tag = mne_rt_data_client.read_tag(obj.m_DataInputStream);
                 
+                kind = tag.kind;
+                
                 if(tag.kind == FIFF.FIFF_DATA_BUFFER)
                     nSamples = length(tag.data)/p_nChannels;
-                    buf = reshape(tag.data, p_nChannels, nSamples);
+                    data = reshape(tag.data, p_nChannels, nSamples);
                 else
-                    fprintf('tag is not of kind FIFF_DATA_BUFFER');
+                    data = tag.data;
                 end
             else
                 error('mne_rt_data_client: no available TcpSocket, call init to establish a connection.');

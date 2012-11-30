@@ -88,9 +88,9 @@ classdef mne_rt_cmd_client < mne_rt_client
             import java.io.*
             
             if(ischar(AliasOrId))
-                command = sprintf('measinfo %s\n', AliasOrId);
+                command = sprintf('measinfo %s', AliasOrId);
             elseif(isnumeric(AliasOrId))
-                command = sprintf('measinfo %d\n', AliasOrId);
+                command = sprintf('measinfo %d', AliasOrId);
             else
                 error('unknown format for AliasOrId');
             end
@@ -117,15 +117,37 @@ classdef mne_rt_cmd_client < mne_rt_client
             import java.io.*
             
             if(ischar(AliasOrId))
-                command = sprintf('meas %s\n', AliasOrId);
+                command = sprintf('meas %s', AliasOrId);
             elseif(isnumeric(AliasOrId))
-                command = sprintf('meas %d\n', AliasOrId);
+                command = sprintf('meas %d', AliasOrId);
             else
                 error('unknown format for AliasOrId');
             end
             
             obj.sendCommand(command);
         end
+        
+        % =================================================================
+        %% stopAll
+        function stopAll(obj)
+            %
+            % stopMeas(obj, AliasOrId)
+            %
+            % For convinience, stops all measurements
+            %
+            
+            %   Author : Christoph Dinh, Matti Hamalainen, MGH Martinos Center
+            %   License : BSD 3-clause
+            %
+            
+            import java.net.Socket
+            import java.io.*
+
+            command = sprintf('stop-all');
+            
+            obj.sendCommand(command);
+        end
+        
     end
 end
 
