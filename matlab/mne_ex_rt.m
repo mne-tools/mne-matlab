@@ -1,4 +1,4 @@
-function [info] = mne_ex_rt(mne_rt_server_ip, mne_rt_server_commandPort, mne_rt_server_fiffDataPort)
+function [info] = mne_ex_rt(mne_rt_server_ip, mne_rt_server_commandPort, mne_rt_server_fiffDataPort, p_nBuffers)
 %
 %   An example of a mne_rt_server real-time connection
 %
@@ -17,7 +17,9 @@ function [info] = mne_ex_rt(mne_rt_server_ip, mne_rt_server_commandPort, mne_rt_
 %   License : BSD 3-clause
 %
 
-if nargin ~= 3
+if nargin == 3
+    p_nBuffers = 100;
+elseif nargin ~= 4
     error(me,'Incorrect number of arguments');
 end
 
@@ -52,20 +54,38 @@ t_measInfo = t_dataClient.readInfo();
 %% start measurement
 t_cmdClient.requestMeas(t_aliasOrId);
 
+global FIFF;
+if isempty(FIFF)
+    FIFF = fiff_define_constants();
+end
+
 figure;
 hold on;
 h_old=plot(0,0);
-while (true)
+
+t_bIsRunning = true;
+t_iCount = 0;
+while (t_bIsRunning)
     fprintf('read buffer...');
-    t_matRawBuffer = t_dataClient.readRawBuffer(t_measInfo.nchan);
+    [kind, t_matRawBuffer] = t_dataClient.readRawBuffer(t_measInfo.nchan);
     %
     %   You can add your own miracle here
     %
-    fprintf('(%d channels x %d samples) [done]\r\n', size(t_matRawBuffer,1), size(t_matRawBuffer,2));
-    h = plot(t_matRawBuffer');
-    delete(h_old);
-    h_old = h;
-    drawnow;
+    if(kind == FIFF.FIFF_DATA_BUFFER)
+        fprintf('(%d channels x %d samples) [done]\r\n', size(t_matRawBuffer,1), size(t_matRawBuffer,2));
+        h = plot(t_matRawBuffer');
+        delete(h_old);
+        h_old = h;
+        drawnow;
+    elseif (kind == FIFF.FIFF_BLOCK_END && t_matRawBuffer == FIFF.FIFFB_RAW_DATA)
+        t_bIsRunning = false;
+    end
+    
+    t_iCount = t_iCount+1;
+    if(t_iCount >= p_nBuffers)
+        t_cmdClient.stopAll();
+        t_bIsRunning = false;
+    end 
 end
 
 %% close the sockets
