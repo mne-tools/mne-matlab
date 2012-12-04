@@ -278,9 +278,9 @@ classdef mne_rt_data_client < mne_rt_client
         
         % =================================================================
         %% setClientAlias
-        function [info] = setClientAlias(obj, alias)
+        function setClientAlias(obj, alias)
             %
-            % [info] = setClientAlias(obj, alias)
+            % setClientAlias(obj, alias)
             %
             % sets the alias of the fiff data client -> for convinient
             % identification
@@ -300,8 +300,6 @@ classdef mne_rt_data_client < mne_rt_client
             if isempty(MNE_RT)
                 MNE_RT = mne_rt_define_commands();
             end
-            
-            info = [];
             
             if ~isempty(obj.m_DataOutputStream)
                 mne_rt_data_client.sendFiffCommand(obj.m_DataOutputStream, MNE_RT.MNE_RT_SET_CLIENT_ALIAS, alias)
