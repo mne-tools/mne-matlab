@@ -380,6 +380,21 @@ FIFF.FIFF_MNE_MORPH_MAP_TO           = 3572;     % Which subject is this map to
 FIFF.FIFF_MNE_CTF_COMP_KIND         = 3580;     % What kind of compensation
 FIFF.FIFF_MNE_CTF_COMP_DATA         = 3581;     % The compensation data itself
 FIFF.FIFF_MNE_CTF_COMP_CALIBRATED   = 3582;     % Are the coefficients calibrated?
+
+
+%
+% 3700... Real-Time Communication
+%
+FIFF.FIFF_MNE_RT_COMMAND            = 3700;    	% Fiff Real-Time Command
+FIFF.FIFF_MNE_RT_CLIENT_ID          = 3701;     % Fiff Real-Time mne_rt_server client id
+
+
+%
+% 3710... Real-Time Blocks
+%
+FIFF.FIFFB_MNE_RT_MEAS_INFO         = 3710;     % Fiff Real-Time Measurement Info
+
+
 %
 % Fiff values associated with MNE computations
 %
