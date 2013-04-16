@@ -117,9 +117,9 @@ classdef mne_rt_cmd_client < mne_rt_client
             import java.io.*
             
             if(ischar(AliasOrId))
-                command = sprintf('meas %s', AliasOrId);
+                command = sprintf('start %s', AliasOrId);
             elseif(isnumeric(AliasOrId))
-                command = sprintf('meas %d', AliasOrId);
+                command = sprintf('start %d', AliasOrId);
             else
                 error('unknown format for AliasOrId');
             end
