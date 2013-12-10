@@ -30,7 +30,7 @@ eventlist = reshape(eventlist',numel(eventlist),1);
 fid  = fiff_start_file(filename);
 
 fiff_start_block(fid,FIFF.FIFFB_MNE_EVENTS);
-    fiff_write_int(fid,FIFF.FIFF_MNE_EVENT_LIST,eventlist);
+    fiff_write_uint(fid,FIFF.FIFF_MNE_EVENT_LIST,eventlist);
 fiff_end_block(fid,FIFF.FIFFB_MNE_EVENTS);
 
 fiff_end_file(fid);
