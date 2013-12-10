@@ -1,8 +1,8 @@
 function fiff_write_uint(fid,kind,data)
 %
-% fiff_write_int(fid,kind,data)
+% fiff_write_uint(fid,kind,data)
 % 
-% Writes a 32-bit integer tag to a fif file
+% Writes an unsigned 32-bit integer tag to a fif file
 %
 %     fid           An open fif file descriptor
 %     kind          Tag kind
