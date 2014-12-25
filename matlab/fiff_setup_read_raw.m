@@ -77,18 +77,19 @@ fprintf(1,'Opening raw data file %s...\n',fname);
 %   Locate the data of interest
 %
 raw = fiff_dir_tree_find(meas,FIFF.FIFFB_RAW_DATA);
+if isempty(raw) && allow_maxshield
+    raw = fiff_dir_tree_find(meas,FIFF.FIFFB_SMSH_RAW_DATA);
+end
 if isempty(raw)
     raw = fiff_dir_tree_find(meas,FIFF.FIFFB_CONTINUOUS_DATA);
-    if allow_maxshield
-        raw = fiff_dir_tree_find(meas,FIFF.FIFFB_SMSH_RAW_DATA);
-        if isempty(raw)
-            error(me,'No raw data in %s',fname);
-        end
-    else
-        if isempty(raw)
-            error(me,'No raw data in %s',fname);
-        end
-    end
+    disp([10 '--------' 10 ...
+          'WARNING: This file contains raw Internal Active Shielding data. It may be distorted.' 10 ...
+          'Elekta recommends it be run run through MaxFilter to produce reliable results.' 10 ...
+          'Consider closing the file and running MaxFilter on the data.' 10 ...
+          '--------' 10]);
+end
+if isempty(raw)
+    error(me,'No raw data in file');
 end
 %
 %   Set up the output structure
