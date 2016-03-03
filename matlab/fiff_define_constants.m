@@ -568,8 +568,8 @@ FIFF.FIFF_UNITM_A    = -18;
 %
 % MNE epochs bookkeeping
 %
-FIFF.FIFFB_MNE_EPOCHS_SELECTION    = 3800  % the epochs selection
-FIFF.FIFFB_MNE_EPOCHS_DROP_LOG     = 3801  % the drop log
+FIFF.FIFFB_MNE_EPOCHS_SELECTION    = 3800;  % the epochs selection
+FIFF.FIFFB_MNE_EPOCHS_DROP_LOG     = 3801;  % the drop log
 
 return
 
