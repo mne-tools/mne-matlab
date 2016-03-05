@@ -1,4 +1,4 @@
-function mne_baby_meg_dig_trig(infile,outfile)
+function mne_baby_meg_dig_trig(infile,outfile,threshold)
 %
 % function mne_ex_read_write_raw(infile,outfile);
 %
@@ -18,8 +18,11 @@ end
 %
 me = 'MNE:mne_baby_meg_dig_trig';
 %
-if nargin ~= 2
+if nargin < 2
     error(me,'Incorrect number of arguments');
+end
+if nargin < 3
+   threshold = 4.8;
 end
 %
 %   Setup for reading the raw data
@@ -51,7 +54,8 @@ try
 catch
     error(me,'%s (channel list may need modification)',mne_omit_first_line(lasterr));
 end
-threshold = 4.8;
+
+fprintf(1,'Using threshold %.3f\n',threshold);
 try
     dtrig = get_event_ch(infile,include,true,threshold);
 catch
