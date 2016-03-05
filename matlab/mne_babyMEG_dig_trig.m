@@ -1,4 +1,4 @@
-function mne_baby_meg_dig_trig(infile,outfile,threshold)
+function mne_baby_meg_dig_trig(infile,outfile,threshold,want_eeg)
 %
 % function mne_ex_read_write_raw(infile,outfile);
 %
@@ -24,6 +24,9 @@ end
 if nargin < 3
    threshold = 4.8;
 end
+if nargin < 4
+    want_eeg = true;
+end
 %
 %   Setup for reading the raw data
 %
@@ -39,7 +42,6 @@ end
 %
 %
 want_meg   = true;
-want_eeg   = true;
 want_stim  = false;
 include{1} = 'TRG001';
 include{2} = 'TRG002';
