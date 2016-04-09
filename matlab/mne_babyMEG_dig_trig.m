@@ -1,6 +1,6 @@
-function mne_baby_meg_dig_trig(infile,outfile,threshold,want_eeg)
+function mne_baby_meg_dig_trig(infile,outfile,threshold,invert,include,want_eeg)
 %
-% function mne_ex_read_write_raw(infile,outfile);
+% function mne_baby_meg_dig_trig(infile,outfile,threshold,invert,want_eeg);
 %
 % Read and write raw data in 60-sec blocks
 %
@@ -25,6 +25,12 @@ if nargin < 3
    threshold = 4.8;
 end
 if nargin < 4
+   invert = false;
+end
+if nargin < 5
+   include = [];
+end
+if nargin < 6
     want_eeg = true;
 end
 %
@@ -43,14 +49,16 @@ end
 %
 want_meg   = true;
 want_stim  = false;
-include{1} = 'TRG001';
-include{2} = 'TRG002';
-include{3} = 'TRG003';
-include{4} = 'TRG004';
-include{5} = 'TRG005';
-include{6} = 'TRG006';
-include{7} = 'TRG007';
-include{8} = 'TRG008';
+if isempty(include)
+   include{1} = 'TRG001';
+   include{2} = 'TRG002';
+   include{3} = 'TRG003';
+   include{4} = 'TRG004';
+   include{5} = 'TRG005';
+   include{6} = 'TRG006';
+   include{7} = 'TRG007';
+   include{8} = 'TRG008';
+end
 try
     picks = fiff_pick_types(raw.info,want_meg,want_eeg,want_stim,include,[]);
 catch
@@ -58,8 +66,13 @@ catch
 end
 
 fprintf(1,'Using threshold %.3f\n',threshold);
+if invert
+   fprintf(1,'Invert polarity\n');
+else
+   fprintf(1,'Keep polarity\n');
+end
 try
-    dtrig = get_event_ch(infile,include,true,threshold);
+    dtrig = get_event_ch(infile,include,true,threshold,invert);
 catch
     error(me,'%s',mne_omit_first_line(lasterr));
 end
@@ -68,7 +81,7 @@ fprintf(1,'Digital trigger channel data ready.\n');
 %
 % Only one trigger channel remains and it will be called DTRG001
 %
-picksout = picks(1:end-7);
+picksout = picks(1:end-length(include)+1);
 raw.info.chs(picksout(end)).ch_name = 'DTRG001';
 [outfid,cals] = fiff_start_writing_raw(outfile,raw.info,picksout);
 %
@@ -111,8 +124,8 @@ for first = from:quantum:to
         end
         first_buffer = false;
     end
-    data(end-7,:) = dtrig(first-first_first+1:last-first_first+1);
-    fiff_write_raw_buffer(outfid,data(1:end-7,:),cals);
+    data(end-length(include)+1,:) = dtrig(first-first_first+1:last-first_first+1);
+    fiff_write_raw_buffer(outfid,data(1:end-length(include)+1,:),cals);
     fprintf(1,'[done]\n');
 end
 
@@ -121,7 +134,7 @@ fiff_finish_writing_raw(outfid);
 return;
 
 
-    function [comb] = get_event_ch(rawname,include,all,threshold)
+    function [comb] = get_event_ch(rawname,include,all,threshold,invert)
         %
         %   get_event_ch(rawname,include,all,threshold)
         %
@@ -212,14 +225,26 @@ return;
         %   Make the combined channel
         %
         samples=[from:to];
-        comb=zeros(1,size(data,2));
-        for j = 1:size(data,1)
-            for k = 1:size(data,2)
-                if data(j,k) > threshold
+        if invert
+           comb=zeros(1,size(data,2));
+           for j = 1:size(data,1)
+              for k = 1:size(data,2)
+                 if data(j,k) < threshold
                     data(j,k) = 1;
                     comb(k) = comb(k) + 2^(j-1);
-                end
-            end
+                 end
+              end
+           end
+        else
+           comb=zeros(1,size(data,2));
+           for j = 1:size(data,1)
+              for k = 1:size(data,2)
+                 if data(j,k) > threshold
+                    data(j,k) = 1;
+                    comb(k) = comb(k) + 2^(j-1);
+                 end
+              end
+           end
         end
         
         return;
