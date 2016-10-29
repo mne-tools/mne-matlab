@@ -102,8 +102,7 @@ FIFF.FIFFB_REF                = 118;
 FIFF.FIFFB_SMSH_RAW_DATA      = 119;
 FIFF.FIFFB_SMSH_ASPECT        = 120;
 FIFF.FIFFB_HPI_SUBSYSTEM      = 121;
-FIFF.FIFFB_EPOCHS             = 122;
-FIFF.FIFFB_ICA                = 123;
+
 FIFF.FIFFB_PROJ               = 313;
 FIFF.FIFFB_PROJ_ITEM          = 314;
 FIFF.FIFFB_MRI                = 200;
@@ -297,6 +296,10 @@ FIFF.FIFFB_MNE_MORPH_MAP          = 362;
 %
 FIFF.FIFFB_MNE_CTF_COMP           = 370;
 FIFF.FIFFB_MNE_CTF_COMP_DATA      = 371;
+FIFF.FIFFB_MNE_DERIVATIONS        = 372
+
+FIFF.FIFFB_MNE_EPOCHS             = 373;
+FIFF.FIFFB_MNE_ICA                = 374;
 %
 % Fiff tags associated with MNE computations (3500...)
 %
