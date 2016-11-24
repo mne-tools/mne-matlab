@@ -120,7 +120,7 @@ if ~isempty(mult)
     mult = sparse(mult);
 end
 
-if isempty(fopen(raw.fid))
+if raw.fid < 0 || isempty(fopen(raw.fid))
    fid = fopen(raw.info.filename,'rb','ieee-be');
    if (fid < 0)
       error(me,'Cannot open file %s',raw.info.filename);
