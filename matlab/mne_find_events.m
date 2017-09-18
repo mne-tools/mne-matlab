@@ -36,8 +36,8 @@ pick = stim_channel; % stim_channel
 changed = diff(data(pick, :));
 changed_idx = find(changed ~= 0);
 if length(changed_idx) == 0,
-	eventlist = zeros(1,3);
-	return
+    eventlist = zeros(1,3);
+    return
 end
 
 pre_step = data(pick, changed_idx);
@@ -48,50 +48,50 @@ eventlist = cat(2, changed_idx', pre_step', post_step');
 
 
 if strcmpi(consecutive, 'increasing'),
-	onsets = eventlist(:, 3) > eventlist(:, 2);
-	offsets = (onsets | eventlist(:, 3) == 0) & eventlist(:, 2) > 0;
+    onsets = eventlist(:, 3) > eventlist(:, 2);
+    offsets = (onsets | eventlist(:, 3) == 0) & eventlist(:, 2) > 0;
 end
 
 if strcmpi(consecutive, 'True'),
-	onsets = eventlist(:, 3) > 0;
-	offsets = eventlist(:, 2) > 0;
+    onsets = eventlist(:, 3) > 0;
+    offsets = eventlist(:, 2) > 0;
 end
 
 if strcmpi(consecutive, 'False'),
-	onsets = eventlist(:, 2) == 0;
-	offsets = eventlist(:, 3) == 0;
+    onsets = eventlist(:, 2) == 0;
+    offsets = eventlist(:, 3) == 0;
 end
 
 onset_idx = find(onsets);
 offset_idx = find(offsets);
 
 if length(onset_idx) == 0 | length(offset_idx) == 0,
-	eventlist = zeros(1,3);
-	return
+    eventlist = zeros(1,3);
+    return
 end
 
 % Delete orphaned onsets/offsets
 if onset_idx(1) > offset_idx(1),
-	disp('Removing orphaned offset at the beginning of the file.');
-	offset_idx = offset_idx(2:end);
+    disp('Removing orphaned offset at the beginning of the file.');
+    offset_idx = offset_idx(2:end);
 end
 
 if onset_idx(end) > offset_idx(end),
-	disp('Removing orphaned offset at the beginning of the file.');
-	onset_idx = onset_idx(1:end-1);
+    disp('Removing orphaned offset at the beginning of the file.');
+    onset_idx = onset_idx(1:end-1);
 end
 
 if strcmpi(output, 'onset'),
-	eventlist = eventlist(onset_idx, :);
+    eventlist = eventlist(onset_idx, :);
 elseif strcmpi(output, 'step'),
-	idx = union(onset_idx, offset_idx);
-	eventlist = eventlist(idx);
+    idx = union(onset_idx, offset_idx);
+    eventlist = eventlist(idx);
 elseif strcmpi(output, 'offset'),
-	event_id = eventlist(onset_idx, 3);
-	eventlist = eventlist(offset_idx, :);
-	eventlist(:, 2) = eventlist(:, 3);
-	eventlist(:, 3) = event_id;
-	eventlist(:, 1) = eventlist(:, 1) - 1;
+    event_id = eventlist(onset_idx, 3);
+    eventlist = eventlist(offset_idx, :);
+    eventlist(:, 2) = eventlist(:, 3);
+    eventlist(:, 3) = event_id;
+    eventlist(:, 1) = eventlist(:, 1) - 1;
 else
-	error('Invalid output parameter: %s.', output);
+    error('Invalid output parameter: %s.', output);
 end
