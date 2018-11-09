@@ -574,6 +574,12 @@ FIFF.FIFF_UNITM_A    = -18;
 FIFF.FIFFB_MNE_EPOCHS_SELECTION    = 3800;  % the epochs selection
 FIFF.FIFFB_MNE_EPOCHS_DROP_LOG     = 3801;  % the drop log
 
+%
+% Project info
+%
+FIFF.FIFF_PROJ_ID   = 500;
+FIFF.FIFF_PROJ_NAME = 501;
+
 return
 
 end
