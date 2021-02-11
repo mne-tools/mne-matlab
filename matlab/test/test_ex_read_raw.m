@@ -1,4 +1,9 @@
-function test_ex_read_raw()
+function test_suite=test_ex_read_raw
+    try test_functions=localfunctions(); catch
+    end
+    initTestSuite;
+
+function test_ex_read_raw_()
 % Test IO with FIF raw files
 
 pathstr = fileparts(mfilename('fullpath'));
@@ -21,4 +26,3 @@ raw = fiff_setup_read_raw('foo.fif');
 assert(size(data, 2) == length(times))
 assertTrue(all(times < 53.01))
 assertTrue(all(times > 50.99))
-
