@@ -254,7 +254,7 @@ for p = 1:count
             fclose(raw.fid);
         catch
         end
-        error(me,'%s',mne_omit_first_line(err));
+        error(me,'%s',err);
     end
 end
 fprintf(1,'Read %d epochs, %d samples each.\n',count,length(data(1).epoch));
