@@ -135,8 +135,11 @@ try
         [ data, times ] = fiff_read_raw_segment_times(raw,from,to,picks);
     end
 catch
-    fclose(raw.fid);
-    error(me,'%s',mne_omit_first_line(lasterr));
+    err = lasterr;
+    try  % invalid file number sometimes
+        fclose(raw.fid);
+    end
+    error(me,'%s',mne_omit_first_line(err));
 end
 fprintf(1,'Read %d samples.\n',size(data,2));
 
