@@ -22,3 +22,16 @@ Original and principal contribution is from::
     Athinoula A. Martinos Center for Biomedical Imaging
     Massachusetts General Hospital
     Charlestown, MA, USA
+
+Development
+^^^^^^^^^^^
+Tests can be run locally with::
+
+    $ matlab -nosplash -nodesktop -r "cd matlab; exit(~moxunit_runtests('test'))"
+
+Or::
+
+    $ octave --no-gui --eval "cd matlab; exit(~moxunit_runtests('test'))"
+
+Currently only epochs and raw are tested as the other test files require the
+sample dataset.
