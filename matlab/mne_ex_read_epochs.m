@@ -237,25 +237,16 @@ for p = 1:count
     event_samp = events(selected(p),1);
     from = event_samp + tmin*raw.info.sfreq;
     to   = event_samp + tmax*raw.info.sfreq;
-    try
-        if p == 1
-            [ epoch ] = fiff_read_raw_segment(raw,from,to,picks);
-            times = double([(int32(from)-int32(event_samp)):(int32(to)-int32(event_samp))])/raw.info.sfreq;
-        else
-            [ epoch ] = fiff_read_raw_segment(raw,from,to,picks);
-        end
-        data(p).epoch = epoch;
-        data(p).event = event;
-        data(p).tmin  = (double(from)-double(raw.first_samp))/raw.info.sfreq;
-        data(p).tmax  = (double(to)-double(raw.first_samp))/raw.info.sfreq;
-    catch
-        err = lasterr;
-        try  % invalid file number sometimes
-            fclose(raw.fid);
-        catch
-        end
-        error(me,'%s',err);
+    if p == 1
+        [ epoch ] = fiff_read_raw_segment(raw,from,to,picks);
+        times = double([(int32(from)-int32(event_samp)):(int32(to)-int32(event_samp))])/raw.info.sfreq;
+    else
+        [ epoch ] = fiff_read_raw_segment(raw,from,to,picks);
     end
+    data(p).epoch = epoch;
+    data(p).event = event;
+    data(p).tmin  = (double(from)-double(raw.first_samp))/raw.info.sfreq;
+    data(p).tmax  = (double(to)-double(raw.first_samp))/raw.info.sfreq;
 end
 fprintf(1,'Read %d epochs, %d samples each.\n',count,length(data(1).epoch));
 
