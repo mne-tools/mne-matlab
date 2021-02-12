@@ -1,4 +1,4 @@
-function fiff_write_ctf_comp(fid,comps)
+function fiff_write_ctf_comp(fid,comps,rename_struct)
 %
 % fiff_write_ctf_comp(fid,comps)
 %
@@ -36,7 +36,9 @@ function fiff_write_ctf_comp(fid,comps)
 
 me='MNE:fiff_write_ctf_comp';
 
-if nargin ~= 2
+if nargin == 2
+    rename_struct = struct();
+elseif nargin ~= 3
     error(me,'Incorrect number of arguments');
 end
 
@@ -54,6 +56,7 @@ end
 fiff_start_block(fid,FIFF.FIFFB_MNE_CTF_COMP);
 for k = 1:length(comps)
     comp = comps(k);
+    comp = fiff_rename_comp(comp, rename_struct);
     fiff_start_block(fid,FIFF.FIFFB_MNE_CTF_COMP_DATA);
     %
     %    Write the compensation kind

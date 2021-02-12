@@ -1,4 +1,4 @@
-function [bads] = fiff_read_bad_channels(fid,node)
+function [bads] = fiff_read_bad_channels(fid,node,rename_struct)
 %
 % [bads] = fiff_read_bad_channels(fid,node)
 %
@@ -29,6 +29,12 @@ function [bads] = fiff_read_bad_channels(fid,node)
 
 me='MNE:fiff_read_bad_channels';
 
+if nargin == 2
+    rename_struct = struct();
+elseif nargin ~= 3
+    error(me,'Incorrect number of arguments');
+end
+
 global FIFF;
 if isempty(FIFF)
     FIFF = fiff_define_constants();
@@ -43,11 +49,12 @@ if ~isempty(node)
         bads = fiff_split_name_list(tag.data);
     end
 end
+bads = fiff_rename_list(bads, rename_struct);
 
 return;
 
     function [tag] = find_tag(node,findkind)
-        
+
         for p = 1:node.nent
             kind = node.dir(p).kind;
             pos  = node.dir(p).pos;

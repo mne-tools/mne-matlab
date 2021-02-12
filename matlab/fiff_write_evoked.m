@@ -125,13 +125,8 @@ end
 %
 %  Channel information
 %
-for k = 1:data.info.nchan
-    %
-    %   Scan numbers may have been messed up
-    %
-    data.info.chs(k).scanno = k;
-    fiff_write_ch_info(fid,data.info.chs(k));
-end
+rename_struct = fiff_make_rename_struct(data.info.chs);
+fiff_write_ch_infos(fid,data.info,false,rename_struct);
 %
 %    Polhemus data
 %
@@ -145,11 +140,11 @@ end
 %
 %    Projectors
 %
-fiff_write_proj(fid,data.info.projs);
+fiff_write_proj(fid,data.info.projs,rename_struct);
 %
 %    CTF compensation info
 %
-fiff_write_ctf_comp(fid,data.info.comps);
+fiff_write_ctf_comp(fid,data.info.comps,rename_struct);
 %
 %    Bad channels
 %

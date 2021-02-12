@@ -157,6 +157,8 @@ for k = 1:meas_info.nent
             proj_name = tag.data;
     end
 end
+[chs, rename_struct] = fiff_read_extended_ch_info(chs, meas_info, fid);
+
 %
 %   Check that we have everything we need
 %
@@ -265,15 +267,15 @@ end
 %
 %   Load the SSP data
 %
-projs = fiff_read_proj(fid,meas_info);
+projs = fiff_read_proj(fid,meas_info,rename_struct);
 %
 %   Load the CTF compensation data
 %
-comps = fiff_read_ctf_comp(fid,meas_info,chs);
+comps = fiff_read_ctf_comp(fid,meas_info,chs,rename_struct);
 %
 %   Load the bad channel list
 %
-bads = fiff_read_bad_channels(fid,meas_info);
+bads = fiff_read_bad_channels(fid,meas_info,rename_struct);
 %
 %   Put the data together
 %
