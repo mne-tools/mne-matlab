@@ -8,11 +8,11 @@ on:
       - '*'
 
 jobs:
-  check_skip:
+  test:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: joergbrech/moxunit-action@master
         with:
-          tests: matlab/tests
+          tests: matlab/test
           src: matlab
