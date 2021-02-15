@@ -44,7 +44,7 @@ end
 
 me='MNE:fiff_read_proj';
 
-if nargin ~= 2
+if nargin == 2
     rename_struct = struct();
 elseif nargin ~= 3
     error(me,'Incorrect number of arguments');

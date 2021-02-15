@@ -2,7 +2,7 @@ function comp = fiff_rename_comp(one, rename_struct)
 
 me='MNE:fiff_rename_comp';
 
-if nargin != 2
+if nargin ~= 2
     error(me,'Incorrect number of arguments');
 end
 
