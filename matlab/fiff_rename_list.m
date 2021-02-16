@@ -1,4 +1,4 @@
-function lst = fiff_rename_list(lst, rename_struct)
+function lst = fiff_rename_list(lst, ch_rename)
 
 me = 'MNE:fiff_rename_list';
 
@@ -14,8 +14,11 @@ end
 
 for k = 1:length(lst)
     name = lst(k);
-    if isfield(rename_struct, name)
-        name = rename_struct.name;
+    if length(ch_rename)
+        idx = find(strcmp(name, ch_rename{:, 1}));
+        if length(idx)
+            name = ch_rename{idx(1), 2};
+        end
     end
     lst(k) = name;
 end

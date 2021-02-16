@@ -1,7 +1,7 @@
-function [ compdata ] = fiff_read_ctf_comp(fid,node,chs,rename_struct)
+function [ compdata ] = fiff_read_ctf_comp(fid,node,chs,ch_rename)
 
 %
-% [ compdata ] = fiff_read_ctf_comp(fid,node,chs,rename_struct)
+% [ compdata ] = fiff_read_ctf_comp(fid,node,chs,ch_rename)
 %
 % Read the CTF software compensation data from the given node
 %
@@ -47,7 +47,7 @@ end
 
 me='MNE:fiff_read_ctf_comp';
 if nargin == 3
-    rename_struct = struct();
+    ch_rename = {};
 elseif nargin ~= 4
     error(me,'Incorrect number of arguments');
 end
@@ -103,7 +103,7 @@ for k = 1:length(comps)
     one.save_calibrated = calibrated;
     one.rowcals = ones(1,size(mat.data,1));
     one.colcals = ones(1,size(mat.data,2));
-    one = fiff_rename_comp(one, rename_struct);
+    one = fiff_rename_comp(one, ch_rename);
     if ~calibrated
         %
         %   Calibrate...

@@ -121,12 +121,12 @@ end
 %
 %    Projectors
 %
-rename_struct = fiff_make_rename_struct(info.chs);
-fiff_write_proj(fid,info.projs,rename_struct);
+ch_rename = fiff_make_ch_rename(info.chs);
+fiff_write_proj(fid,info.projs,ch_rename);
 %
 %    CTF compensation info
 %
-fiff_write_ctf_comp(fid,info.comps,rename_struct);
+fiff_write_ctf_comp(fid,info.comps,ch_rename);
 %
 %    Bad channels
 %
@@ -149,7 +149,7 @@ end
 %
 %    Channel info
 %
-cals = fiff_write_ch_infos(fid,chs,true,rename_struct);
+cals = fiff_write_ch_infos(fid,chs,true,ch_rename);
 %
 %
 fiff_end_block(fid,FIFF.FIFFB_MEAS_INFO);

@@ -1,11 +1,12 @@
-function fiff_write_proj(fid,projs,rename_struct)
+function fiff_write_proj(fid,projs,ch_rename)
 %
-% fiff_write_proj(fid,projs)
+% fiff_write_proj(fid,projs,ch_rename)
 %
 % Writes the projection data into a fif file
 %
 %     fid           An open fif file descriptor
 %     projs         The compensation data to write
+%     ch_rename     Short-to-long channel name mapping
 %
 
 %
@@ -45,7 +46,7 @@ function fiff_write_proj(fid,projs,rename_struct)
 me='MNE:fiff_write_proj';
 
 if nargin == 2
-    rename_struct = struct();
+    ch_rename = {};
 elseif nargin ~= 3
     error(me,'Incorrect number of arguments');
 end
@@ -72,7 +73,7 @@ for k = 1:length(projs)
         projs(k).data.nrow);
     fiff_write_int(fid,FIFF.FIFF_MNE_PROJ_ITEM_ACTIVE, ...
         projs(k).active);
-    names = fiff_rename_list(projs(k).data.col_names, rename_struct);
+    names = fiff_rename_list(projs(k).data.col_names, ch_rename);
     fiff_write_name_list(fid, ...
         FIFF.FIFF_PROJ_ITEM_CH_NAME_LIST, ...
         names);

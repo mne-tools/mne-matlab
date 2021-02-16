@@ -125,8 +125,8 @@ end
 %
 %  Channel information
 %
-rename_struct = fiff_make_rename_struct(data.info.chs);
-fiff_write_ch_infos(fid,data.info,false,rename_struct);
+ch_rename = fiff_make_ch_rename(data.info.chs);
+fiff_write_ch_infos(fid,data.info,false,ch_rename);
 %
 %    Polhemus data
 %
@@ -140,11 +140,11 @@ end
 %
 %    Projectors
 %
-fiff_write_proj(fid,data.info.projs,rename_struct);
+fiff_write_proj(fid,data.info.projs,ch_rename);
 %
 %    CTF compensation info
 %
-fiff_write_ctf_comp(fid,data.info.comps,rename_struct);
+fiff_write_ctf_comp(fid,data.info.comps,ch_rename);
 %
 %    Bad channels
 %
