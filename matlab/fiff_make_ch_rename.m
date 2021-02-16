@@ -7,8 +7,7 @@ end
 
 ch_rename = {};
 need_rename = false;
-counts = containers.Map;
-used = containers.Map;
+counts = {};
 for k = 1:length(chs)
     if length(chs(k).ch_name) > 15
         need_rename = true;
@@ -22,22 +21,23 @@ end
 for k = 1:length(chs)
     short_name = chs(k).ch_name;
     short_name = short_name(1:min(length(short_name),15));
-    if ~isKey(counts, short_name)
-        counts(short_name) = 0;
-        used(short_name) = 0;
+    if length(counts) == 0 || ~any(strcmp(counts(:, 1), short_name))
+        counts = [counts; {short_name, 0, 0}];
     end
-    counts(short_name) = counts(short_name) + 1;
+    idx = find(strcmp(counts(:, 1), short_name));
+    counts{idx(1), 2} = counts{idx(1), 2} + 1;
 end
 % now do the assignments, taking into account duplicates and adding -1, -2, etc
 for k = 1:length(chs)
     short_name = chs(k).ch_name;
     if length(short_name) > 15
         short_name = short_name(1:15);
-        n = counts(short_name);
+        idx = find(strcmp(counts(:, 1), short_name));
+        n = counts{idx(1), 2};
         if n > 1
             fw = ceil(log10(n));
-            n = used(short_name) + 1;
-            used(short_name) = n;
+            n = counts{idx(1), 3} + 1;
+            counts{idx(1), 3} = n;
             short_name = sprintf(sprintf('%%s-%%0%dd', fw), short_name(1:15-fw-1), n);
         end
         ch_rename = [ch_rename; {chs(k).ch_name, short_name}];
