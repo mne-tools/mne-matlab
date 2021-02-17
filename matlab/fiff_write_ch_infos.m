@@ -38,9 +38,20 @@ end
 % add extra struct
 if write_rename
     for k=1:length(chs)
+        ch = chs(k);
         fiff_start_block(fid,FIFF.FIFFB_CH_INFO);
-        fiff_write_string(fid,FIFF.FIFF_CH_DACQ_NAME,chs(k).ch_name);
-        % XXX add more here
+        fiff_write_string(fid,FIFF.FIFF_CH_DACQ_NAME,ch.ch_name);
+        fiff_write_int(fid, FIFF.FIFF_CH_SCAN_NO, ch.scanno);
+        fiff_write_int(fid, FIFF.FIFF_CH_LOGICAL_NO, ch.logno);
+        fiff_write_int(fid,FIFF.FIFF_CH_KIND,ch.kind);
+        fiff_write_float(fid,FIFF.FIFF_CH_RANGE,ch.range);
+        fiff_write_float(fid,FIFF.FIFF_CH_CAL,ch.cal);
+        fiff_write_int(fid,FIFF.FIFF_CH_COIL_TYPE,ch.coil_type);
+        fiff_write_float(fid,FIFF.FIFF_CH_LOC,ch.loc);
+        fiff_write_int(fid,FIFF.FIFF_CH_UNIT,ch.unit);
+        fiff_write_int(fid,FIFF.FIFF_CH_UNIT_MUL,ch.unit_mul);
+        fiff_write_string(fid,FIFF.FIFF_CH_DACQ_NAME, ch.ch_name);
+        fiff_write_int(fid,FIFF.FIFF_CH_COORD_FRAME,ch.coord_frame);
         fiff_end_block(fid, FIFF.FIFFB_CH_INFO)
     end
 end
