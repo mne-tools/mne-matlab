@@ -79,11 +79,7 @@ end
 %
 %   Setup for reading the raw data
 %
-try
-    raw = fiff_setup_read_raw(fname);
-catch
-    error(me,'%s',mne_omit_first_line(lasterr));
-end
+raw = fiff_setup_read_raw(fname);
 
 if pick_all
     %
