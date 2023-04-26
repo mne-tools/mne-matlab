@@ -11,6 +11,7 @@ FIFF = fiff_define_constants;
 % read
 pathstr = fileparts(mfilename('fullpath'));
 fname   = fullfile(pathstr, 'data', 'test_raw.fif');
+info    = fiff_read_meas_info(fname);
 raw     = fiff_setup_read_raw(fname);
 [data, times] = fiff_read_raw_segment(raw);
 
