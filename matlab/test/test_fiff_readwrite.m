@@ -4,7 +4,15 @@ function test_suite=test_fiff_readwrite
     initTestSuite;
 
 function test_fiff_readwrite_raw_()
-% Test a round trip of reading and writing raw data 
+% Test a round trip of reading and writing raw data
+%  this function calls the following relevant m-files:
+%   - fiff_read_meas_info
+%   - fiff_setup_read_raw
+%   - fiff_read_raw_segment
+%   - fiff_start_writing_raw
+%   - fiff_write_int
+%   - fiff_write_raw_buffer
+%   - fiff_finish_writing_raw
 
 FIFF = fiff_define_constants;
 
