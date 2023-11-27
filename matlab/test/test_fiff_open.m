@@ -12,7 +12,7 @@ if ispc
   return;
 end
 
-f = which('fiff_define_open.m');
+f = which('test_fiff_define_constants.m');
 [p,f,e] = fileparts(f);
 
 % load the reference trees
