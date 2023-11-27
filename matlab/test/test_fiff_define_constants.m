@@ -15,8 +15,7 @@ end
 
 f = which('fiff_define_constants.m');
 [p,f,e] = fileparts(f);
-
-cd(p);
+if ~isempty(p), cd(p); end
 
 % create temporary files that holds the fiff constants from all m-files
 % together, and one that holds the fiff constants from the definition file
