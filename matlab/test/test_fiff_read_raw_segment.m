@@ -12,9 +12,7 @@ if ispc
   return;
 end
 
-f = which('test_fiff_define_constants.m');
-[p,f,e] = fileparts(f);
-
+p = fileparts(mfilename('fullpath'));
 fname = fullfile(p, 'data', 'test_raw.fif');
 [raw] = fiff_setup_read_raw(fname);
 [dat,times] = fiff_read_raw_segment(raw);

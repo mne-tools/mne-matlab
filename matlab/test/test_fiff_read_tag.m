@@ -12,8 +12,7 @@ if ispc
   return;
 end
 
-f = which('test_fiff_define_constants.m');
-[p,f,e] = fileparts(f);
+p = fileparts(mfilename('fullpath'));
 
 % load the reference trees
 load(fullfile(p, 'data', 'test_fiftrees_ref.mat'));
