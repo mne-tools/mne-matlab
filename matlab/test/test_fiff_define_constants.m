@@ -14,7 +14,13 @@ if ispc
 end
 
 p = fileparts(mfilename('fullpath'));
-if ~isempty(p), cd(p); end
+if ~isempty(p)
+  % this is assumed to end with '/test';
+  if endsWith(p, 'test')
+    p = strrep(p, [filesep 'test'], '');
+  end
+  cd(p);
+end
 
 % create temporary files that holds the fiff constants from all m-files
 % together, and one that holds the fiff constants from the definition file
