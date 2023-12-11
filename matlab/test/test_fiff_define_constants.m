@@ -16,7 +16,7 @@ end
 p = fileparts(mfilename('fullpath'));
 if ~isempty(p)
   % this is assumed to end with '/test';
-  if endsWith(p, 'test')
+  if numel(p)>4 && strcmp(p(end-3:end), 'test')
     p = strrep(p, [filesep 'test'], '');
   end
   cd(p);
