@@ -8,305 +8,301 @@ function [FIFF, FWD] = fiff_define_constants()
 %
 % FIFF version number in use
 %
-FIFF.FIFFC_MAJOR_VERSION = 1;
-FIFF.FIFFC_MINOR_VERSION = 4;
-FIFF.FIFFC_VERSION       = FIFF.FIFFC_MAJOR_VERSION < 16 | FIFF.FIFFC_MINOR_VERSION;
-
+FIFF.FIFFC_MAJOR_VERSION      = 1;
+FIFF.FIFFC_MINOR_VERSION      = 4;
+FIFF.FIFFC_VERSION            = FIFF.FIFFC_MAJOR_VERSION < 16 | FIFF.FIFFC_MINOR_VERSION;
 %
 % Blocks
 %
-FIFF.FIFFB_ROOT            = 999;
-FIFF.FIFFB_MEAS            = 100;
-FIFF.FIFFB_MEAS_INFO       = 101;
-FIFF.FIFFB_RAW_DATA        = 102;
-FIFF.FIFFB_PROCESSED_DATA  = 103;
-FIFF.FIFFB_EVOKED          = 104;
-FIFF.FIFFB_ASPECT          = 105;
-FIFF.FIFFB_SUBJECT         = 106;
-FIFF.FIFFB_ISOTRAK         = 107;
-FIFF.FIFFB_HPI_MEAS        = 108; % HPI measurement
-FIFF.FIFFB_HPI_RESULT      = 109; % Result of a HPI fitting procedure
-FIFF.FIFFB_HPI_COIL        = 110; % Data acquired from one HPI coil
-FIFF.FIFFB_PROJECT         = 111;
-FIFF.FIFFB_CONTINUOUS_DATA = 112;
-FIFF.FIFFB_CH_INFO         = 113; % Extra channel information
-FIFF.FIFFB_VOID            = 114;
-FIFF.FIFFB_EVENTS          = 115;
-FIFF.FIFFB_INDEX           = 116;
-FIFF.FIFFB_DACQ_PARS       = 117;
-FIFF.FIFFB_REF             = 118;
-FIFF.FIFFB_IAS_RAW_DATA    = 119;
-FIFF.FIFFB_IAS_ASPECT      = 120;
-FIFF.FIFFB_HPI_SUBSYSTEM   = 121;
+FIFF.FIFFB_ROOT               = 999;
+FIFF.FIFFB_MEAS               = 100;
+FIFF.FIFFB_MEAS_INFO          = 101;
+FIFF.FIFFB_RAW_DATA           = 102;
+FIFF.FIFFB_PROCESSED_DATA     = 103;
+FIFF.FIFFB_EVOKED             = 104;
+FIFF.FIFFB_ASPECT             = 105;
+FIFF.FIFFB_SUBJECT            = 106;
+FIFF.FIFFB_ISOTRAK            = 107;
+FIFF.FIFFB_HPI_MEAS           = 108; % HPI measurement
+FIFF.FIFFB_HPI_RESULT         = 109; % Result of a HPI fitting procedure
+FIFF.FIFFB_HPI_COIL           = 110; % Data acquired from one HPI coil
+FIFF.FIFFB_PROJECT            = 111;
+FIFF.FIFFB_CONTINUOUS_DATA    = 112;
+FIFF.FIFFB_CH_INFO            = 113; % Extra channel information
+FIFF.FIFFB_VOID               = 114;
+FIFF.FIFFB_EVENTS             = 115;
+FIFF.FIFFB_INDEX              = 116;
+FIFF.FIFFB_DACQ_PARS          = 117;
+FIFF.FIFFB_REF                = 118;
+FIFF.FIFFB_IAS_RAW_DATA       = 119;
+FIFF.FIFFB_IAS_ASPECT         = 120;
+FIFF.FIFFB_HPI_SUBSYSTEM      = 121;
 % FIFF.FIFFB_PHANTOM_SUBSYSTEM  = 122
 % FIFF.FIFFB_STATUS_SUBSYSTEM   = 123
-FIFF.FIFFB_DEVICE          = 124;
-FIFF.FIFFB_HELIUM          = 125;
-FIFF.FIFFB_CHANNEL_INFO    = 126;
+FIFF.FIFFB_DEVICE             = 124;
+FIFF.FIFFB_HELIUM             = 125;
+FIFF.FIFFB_CHANNEL_INFO       = 126;
 
-FIFF.FIFFB_SPHERE          = 300; % Concentric sphere model related
-FIFF.FIFFB_BEM             = 310; % Boundary-element method
-FIFF.FIFFB_BEM_SURF        = 311; % Boundary-element method surfaces
-FIFF.FIFFB_CONDUCTOR_MODEL = 312; % One conductor model definition
-FIFF.FIFFB_PROJ            = 313;
-FIFF.FIFFB_PROJ_ITEM       = 314;
-FIFF.FIFFB_MRI             = 200;
-FIFF.FIFFB_MRI_SET         = 201;
-FIFF.FIFFB_MRI_SLICE       = 202;
-FIFF.FIFFB_MRI_SCENERY     = 203; % These are for writing unrelated 'slices'
-FIFF.FIFFB_MRI_SCENE       = 204; % Which are actually 3D scenes...
-FIFF.FIFFB_MRI_SEG         = 205; % MRI segmentation data
-FIFF.FIFFB_MRI_SEG_REGION  = 206; % One MRI segmentation region
+FIFF.FIFFB_SPHERE             = 300; % Concentric sphere model related
+FIFF.FIFFB_BEM                = 310; % Boundary-element method
+FIFF.FIFFB_BEM_SURF           = 311; % Boundary-element method surfaces
+FIFF.FIFFB_CONDUCTOR_MODEL    = 312; % One conductor model definition
+FIFF.FIFFB_PROJ               = 313;
+FIFF.FIFFB_PROJ_ITEM          = 314;
+FIFF.FIFFB_MRI                = 200;
+FIFF.FIFFB_MRI_SET            = 201;
+FIFF.FIFFB_MRI_SLICE          = 202;
+FIFF.FIFFB_MRI_SCENERY        = 203; % These are for writing unrelated 'slices'
+FIFF.FIFFB_MRI_SCENE          = 204; % Which are actually 3D scenes...
+FIFF.FIFFB_MRI_SEG            = 205; % MRI segmentation data
+FIFF.FIFFB_MRI_SEG_REGION     = 206; % One MRI segmentation region
 FIFF.FIFFB_PROCESSING_HISTORY = 900;
 FIFF.FIFFB_PROCESSING_RECORD  = 901;
 
-FIFF.FIFFB_DATA_CORRECTION   = 500;
-FIFF.FIFFB_CHANNEL_DECOUPLER = 501;
-FIFF.FIFFB_SSS_INFO          = 502;
-FIFF.FIFFB_SSS_CAL           = 503;
-FIFF.FIFFB_SSS_ST_INFO       = 504;
-FIFF.FIFFB_SSS_BASES         = 505;
-FIFF.FIFFB_IAS               = 510;
+FIFF.FIFFB_DATA_CORRECTION    = 500;
+FIFF.FIFFB_CHANNEL_DECOUPLER  = 501;
+FIFF.FIFFB_SSS_INFO           = 502;
+FIFF.FIFFB_SSS_CAL            = 503;
+FIFF.FIFFB_SSS_ST_INFO        = 504;
+FIFF.FIFFB_SSS_BASES          = 505;
+FIFF.FIFFB_IAS                = 510;
 %
 % Of general interest
 %
-FIFF.FIFF_FILE_ID         = 100;
-FIFF.FIFF_DIR_POINTER     = 101;
-FIFF.FIFF_BLOCK_ID        = 103;
-FIFF.FIFF_BLOCK_START     = 104;
-FIFF.FIFF_BLOCK_END       = 105;
-FIFF.FIFF_FREE_LIST       = 106;
-FIFF.FIFF_FREE_BLOCK      = 107;
-FIFF.FIFF_NOP             = 108;
-FIFF.FIFF_PARENT_FILE_ID  = 109;
-FIFF.FIFF_PARENT_BLOCK_ID = 110;
-FIFF.FIFF_BLOCK_NAME      = 111;
-FIFF.FIFF_BLOCK_VERSION   = 112;
-FIFF.FIFF_CREATOR         = 113; % Program that created the file (string)
-FIFF.FIFF_MODIFIER        = 114; % Program that modified the file (string)
-FIFF.FIFF_REF_ROLE        = 115;
-FIFF.FIFF_REF_FILE_ID     = 116;
-FIFF.FIFF_REF_FILE_NUM    = 117;
-FIFF.FIFF_REF_FILE_NAME   = 118;
+FIFF.FIFF_FILE_ID             = 100;
+FIFF.FIFF_DIR_POINTER         = 101;
+FIFF.FIFF_BLOCK_ID            = 103;
+FIFF.FIFF_BLOCK_START         = 104;
+FIFF.FIFF_BLOCK_END           = 105;
+FIFF.FIFF_FREE_LIST           = 106;
+FIFF.FIFF_FREE_BLOCK          = 107;
+FIFF.FIFF_NOP                 = 108;
+FIFF.FIFF_PARENT_FILE_ID      = 109;
+FIFF.FIFF_PARENT_BLOCK_ID     = 110;
+FIFF.FIFF_BLOCK_NAME          = 111;
+FIFF.FIFF_BLOCK_VERSION       = 112;
+FIFF.FIFF_CREATOR             = 113; % Program that created the file (string)
+FIFF.FIFF_MODIFIER            = 114; % Program that modified the file (string)
+FIFF.FIFF_REF_ROLE            = 115;
+FIFF.FIFF_REF_FILE_ID         = 116;
+FIFF.FIFF_REF_FILE_NUM        = 117;
+FIFF.FIFF_REF_FILE_NAME       = 118;
 %
 %  Megacq saves the parameters in these tags
 %
-FIFF.FIFF_DACQ_PARS      = 150;
-FIFF.FIFF_DACQ_STIM      = 151;
+FIFF.FIFF_DACQ_PARS           = 150;
+FIFF.FIFF_DACQ_STIM           = 151;
 
-FIFF.FIFF_DEVICE_TYPE    = 152;
-FIFF.FIFF_DEVICE_MODEL   = 153;
-FIFF.FIFF_DEVICE_SERIAL  = 154;
-FIFF.FIFF_DEVICE_SITE    = 155;
+FIFF.FIFF_DEVICE_TYPE         = 152;
+FIFF.FIFF_DEVICE_MODEL        = 153;
+FIFF.FIFF_DEVICE_SERIAL       = 154;
+FIFF.FIFF_DEVICE_SITE         = 155;
 
-FIFF.FIFF_HE_LEVEL_RAW   = 156;
-FIFF.FIFF_HELIUM_LEVEL   = 157;
-FIFF.FIFF_ORIG_FILE_GUID = 158;
-FIFF.FIFF_UTC_OFFSET     = 159;
+FIFF.FIFF_HE_LEVEL_RAW        = 156;
+FIFF.FIFF_HELIUM_LEVEL        = 157;
+FIFF.FIFF_ORIG_FILE_GUID      = 158;
+FIFF.FIFF_UTC_OFFSET          = 159;
 
-FIFF.FIFF_NCHAN          = 200;
-FIFF.FIFF_SFREQ          = 201;
-FIFF.FIFF_DATA_PACK      = 202;
-FIFF.FIFF_CH_INFO        = 203;
-FIFF.FIFF_MEAS_DATE      = 204;
-FIFF.FIFF_SUBJECT        = 205;
-FIFF.FIFF_COMMENT        = 206;
-FIFF.FIFF_NAVE           = 207;
-FIFF.FIFF_FIRST_SAMPLE   = 208; % The first sample of an epoch
-FIFF.FIFF_LAST_SAMPLE    = 209; % The last sample of an epoch
-FIFF.FIFF_ASPECT_KIND    = 210;
-FIFF.FIFF_REF_EVENT      = 211;
-FIFF.FIFF_EXPERIMENTER   = 212;
-FIFF.FIFF_DIG_POINT      = 213;
-FIFF.FIFF_CH_POS         = 214;
-FIFF.FIFF_HPI_SLOPES     = 215; % HPI data
-FIFF.FIFF_HPI_NCOIL      = 216;
-FIFF.FIFF_REQ_EVENT      = 217;
-FIFF.FIFF_REQ_LIMIT      = 218;
-FIFF.FIFF_LOWPASS        = 219;
-FIFF.FIFF_BAD_CHS        = 220;
-FIFF.FIFF_ARTEF_REMOVAL  = 221;
-FIFF.FIFF_COORD_TRANS    = 222;
-FIFF.FIFF_HIGHPASS       = 223;
-FIFF.FIFF_CH_CALS        = 224; % This will not occur in new files
-FIFF.FIFF_HPI_BAD_CHS    = 225; % List of channels considered to be bad in hpi
-FIFF.FIFF_HPI_CORR_COEFF = 226; % HPI curve fit correlations
-FIFF.FIFF_EVENT_COMMENT  = 227; % Comment about the events used in averaging
-FIFF.FIFF_NO_SAMPLES     = 228; % Number of samples in an epoch
-FIFF.FIFF_FIRST_TIME     = 229; % Time scale minimum
+FIFF.FIFF_NCHAN               = 200;
+FIFF.FIFF_SFREQ               = 201;
+FIFF.FIFF_DATA_PACK           = 202;
+FIFF.FIFF_CH_INFO             = 203;
+FIFF.FIFF_MEAS_DATE           = 204;
+FIFF.FIFF_SUBJECT             = 205;
+FIFF.FIFF_COMMENT             = 206;
+FIFF.FIFF_NAVE                = 207;
+FIFF.FIFF_FIRST_SAMPLE        = 208; % The first sample of an epoch
+FIFF.FIFF_LAST_SAMPLE         = 209; % The last sample of an epoch
+FIFF.FIFF_ASPECT_KIND         = 210;
+FIFF.FIFF_REF_EVENT           = 211;
+FIFF.FIFF_EXPERIMENTER        = 212;
+FIFF.FIFF_DIG_POINT           = 213;
+FIFF.FIFF_CH_POS              = 214;
+FIFF.FIFF_HPI_SLOPES          = 215; % HPI data
+FIFF.FIFF_HPI_NCOIL           = 216;
+FIFF.FIFF_REQ_EVENT           = 217;
+FIFF.FIFF_REQ_LIMIT           = 218;
+FIFF.FIFF_LOWPASS             = 219;
+FIFF.FIFF_BAD_CHS             = 220;
+FIFF.FIFF_ARTEF_REMOVAL       = 221;
+FIFF.FIFF_COORD_TRANS         = 222;
+FIFF.FIFF_HIGHPASS            = 223;
+FIFF.FIFF_CH_CALS             = 224; % This will not occur in new files
+FIFF.FIFF_HPI_BAD_CHS         = 225; % List of channels considered to be bad in hpi
+FIFF.FIFF_HPI_CORR_COEFF      = 226; % HPI curve fit correlations
+FIFF.FIFF_EVENT_COMMENT       = 227; % Comment about the events used in averaging
+FIFF.FIFF_NO_SAMPLES          = 228; % Number of samples in an epoch
+FIFF.FIFF_FIRST_TIME          = 229; % Time scale minimum
 
-FIFF.FIFF_SUBAVE_SIZE    = 230; % Size of a subaverage
-FIFF.FIFF_SUBAVE_FIRST   = 231; % The first epoch % contained in the subaverage
-FIFF.FIFF_NAME           = 233; % Intended to be a short name.
-FIFF.FIFF_DESCRIPTION    = FIFF.FIFF_COMMENT; % (Textual) Description of an object
-FIFF.FIFF_DIG_STRING     = 234; % String of digitized points
-FIFF.FIFF_LINE_FREQ      = 235; % Line frequency
-FIFF.FIFF_GANTRY_ANGLE   = 282; % Tilt angle of the gantry in degrees.
-
+FIFF.FIFF_SUBAVE_SIZE         = 230; % Size of a subaverage
+FIFF.FIFF_SUBAVE_FIRST        = 231; % The first epoch % contained in the subaverage
+FIFF.FIFF_NAME                = 233; % Intended to be a short name.
+FIFF.FIFF_DESCRIPTION         = FIFF.FIFF_COMMENT; % (Textual) Description of an object
+FIFF.FIFF_DIG_STRING          = 234; % String of digitized points
+FIFF.FIFF_LINE_FREQ           = 235; % Line frequency
+FIFF.FIFF_GANTRY_ANGLE        = 282; % Tilt angle of the gantry in degrees.
 %
 % HPI fitting program tags
 %
-FIFF.FIFF_HPI_COIL_FREQ          = 236; % HPI coil excitation frequency
-FIFF.FIFF_HPI_COIL_MOMENTS       = 240; % Estimated moment vectors for the HPI coil magnetic dipoles
-FIFF.FIFF_HPI_FIT_GOODNESS       = 241; % Three floats indicating the goodness of fit
-FIFF.FIFF_HPI_FIT_ACCEPT         = 242; % Bitmask indicating acceptance (see below)
-FIFF.FIFF_HPI_FIT_GOOD_LIMIT     = 243; % Limit for the goodness-of-fit
-FIFF.FIFF_HPI_FIT_DIST_LIMIT     = 244; % Limit for the coil distance difference
-FIFF.FIFF_HPI_COIL_NO            = 245; % Coil number listed by HPI measurement
-FIFF.FIFF_HPI_COILS_USED         = 246; % List of coils finally used when the transformation was computed
+FIFF.FIFF_HPI_COIL_FREQ       = 236; % HPI coil excitation frequency
+FIFF.FIFF_HPI_COIL_MOMENTS    = 240; % Estimated moment vectors for the HPI coil magnetic dipoles
+FIFF.FIFF_HPI_FIT_GOODNESS    = 241; % Three floats indicating the goodness of fit
+FIFF.FIFF_HPI_FIT_ACCEPT      = 242; % Bitmask indicating acceptance (see below)
+FIFF.FIFF_HPI_FIT_GOOD_LIMIT  = 243; % Limit for the goodness-of-fit
+FIFF.FIFF_HPI_FIT_DIST_LIMIT  = 244; % Limit for the coil distance difference
+FIFF.FIFF_HPI_COIL_NO         = 245; % Coil number listed by HPI measurement
+FIFF.FIFF_HPI_COILS_USED      = 246; % List of coils finally used when the transformation was computed
 FIFF.FIFF_HPI_DIGITIZATION_ORDER = 247; % Which Isotrak digitization point corresponds to each of the coils energized
-
 %
 % Tags used for storing channel info
 %
-FIFF.FIFF_CH_SCAN_NO = 250;  % Channel scan number. Corresponds to fiffChInfoRec.scanNo field
-FIFF.FIFF_CH_LOGICAL_NO = 251;  % Channel logical number. Corresponds to fiffChInfoRec.logNo field
-FIFF.FIFF_CH_KIND = 252;  % Channel type. Corresponds to fiffChInfoRec.kind field"
-FIFF.FIFF_CH_RANGE = 253;  % Conversion from recorded number to (possibly virtual) voltage at the output"
-FIFF.FIFF_CH_CAL = 254;  % Calibration coefficient from output voltage to some real units
-FIFF.FIFF_CH_LOC = 255;  % Channel loc
-FIFF.FIFF_CH_UNIT = 256;  % Unit of the data
-FIFF.FIFF_CH_UNIT_MUL = 257;  % Unit multiplier exponent
-FIFF.FIFF_CH_DACQ_NAME = 258;  % Name of the channel in the data acquisition system. Corresponds to fiffChInfoRec.name.
-FIFF.FIFF_CH_COIL_TYPE = 350;  % Coil type in coil_def.dat
-FIFF.FIFF_CH_COORD_FRAME = 351;  % Coordinate frame (integer)
-
+FIFF.FIFF_CH_SCAN_NO          = 250; % Channel scan number. Corresponds to fiffChInfoRec.scanNo field
+FIFF.FIFF_CH_LOGICAL_NO       = 251; % Channel logical number. Corresponds to fiffChInfoRec.logNo field
+FIFF.FIFF_CH_KIND             = 252; % Channel type. Corresponds to fiffChInfoRec.kind field"
+FIFF.FIFF_CH_RANGE            = 253; % Conversion from recorded number to (possibly virtual) voltage at the output"
+FIFF.FIFF_CH_CAL              = 254; % Calibration coefficient from output voltage to some real units
+FIFF.FIFF_CH_LOC              = 255; % Channel loc
+FIFF.FIFF_CH_UNIT             = 256; % Unit of the data
+FIFF.FIFF_CH_UNIT_MUL         = 257; % Unit multiplier exponent
+FIFF.FIFF_CH_DACQ_NAME        = 258; % Name of the channel in the data acquisition system. Corresponds to fiffChInfoRec.name.
+FIFF.FIFF_CH_COIL_TYPE        = 350; % Coil type in coil_def.dat
+FIFF.FIFF_CH_COORD_FRAME      = 351; % Coordinate frame (integer)
 %
 % Pointers
 %
-FIFF.FIFFV_NEXT_SEQ = 0;
-FIFF.FIFFV_NEXT_NONE = -1;
+FIFF.FIFFV_NEXT_SEQ           = 0;
+FIFF.FIFFV_NEXT_NONE          = -1;
 %
 % Channel types
 %
-FIFF.FIFFV_BIO_CH = 102;
-FIFF.FIFFV_MEG_CH = 1;
-FIFF.FIFFV_REF_MEG_CH = 301;
-FIFF.FIFFV_EEG_CH = 2;
-FIFF.FIFFV_MCG_CH = 201;
-FIFF.FIFFV_STIM_CH = 3;
-FIFF.FIFFV_EOG_CH = 202;
-FIFF.FIFFV_EMG_CH = 302;
-FIFF.FIFFV_ECG_CH = 402;
-FIFF.FIFFV_MISC_CH = 502;
-FIFF.FIFFV_RESP_CH = 602; % Respiration monitoring
-FIFF.FIFFV_SEEG_CH = 802;  % stereotactic EEG
-FIFF.FIFFV_DBS_CH = 803;  % deep brain stimulation
-FIFF.FIFFV_SYST_CH = 900;  % some system status information (on Triux systems only)
-FIFF.FIFFV_ECOG_CH = 902;
-FIFF.FIFFV_IAS_CH = 910;  % Internal Active Shielding data (maybe on Triux only)
-FIFF.FIFFV_EXCI_CH = 920;  % flux excitation channel used to be a stimulus channel
-FIFF.FIFFV_DIPOLE_WAVE = 1000;  % Dipole time curve (xplotter/xfit)
-FIFF.FIFFV_GOODNESS_FIT = 1001;  % Goodness of fit (xplotter/xfit)
-FIFF.FIFFV_FNIRS_CH = 1100; % Functional near-infrared spectroscopy
-FIFF.FIFFV_TEMPERATURE_CH = 1200;  % Functional near-infrared spectroscopy
-FIFF.FIFFV_GALVANIC_CH = 1300;  % Galvanic skin response
-FIFF.FIFFV_EYETRACK_CH = 1400;  % Eye-tracking
+FIFF.FIFFV_BIO_CH             = 102;
+FIFF.FIFFV_MEG_CH             = 1;
+FIFF.FIFFV_REF_MEG_CH         = 301;
+FIFF.FIFFV_EEG_CH             = 2;
+FIFF.FIFFV_MCG_CH             = 201;
+FIFF.FIFFV_STIM_CH            = 3;
+FIFF.FIFFV_EOG_CH             = 202;
+FIFF.FIFFV_EMG_CH             = 302;
+FIFF.FIFFV_ECG_CH             = 402;
+FIFF.FIFFV_MISC_CH            = 502;
+FIFF.FIFFV_RESP_CH            = 602; % Respiration monitoring
+FIFF.FIFFV_SEEG_CH            = 802; % Stereotactic EEG
+FIFF.FIFFV_DBS_CH             = 803; % Deep brain stimulation
+FIFF.FIFFV_SYST_CH            = 900; % Some system status information (on Triux systems only)
+FIFF.FIFFV_ECOG_CH            = 902;
+FIFF.FIFFV_IAS_CH             = 910; % Internal Active Shielding data (maybe on Triux only)
+FIFF.FIFFV_EXCI_CH            = 920; % Flux excitation channel used to be a stimulus channel
+FIFF.FIFFV_DIPOLE_WAVE        = 1000; % Dipole time curve (xplotter/xfit)
+FIFF.FIFFV_GOODNESS_FIT       = 1001; % Goodness of fit (xplotter/xfit)
+FIFF.FIFFV_FNIRS_CH           = 1100; % Functional near-infrared spectroscopy
+FIFF.FIFFV_TEMPERATURE_CH     = 1200; % Functional near-infrared spectroscopy
+FIFF.FIFFV_GALVANIC_CH        = 1300; % Galvanic skin response
+FIFF.FIFFV_EYETRACK_CH        = 1400; % Eye-tracking
 
 %
 % Quaternion channels for head position monitoring
 %
-FIFF.FIFFV_QUAT_0 = 700;  % Quaternion param q0 obsolete for unit quaternion
-FIFF.FIFFV_QUAT_1 = 701;  % Quaternion param q1 rotation
-FIFF.FIFFV_QUAT_2 = 702;  % Quaternion param q2 rotation
-FIFF.FIFFV_QUAT_3 = 703;  % Quaternion param q3 rotation
-FIFF.FIFFV_QUAT_4 = 704;  % Quaternion param q4 translation
-FIFF.FIFFV_QUAT_5 = 705;  % Quaternion param q5 translation
-FIFF.FIFFV_QUAT_6 = 706;  % Quaternion param q6 translation
-FIFF.FIFFV_HPI_G = 707;  % Goodness-of-fit in continuous hpi
-FIFF.FIFFV_HPI_ERR = 708;  % Estimation error in continuous hpi
-FIFF.FIFFV_HPI_MOV = 709;  % Estimated head movement speed in continuous hpi
+FIFF.FIFFV_QUAT_0             = 700; % Quaternion param q0 obsolete for unit quaternion
+FIFF.FIFFV_QUAT_1             = 701; % Quaternion param q1 rotation
+FIFF.FIFFV_QUAT_2             = 702; % Quaternion param q2 rotation
+FIFF.FIFFV_QUAT_3             = 703; % Quaternion param q3 rotation
+FIFF.FIFFV_QUAT_4             = 704; % Quaternion param q4 translation
+FIFF.FIFFV_QUAT_5             = 705; % Quaternion param q5 translation
+FIFF.FIFFV_QUAT_6             = 706; % Quaternion param q6 translation
+FIFF.FIFFV_HPI_G              = 707; % Goodness-of-fit in continuous hpi
+FIFF.FIFFV_HPI_ERR            = 708; % Estimation error in continuous hpi
+FIFF.FIFFV_HPI_MOV            = 709; % Estimated head movement speed in continuous hpi
 %
 % Coordinate frames
 %
-FIFF.FIFFV_COORD_UNKNOWN = 0;
-FIFF.FIFFV_COORD_DEVICE = 1;
-FIFF.FIFFV_COORD_ISOTRAK = 2;
-FIFF.FIFFV_COORD_HPI = 3;
-FIFF.FIFFV_COORD_HEAD = 4;
-FIFF.FIFFV_COORD_MRI = 5;
-FIFF.FIFFV_COORD_MRI_SLICE = 6;
-FIFF.FIFFV_COORD_MRI_DISPLAY = 7;
+FIFF.FIFFV_COORD_UNKNOWN      = 0;
+FIFF.FIFFV_COORD_DEVICE       = 1;
+FIFF.FIFFV_COORD_ISOTRAK      = 2;
+FIFF.FIFFV_COORD_HPI          = 3;
+FIFF.FIFFV_COORD_HEAD         = 4;
+FIFF.FIFFV_COORD_MRI          = 5;
+FIFF.FIFFV_COORD_MRI_SLICE    = 6;
+FIFF.FIFFV_COORD_MRI_DISPLAY  = 7;
 FIFF.FIFFV_COORD_DICOM_DEVICE = 8;
 FIFF.FIFFV_COORD_IMAGING_DEVICE = 9;
 
 %
 % Needed for raw and evoked-response data
 %
-FIFF.FIFF_DATA_BUFFER    = 300; % Buffer containing measurement data
-FIFF.FIFF_DATA_SKIP      = 301; % Data skip in buffers
-FIFF.FIFF_EPOCH          = 302; % Buffer containing one epoch and channel
-FIFF.FIFF_DATA_SKIP_SAMP = 303; % Data skip in samples
+FIFF.FIFF_DATA_BUFFER         = 300; % Buffer containing measurement data
+FIFF.FIFF_DATA_SKIP           = 301; % Data skip in buffers
+FIFF.FIFF_EPOCH               = 302; % Buffer containing one epoch and channel
+FIFF.FIFF_DATA_SKIP_SAMP      = 303; % Data skip in samples
 
 %
 % Info on subject
 %
-FIFF.FIFF_SUBJ_ID = 400;  % Subject ID
-FIFF.FIFF_SUBJ_FIRST_NAME = 401;  % First name of the subject
-FIFF.FIFF_SUBJ_MIDDLE_NAME = 402;  % Middle name of the subject
-FIFF.FIFF_SUBJ_LAST_NAME = 403;  % Last name of the subject
-FIFF.FIFF_SUBJ_BIRTH_DAY = 404;  % Birthday of the subject
-FIFF.FIFF_SUBJ_SEX = 405;  % Sex of the subject
-FIFF.FIFF_SUBJ_HAND = 406;  % Handedness of the subject
-FIFF.FIFF_SUBJ_WEIGHT = 407;  % Weight of the subject in kg
-FIFF.FIFF_SUBJ_HEIGHT = 408;  % Height of the subject in m
-FIFF.FIFF_SUBJ_COMMENT = 409;  % Comment about the subject
-FIFF.FIFF_SUBJ_HIS_ID = 410;  % ID used in the Hospital Information System
+FIFF.FIFF_SUBJ_ID             = 400; % Subject ID
+FIFF.FIFF_SUBJ_FIRST_NAME     = 401; % First name of the subject
+FIFF.FIFF_SUBJ_MIDDLE_NAME    = 402; % Middle name of the subject
+FIFF.FIFF_SUBJ_LAST_NAME      = 403; % Last name of the subject
+FIFF.FIFF_SUBJ_BIRTH_DAY      = 404; % Birthday of the subject
+FIFF.FIFF_SUBJ_SEX            = 405; % Sex of the subject
+FIFF.FIFF_SUBJ_HAND           = 406; % Handedness of the subject
+FIFF.FIFF_SUBJ_WEIGHT         = 407; % Weight of the subject in kg
+FIFF.FIFF_SUBJ_HEIGHT         = 408; % Height of the subject in m
+FIFF.FIFF_SUBJ_COMMENT        = 409; % Comment about the subject
+FIFF.FIFF_SUBJ_HIS_ID         = 410; % ID used in the Hospital Information System
 
-FIFF.FIFFV_SUBJ_HAND_RIGHT = 1;  % Righthanded
-FIFF.FIFFV_SUBJ_HAND_LEFT = 2; % Lefthanded
-FIFF.FIFFV_SUBJ_HAND_AMBI = 3;  % Ambidextrous
+FIFF.FIFFV_SUBJ_HAND_RIGHT    = 1; % Righthanded
+FIFF.FIFFV_SUBJ_HAND_LEFT     = 2; % Lefthanded
+FIFF.FIFFV_SUBJ_HAND_AMBI     = 3; % Ambidextrous
 
-FIFF.FIFFV_SUBJ_SEX_UNKNOWN = 0;  % Unknown gender
-FIFF.FIFFV_SUBJ_SEX_MALE = 1;  % Male
-FIFF.FIFFV_SUBJ_SEX_FEMALE = 2;  % Female
+FIFF.FIFFV_SUBJ_SEX_UNKNOWN   = 0; % Unknown gender
+FIFF.FIFFV_SUBJ_SEX_MALE      = 1; % Male
+FIFF.FIFFV_SUBJ_SEX_FEMALE    = 2; % Female
 
-FIFF.FIFF_PROJ_ID = 500;
-FIFF.FIFF_PROJ_NAME = 501;
-FIFF.FIFF_PROJ_AIM = 502;
-FIFF.FIFF_PROJ_PERSONS = 503;
-FIFF.FIFF_PROJ_COMMENT = 504;
+FIFF.FIFF_PROJ_ID             = 500;
+FIFF.FIFF_PROJ_NAME           = 501;
+FIFF.FIFF_PROJ_AIM            = 502;
+FIFF.FIFF_PROJ_PERSONS        = 503;
+FIFF.FIFF_PROJ_COMMENT        = 504;
 
-FIFF.FIFF_EVENT_CHANNELS = 600;  % Event channel numbers
-FIFF.FIFF_EVENT_LIST = 601;  % List of events (integers: <sample before after>
-FIFF.FIFF_EVENT_CHANNEL = 602;  % Event channel
-FIFF.FIFF_EVENT_BITS = 603;  % Event bits array
+FIFF.FIFF_EVENT_CHANNELS      = 600; % Event channel numbers
+FIFF.FIFF_EVENT_LIST          = 601; % List of events (integers: <sample before after>
+FIFF.FIFF_EVENT_CHANNEL       = 602; % Event channel
+FIFF.FIFF_EVENT_BITS          = 603; % Event bits array
 
 %
 % Tags used in saving SQUID characteristics etc.
 %
-FIFF.FIFF_SQUID_BIAS = 701;
-FIFF.FIFF_SQUID_OFFSET = 702;
-FIFF.FIFF_SQUID_GATE = 703;
+FIFF.FIFF_SQUID_BIAS          = 701;
+FIFF.FIFF_SQUID_OFFSET        = 702;
+FIFF.FIFF_SQUID_GATE          = 703;
 %
 % Aspect values used to save characteristic curves of SQUIDs. (mjk)
 %
-FIFF.FIFFV_ASPECT_IFII_LOW = 1100;
-FIFF.FIFFV_ASPECT_IFII_HIGH = 1101;
-FIFF.FIFFV_ASPECT_GATE = 1102;
+FIFF.FIFFV_ASPECT_IFII_LOW    = 1100;
+FIFF.FIFFV_ASPECT_IFII_HIGH   = 1101;
+FIFF.FIFFV_ASPECT_GATE        = 1102;
 
 %
 % Values for file references
 %
-FIFF.FIFFV_ROLE_PREV_FILE = 1;
-FIFF.FIFFV_ROLE_NEXT_FILE = 2;
+FIFF.FIFFV_ROLE_PREV_FILE     = 1;
+FIFF.FIFFV_ROLE_NEXT_FILE     = 2;
 
 %
 % References
 %
-FIFF.FIFF_REF_PATH = 1101;
+FIFF.FIFF_REF_PATH            = 1101;
 
 %
 % Different aspects of data
 %
-FIFF.FIFFV_ASPECT_AVERAGE = 100;  % Normal average of epochs
-FIFF.FIFFV_ASPECT_STD_ERR = 101;  % Std. error of mean
-FIFF.FIFFV_ASPECT_SINGLE = 102;  % Single epoch cut out from the continuous data
-FIFF.FIFFV_ASPECT_SUBAVERAGE = 103;  % Partial average (subaverage)
-FIFF.FIFFV_ASPECT_ALTAVERAGE = 104;  % Alternating subaverage
-FIFF.FIFFV_ASPECT_SAMPLE = 105;  % A sample cut out by graph
-FIFF.FIFFV_ASPECT_POWER_DENSITY = 106;  % Power density spectrum
-FIFF.FIFFV_ASPECT_DIPOLE_WAVE = 200;  % Dipole amplitude curve
+FIFF.FIFFV_ASPECT_AVERAGE     = 100; % Normal average of epochs
+FIFF.FIFFV_ASPECT_STD_ERR     = 101; % Std. error of mean
+FIFF.FIFFV_ASPECT_SINGLE      = 102; % Single epoch cut out from the continuous data
+FIFF.FIFFV_ASPECT_SUBAVERAGE  = 103; % Partial average (subaverage)
+FIFF.FIFFV_ASPECT_ALTAVERAGE  = 104; % Alternating subaverage
+FIFF.FIFFV_ASPECT_SAMPLE      = 105; % A sample cut out by graph
+FIFF.FIFFV_ASPECT_POWER_DENSITY = 106; % Power density spectrum
+FIFF.FIFFV_ASPECT_DIPOLE_WAVE = 200; % Dipole amplitude curve
 
 %
 % BEM surface IDs
@@ -318,8 +314,8 @@ FIFF.FIFFV_BEM_SURF_ID_CSF       = 2;
 FIFF.FIFFV_BEM_SURF_ID_SKULL     = 3;
 FIFF.FIFFV_BEM_SURF_ID_HEAD      = 4;
 
-FIFF.FIFF_SPHERE_ORIGIN = 3001;
-FIFF.FIFF_SPHERE_RADIUS = 3002;
+FIFF.FIFF_SPHERE_ORIGIN      = 3001;
+FIFF.FIFF_SPHERE_RADIUS      = 3002;
 
 FIFF.FIFF_BEM_SURF_ID        = 3101; % int    surface number
 FIFF.FIFF_BEM_SURF_NAME      = 3102; % string surface name
@@ -413,47 +409,47 @@ FIFF.FIFFV_MRI_PIXEL_BIT_RLE            = 8;
 %
 %   These are the MNE fiff definitions (range 350-390 reserved for MNE)
 %
-FIFF.FIFFB_MNE = 350;
-FIFF.FIFFB_MNE_SOURCE_SPACE = 351;
+FIFF.FIFFB_MNE                  = 350;
+FIFF.FIFFB_MNE_SOURCE_SPACE     = 351;
 FIFF.FIFFB_MNE_FORWARD_SOLUTION = 352;
-FIFF.FIFFB_MNE_PARENT_MRI_FILE = 353;
+FIFF.FIFFB_MNE_PARENT_MRI_FILE  = 353;
 FIFF.FIFFB_MNE_PARENT_MEAS_FILE = 354;
-FIFF.FIFFB_MNE_COV = 355;
+FIFF.FIFFB_MNE_COV              = 355;
 FIFF.FIFFB_MNE_INVERSE_SOLUTION = 356;
-FIFF.FIFFB_MNE_NAMED_MATRIX = 357;
-FIFF.FIFFB_MNE_ENV = 358;
-FIFF.FIFFB_MNE_BAD_CHANNELS = 359;
-FIFF.FIFFB_MNE_VERTEX_MAP = 360;
-FIFF.FIFFB_MNE_EVENTS = 361;
-FIFF.FIFFB_MNE_MORPH_MAP = 362;
-FIFF.FIFFB_MNE_SURFACE_MAP = 363;
+FIFF.FIFFB_MNE_NAMED_MATRIX     = 357;
+FIFF.FIFFB_MNE_ENV              = 358;
+FIFF.FIFFB_MNE_BAD_CHANNELS     = 359;
+FIFF.FIFFB_MNE_VERTEX_MAP       = 360;
+FIFF.FIFFB_MNE_EVENTS           = 361;
+FIFF.FIFFB_MNE_MORPH_MAP        = 362;
+FIFF.FIFFB_MNE_SURFACE_MAP      = 363;
 FIFF.FIFFB_MNE_SURFACE_MAP_GROUP = 364;
 
 %
 % CTF compensation data
 %
-FIFF.FIFFB_MNE_CTF_COMP = 370;
+FIFF.FIFFB_MNE_CTF_COMP      = 370;
 FIFF.FIFFB_MNE_CTF_COMP_DATA = 371;
-FIFF.FIFFB_MNE_DERIVATIONS = 372;
+FIFF.FIFFB_MNE_DERIVATIONS   = 372;
 
-FIFF.FIFFB_MNE_EPOCHS = 373;
-FIFF.FIFFB_MNE_ICA = 374;
+FIFF.FIFFB_MNE_EPOCHS        = 373;
+FIFF.FIFFB_MNE_ICA           = 374;
 %
 % Fiff tags associated with MNE computations (3500...)
 %
 %
 % 3500... Bookkeeping
 %
-FIFF.FIFF_MNE_ROW_NAMES = 3502;
-FIFF.FIFF_MNE_COL_NAMES = 3503;
-FIFF.FIFF_MNE_NROW = 3504;
-FIFF.FIFF_MNE_NCOL = 3505;
-FIFF.FIFF_MNE_COORD_FRAME = 3506;  % Coordinate frame employed. Defaults:
+FIFF.FIFF_MNE_ROW_NAMES    = 3502;
+FIFF.FIFF_MNE_COL_NAMES    = 3503;
+FIFF.FIFF_MNE_NROW         = 3504;
+FIFF.FIFF_MNE_NCOL         = 3505;
+FIFF.FIFF_MNE_COORD_FRAME  = 3506; % Coordinate frame employed. Defaults:
 %  FIFFB_MNE_SOURCE_SPACE       FIFFV_COORD_MRI
 %  FIFFB_MNE_FORWARD_SOLUTION   FIFFV_COORD_HEAD
 %  FIFFB_MNE_INVERSE_SOLUTION   FIFFV_COORD_HEAD
 FIFF.FIFF_MNE_CH_NAME_LIST = 3507;
-FIFF.FIFF_MNE_FILE_NAME = 3508;  % This removes the collision with fiff_file.h (used to be 3501)
+FIFF.FIFF_MNE_FILE_NAME    = 3508; % This removes the collision with fiff_file.h (used to be 3501)
 %
 % 3510... 3590... Source space or surface
 %
@@ -701,27 +697,6 @@ FIFF.FIFFV_MNE_COORD_4D_HEAD  = FIFF.FIFFV_MNE_COORD_CTF_HEAD;
 FIFF.FIFFV_MNE_COORD_KIT_HEAD = FIFF.FIFFV_MNE_COORD_CTF_HEAD;
 
 %
-%   FWD Types
-%
-FWD.COIL_UNKNOWN           = 0;
-FWD.COILC_UNKNOWN          = 0;
-FWD.COILC_EEG              = 1000;
-FWD.COILC_MAG              = 1;
-FWD.COILC_AXIAL_GRAD       = 2;
-FWD.COILC_PLANAR_GRAD      = 3;
-FWD.COILC_AXIAL_GRAD2      = 4;
-
-FWD.COIL_ACCURACY_POINT    = 0; 
-FWD.COIL_ACCURACY_NORMAL   = 1;
-FWD.COIL_ACCURACY_ACCURATE = 2;
-
-FWD.BEM_IP_APPROACH_LIMIT  = 0.1;
-
-FWD.BEM_LIN_FIELD_SIMPLE   = 1;
-FWD.BEM_LIN_FIELD_FERGUSON = 2;
-FWD.BEM_LIN_FIELD_URANKAR  = 3;
-
-%
 %   Data types
 %
 FIFF.FIFFT_VOID                  = 0;
@@ -757,7 +732,7 @@ FIFF.FIFFT_SPARSE_RCS_MATRIX     = 0x00200000; % 2097152
 %
 % Units of measurement
 %
-FIFF.FIFF_UNIT_NONE = -1;
+FIFF.FIFF_UNIT_NONE     = -1;
 %
 % SI base units
 %
@@ -771,64 +746,64 @@ FIFF.FIFF_UNIT_MOL      = 6; % mole
 %
 % SI Supplementary units
 %
-FIFF.FIFF_UNIT_RAD = 7; % radian
-FIFF.FIFF_UNIT_SR  = 8; % steradian
+FIFF.FIFF_UNIT_RAD      = 7; % radian
+FIFF.FIFF_UNIT_SR       = 8; % steradian
 %
 % SI base candela
 %
-FIFF.FIFF_UNIT_CD = 9; % candela
+FIFF.FIFF_UNIT_CD       = 9; % candela
 %
 % SI derived units
 %
-FIFF.FIFF_UNIT_MOL_M3 = 10;  % mol/m^3
-FIFF.FIFF_UNIT_HZ     = 101; % hertz
-FIFF.FIFF_UNIT_N      = 102; % Newton
-FIFF.FIFF_UNIT_PA     = 103; % pascal
-FIFF.FIFF_UNIT_J      = 104; % joule
-FIFF.FIFF_UNIT_W      = 105; % watt
-FIFF.FIFF_UNIT_C      = 106; % coulomb
-FIFF.FIFF_UNIT_V      = 107; % volt
-FIFF.FIFF_UNIT_F      = 108; % farad
-FIFF.FIFF_UNIT_OHM    = 109; % ohm
-FIFF.FIFF_UNIT_MHO    = 110; % one per ohm
-FIFF.FIFF_UNIT_S      = 110; % Siemens (same as Mho, what fiff-constants calls it)
-FIFF.FIFF_UNIT_WB     = 111; % weber
-FIFF.FIFF_UNIT_T      = 112; % tesla
-FIFF.FIFF_UNIT_H      = 113; % Henry
-FIFF.FIFF_UNIT_CEL    = 114; % celsius
-FIFF.FIFF_UNIT_LM     = 115; % lumen
-FIFF.FIFF_UNIT_LX     = 116; % lux
-FIFF.FIFF_UNIT_V_M2   = 117; % V/m^2
+FIFF.FIFF_UNIT_MOL_M3   = 10;  % mol/m^3
+FIFF.FIFF_UNIT_HZ       = 101; % hertz
+FIFF.FIFF_UNIT_N        = 102; % Newton
+FIFF.FIFF_UNIT_PA       = 103; % pascal
+FIFF.FIFF_UNIT_J        = 104; % joule
+FIFF.FIFF_UNIT_W        = 105; % watt
+FIFF.FIFF_UNIT_C        = 106; % coulomb
+FIFF.FIFF_UNIT_V        = 107; % volt
+FIFF.FIFF_UNIT_F        = 108; % farad
+FIFF.FIFF_UNIT_OHM      = 109; % ohm
+FIFF.FIFF_UNIT_MHO      = 110; % one per ohm
+FIFF.FIFF_UNIT_S        = 110; % Siemens (same as Mho, what fiff-constants calls it)
+FIFF.FIFF_UNIT_WB       = 111; % weber
+FIFF.FIFF_UNIT_T        = 112; % tesla
+FIFF.FIFF_UNIT_H        = 113; % Henry
+FIFF.FIFF_UNIT_CEL      = 114; % celsius
+FIFF.FIFF_UNIT_LM       = 115; % lumen
+FIFF.FIFF_UNIT_LX       = 116; % lux
+FIFF.FIFF_UNIT_V_M2     = 117; % V/m^2
 %
 % Others we need
 %
-FIFF.FIFF_UNIT_T_M   = 201; % T/m
-FIFF.FIFF_UNIT_AM    = 202; % Am
-FIFF.FIFF_UNIT_AM_M2 = 203; % Am/m^2
-FIFF.FIFF_UNIT_AM_M3 = 204; % Am/m^3
+FIFF.FIFF_UNIT_T_M      = 201; % T/m
+FIFF.FIFF_UNIT_AM       = 202; % Am
+FIFF.FIFF_UNIT_AM_M2    = 203; % Am/m^2
+FIFF.FIFF_UNIT_AM_M3    = 204; % Am/m^3
 
-FIFF.FIFF_UNIT_PX = 210;  % Pixel
+FIFF.FIFF_UNIT_PX       = 210; % Pixel
 
 %
 % Multipliers
 %
-FIFF.FIFF_UNITM_E    = 18;
-FIFF.FIFF_UNITM_PET  = 15;
-FIFF.FIFF_UNITM_T    = 12;
-FIFF.FIFF_UNITM_GIG  = 9;
-FIFF.FIFF_UNITM_MEG  = 6;
-FIFF.FIFF_UNITM_K    = 3;
-FIFF.FIFF_UNITM_H    = 2;
-FIFF.FIFF_UNITM_DA   = 1;
-FIFF.FIFF_UNITM_NONE = 0;
-FIFF.FIFF_UNITM_D    = -1;
-FIFF.FIFF_UNITM_C    = -2;
-FIFF.FIFF_UNITM_M    = -3;
-FIFF.FIFF_UNITM_MU   = -6;
-FIFF.FIFF_UNITM_N    = -9;
-FIFF.FIFF_UNITM_P    = -12;
-FIFF.FIFF_UNITM_F    = -15;
-FIFF.FIFF_UNITM_A    = -18;
+FIFF.FIFF_UNITM_E       = 18;
+FIFF.FIFF_UNITM_PET     = 15;
+FIFF.FIFF_UNITM_T       = 12;
+FIFF.FIFF_UNITM_GIG     = 9;
+FIFF.FIFF_UNITM_MEG     = 6;
+FIFF.FIFF_UNITM_K       = 3;
+FIFF.FIFF_UNITM_H       = 2;
+FIFF.FIFF_UNITM_DA      = 1;
+FIFF.FIFF_UNITM_NONE    = 0;
+FIFF.FIFF_UNITM_D       = -1;
+FIFF.FIFF_UNITM_C       = -2;
+FIFF.FIFF_UNITM_M       = -3;
+FIFF.FIFF_UNITM_MU      = -6;
+FIFF.FIFF_UNITM_N       = -9;
+FIFF.FIFF_UNITM_P       = -12;
+FIFF.FIFF_UNITM_F       = -15;
+FIFF.FIFF_UNITM_A       = -18;
 
 %
 % Coil types
@@ -844,37 +819,37 @@ FIFF.FIFFV_COIL_EEG_CSD      = 6; % CSD-transformed EEG lead
 FIFF.FIFFV_COIL_DIPOLE       = 200; % Time-varying dipole definition
 % The coil info contains dipole location (r0) and
 % direction (ex)
-FIFF.FIFFV_COIL_FNIRS_HBO          = 300; % fNIRS oxyhemoglobin
-FIFF.FIFFV_COIL_FNIRS_HBR          = 301; % fNIRS deoxyhemoglobin
-FIFF.FIFFV_COIL_FNIRS_CW_AMPLITUDE = 302; % fNIRS continuous wave amplitude
-FIFF.FIFFV_COIL_FNIRS_OD           = 303; % fNIRS optical density
-FIFF.FIFFV_COIL_FNIRS_FD_AC_AMPLITUDE = 304; % fNIRS frequency domain AC amplitude
-FIFF.FIFFV_COIL_FNIRS_FD_PHASE        = 305; % fNIRS frequency domain phase
-FIFF.FIFFV_COIL_FNIRS_RAW             = FIFF.FIFFV_COIL_FNIRS_CW_AMPLITUDE; % old alias
+FIFF.FIFFV_COIL_FNIRS_HBO                  = 300; % fNIRS oxyhemoglobin
+FIFF.FIFFV_COIL_FNIRS_HBR                  = 301; % fNIRS deoxyhemoglobin
+FIFF.FIFFV_COIL_FNIRS_CW_AMPLITUDE         = 302; % fNIRS continuous wave amplitude
+FIFF.FIFFV_COIL_FNIRS_OD                   = 303; % fNIRS optical density
+FIFF.FIFFV_COIL_FNIRS_FD_AC_AMPLITUDE      = 304; % fNIRS frequency domain AC amplitude
+FIFF.FIFFV_COIL_FNIRS_FD_PHASE             = 305; % fNIRS frequency domain phase
+FIFF.FIFFV_COIL_FNIRS_RAW                  = FIFF.FIFFV_COIL_FNIRS_CW_AMPLITUDE; % old alias
 FIFF.FIFFV_COIL_FNIRS_TD_GATED_AMPLITUDE   = 306; % fNIRS time-domain gated amplitude
 FIFF.FIFFV_COIL_FNIRS_TD_MOMENTS_AMPLITUDE = 307; % fNIRS time-domain moments amplitude
 
-FIFF.FIFFV_COIL_EYETRACK_POS   = 400; % Eye-tracking gaze position
-FIFF.FIFFV_COIL_EYETRACK_PUPIL = 401; % Eye-tracking pupil size
+FIFF.FIFFV_COIL_EYETRACK_POS            = 400; % Eye-tracking gaze position
+FIFF.FIFFV_COIL_EYETRACK_PUPIL          = 401; % Eye-tracking pupil size
 
-FIFF.FIFFV_COIL_MCG_42 = 1000; % For testing the MCG software
+FIFF.FIFFV_COIL_MCG_42                  = 1000; % For testing the MCG software
 
-FIFF.FIFFV_COIL_POINT_MAGNETOMETER = 2000; % Simple point magnetometer
-FIFF.FIFFV_COIL_AXIAL_GRAD_5CM     = 2001; % Generic axial gradiometer
+FIFF.FIFFV_COIL_POINT_MAGNETOMETER      = 2000; % Simple point magnetometer
+FIFF.FIFFV_COIL_AXIAL_GRAD_5CM          = 2001; % Generic axial gradiometer
 
-FIFF.FIFFV_COIL_VV_PLANAR_W  = 3011; % VV prototype wirewound planar sensor
-FIFF.FIFFV_COIL_VV_PLANAR_T1 = 3012; % Vectorview SQ20483N planar gradiometer
-FIFF.FIFFV_COIL_VV_PLANAR_T2 = 3013; % Vectorview SQ20483N-A planar gradiometer
-FIFF.FIFFV_COIL_VV_PLANAR_T3 = 3014; % Vectorview SQ20950N planar gradiometer
-FIFF.FIFFV_COIL_VV_PLANAR_T4 = 3015; % Vectorview planar gradiometer (MEG-MRI)
-FIFF.FIFFV_COIL_VV_MAG_W  = 3021; % VV prototype wirewound magnetometer
-FIFF.FIFFV_COIL_VV_MAG_T1 = 3022; % Vectorview SQ20483N magnetometer
-FIFF.FIFFV_COIL_VV_MAG_T2 = 3023; % Vectorview SQ20483-A magnetometer
-FIFF.FIFFV_COIL_VV_MAG_T3 = 3024; % Vectorview SQ20950N magnetometer
-FIFF.FIFFV_COIL_VV_MAG_T4 = 3025; % Vectorview magnetometer (MEG-MRI)
+FIFF.FIFFV_COIL_VV_PLANAR_W             = 3011; % VV prototype wirewound planar sensor
+FIFF.FIFFV_COIL_VV_PLANAR_T1            = 3012; % Vectorview SQ20483N planar gradiometer
+FIFF.FIFFV_COIL_VV_PLANAR_T2            = 3013; % Vectorview SQ20483N-A planar gradiometer
+FIFF.FIFFV_COIL_VV_PLANAR_T3            = 3014; % Vectorview SQ20950N planar gradiometer
+FIFF.FIFFV_COIL_VV_PLANAR_T4            = 3015; % Vectorview planar gradiometer (MEG-MRI)
+FIFF.FIFFV_COIL_VV_MAG_W                = 3021; % VV prototype wirewound magnetometer
+FIFF.FIFFV_COIL_VV_MAG_T1               = 3022; % Vectorview SQ20483N magnetometer
+FIFF.FIFFV_COIL_VV_MAG_T2               = 3023; % Vectorview SQ20483-A magnetometer
+FIFF.FIFFV_COIL_VV_MAG_T3               = 3024; % Vectorview SQ20950N magnetometer
+FIFF.FIFFV_COIL_VV_MAG_T4               = 3025; % Vectorview magnetometer (MEG-MRI)
 
-FIFF.FIFFV_COIL_MAGNES_MAG  = 4001; % Magnes WH magnetometer
-FIFF.FIFFV_COIL_MAGNES_GRAD = 4002; % Magnes WH gradiometer
+FIFF.FIFFV_COIL_MAGNES_MAG              = 4001; % Magnes WH magnetometer
+FIFF.FIFFV_COIL_MAGNES_GRAD             = 4002; % Magnes WH gradiometer
 %
 % Magnes reference sensors
 %
@@ -888,48 +863,48 @@ FIFF.FIFFV_COIL_MAGNES_R_GRAD_OFF       = FIFF.FIFFV_COIL_MAGNES_OFFDIAG_REF_GRA
 %
 % CTF coil and channel types
 %
-FIFF.FIFFV_COIL_CTF_GRAD             = 5001;
-FIFF.FIFFV_COIL_CTF_REF_MAG          = 5002;
-FIFF.FIFFV_COIL_CTF_REF_GRAD         = 5003;
-FIFF.FIFFV_COIL_CTF_OFFDIAG_REF_GRAD = 5004;
+FIFF.FIFFV_COIL_CTF_GRAD                = 5001;
+FIFF.FIFFV_COIL_CTF_REF_MAG             = 5002;
+FIFF.FIFFV_COIL_CTF_REF_GRAD            = 5003;
+FIFF.FIFFV_COIL_CTF_OFFDIAG_REF_GRAD    = 5004;
 %
 % KIT system coil types
 %
-FIFF.FIFFV_COIL_KIT_GRAD    = 6001;
-FIFF.FIFFV_COIL_KIT_REF_MAG = 6002;
+FIFF.FIFFV_COIL_KIT_GRAD                = 6001;
+FIFF.FIFFV_COIL_KIT_REF_MAG             = 6002;
 %
 % BabySQUID sensors
 %
-FIFF.FIFFV_COIL_BABY_GRAD = 7001;
+FIFF.FIFFV_COIL_BABY_GRAD               = 7001;
 %
 % BabyMEG sensors
 %
-FIFF.FIFFV_COIL_BABY_MAG      = 7002;
-FIFF.FIFFV_COIL_BABY_REF_MAG  = 7003;
-FIFF.FIFFV_COIL_BABY_REF_MAG2 = 7004;
+FIFF.FIFFV_COIL_BABY_MAG                = 7002;
+FIFF.FIFFV_COIL_BABY_REF_MAG            = 7003;
+FIFF.FIFFV_COIL_BABY_REF_MAG2           = 7004;
 %
 % Artemis123 sensors
 %
-FIFF.FIFFV_COIL_ARTEMIS123_GRAD     = 7501;
-FIFF.FIFFV_COIL_ARTEMIS123_REF_MAG  = 7502;
-FIFF.FIFFV_COIL_ARTEMIS123_REF_GRAD = 7503;
+FIFF.FIFFV_COIL_ARTEMIS123_GRAD         = 7501;
+FIFF.FIFFV_COIL_ARTEMIS123_REF_MAG      = 7502;
+FIFF.FIFFV_COIL_ARTEMIS123_REF_GRAD     = 7503;
 %
 % QuSpin sensors
 %
-FIFF.FIFFV_COIL_QUSPIN_ZFOPM_MAG  = 8001;
-FIFF.FIFFV_COIL_QUSPIN_ZFOPM_MAG2 = 8002;
+FIFF.FIFFV_COIL_QUSPIN_ZFOPM_MAG        = 8001;
+FIFF.FIFFV_COIL_QUSPIN_ZFOPM_MAG2       = 8002;
 %
 % FieldLine sensors
 %
-FIFF.FIFFV_COIL_FIELDLINE_OPM_MAG_GEN1 = 8101;
+FIFF.FIFFV_COIL_FIELDLINE_OPM_MAG_GEN1  = 8101;
 %
 % Kernel sensors
 %
-FIFF.FIFFV_COIL_KERNEL_OPM_MAG_GEN1 = 8201;
+FIFF.FIFFV_COIL_KERNEL_OPM_MAG_GEN1     = 8201;
 %
 % KRISS sensors
 %
-FIFF.FIFFV_COIL_KRISS_GRAD = 9001;
+FIFF.FIFFV_COIL_KRISS_GRAD              = 9001;
 %
 % Compumedics adult/pediatric gradiometer
 %
@@ -951,6 +926,28 @@ FIFF.FIFFB_MNE_ANNOTATIONS       = 3810; % annotations block
 
 % MNE Metadata Dataframes
 FIFF.FIFFB_MNE_METADATA          = 3811; % metadata dataframes block
+
+
+%
+%   FWD Types
+%
+FWD.COIL_UNKNOWN           = 0;
+FWD.COILC_UNKNOWN          = 0;
+FWD.COILC_EEG              = 1000;
+FWD.COILC_MAG              = 1;
+FWD.COILC_AXIAL_GRAD       = 2;
+FWD.COILC_PLANAR_GRAD      = 3;
+FWD.COILC_AXIAL_GRAD2      = 4;
+
+FWD.COIL_ACCURACY_POINT    = 0; 
+FWD.COIL_ACCURACY_NORMAL   = 1;
+FWD.COIL_ACCURACY_ACCURATE = 2;
+
+FWD.BEM_IP_APPROACH_LIMIT  = 0.1;
+
+FWD.BEM_LIN_FIELD_SIMPLE   = 1;
+FWD.BEM_LIN_FIELD_FERGUSON = 2;
+FWD.BEM_LIN_FIELD_URANKAR  = 3;
 
 % % Table to match unrecognized channel location names to their known aliases
 % CHANNEL_LOC_ALIASES = {
