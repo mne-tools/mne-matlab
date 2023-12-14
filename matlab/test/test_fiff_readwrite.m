@@ -174,3 +174,36 @@ assertElementsAlmostEqual(times,  timesnew, 'relative', eps);
 % clean up
 delete(fnamenew);
 
+function test_fiff_readwrite_evoked_()
+% Test a round trip of reading and writing evoked data
+
+% read
+pathstr = fileparts(mfilename('fullpath'));
+fname   = fullfile(pathstr, 'data', 'test-ave.fif');
+evoked  = fiff_read_evoked(fname);
+
+fnamenew = strrep(fname, 'test-', 'testout-');
+fiff_write_evoked(fnamenew, evoked);
+evokednew = fiff_read_evoked(fnamenew);
+
+assertEqual(evoked.evoked, evokednew.evoked);
+
+% clean up
+delete(fnamenew);
+
+function test_fiff_readwrite_evoked_all_()
+% Test a round trip of reading and writing evoked data
+
+% read
+pathstr = fileparts(mfilename('fullpath'));
+fname   = fullfile(pathstr, 'data', 'test-ave.fif');
+evoked  = fiff_read_evoked_all(fname);
+
+fnamenew = strrep(fname, 'test-', 'testout-');
+fiff_write_evoked(fnamenew, evoked);
+evokednew = fiff_read_evoked_all(fnamenew);
+
+assertEqual(evoked.evoked, evokednew.evoked);
+
+% clean up
+delete(fnamenew);
