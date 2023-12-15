@@ -45,18 +45,6 @@ count = fwrite(fid,int32(FIFFV_NEXT_SEQ),'int32');
 if count ~= 1
    error(me,'write failed');
 end
-
-% this is quite slow
-%for k = 1:nel
-%   count = fwrite(fid,real(data(k)),'single');
-%   if count ~= 1
-%      error(me,'write failed');
-%   end
-%   count = fwrite(fid,imag(data(k)),'single');
-%   if count ~= 1
-%      error(me,'write failed');
-%   end
-%end
 data  = reshape(single([real(data(:)) imag(data(:))]).', [], 1);
 count = fwrite(fid, data, 'single');
 if count ~= nel*2
