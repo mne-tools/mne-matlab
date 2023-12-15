@@ -14,7 +14,13 @@ if ispc
 end
 
 p = fileparts(mfilename('fullpath'));
-if ~isempty(p), cd(p); end
+if ~isempty(p)
+  % this is assumed to end with '/test';
+  if numel(p)>4 && strcmp(p(end-3:end), 'test')
+    p = strrep(p, [filesep 'test'], '');
+  end
+  cd(p);
+end
 
 % create temporary files that holds the fiff constants from all m-files
 % together, and one that holds the fiff constants from the definition file
@@ -33,7 +39,4 @@ delete('c1');
 delete('c2');
 delete('delta');
 
-%FIXME this can go, once the set of unit tests has been merged, and once it
-%is safe to start improving the current codebase, which - based on the
-%failing assertion below - is internally inconsistent
-%assertEqual(deblank(count), '0');
+assertEqual(deblank(count), '0');
