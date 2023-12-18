@@ -943,33 +943,12 @@ FWD.COIL_ACCURACY_POINT    = 0;
 FWD.COIL_ACCURACY_NORMAL   = 1;
 FWD.COIL_ACCURACY_ACCURATE = 2;
 
+FWD.BEM_UNKNOWN            = -1;
+FWD.BEM_CONSTANT_COLL      = 1;
+FWD.BEM_LINEAR_COLL        = 2;
+
 FWD.BEM_IP_APPROACH_LIMIT  = 0.1;
 
 FWD.BEM_LIN_FIELD_SIMPLE   = 1;
 FWD.BEM_LIN_FIELD_FERGUSON = 2;
 FWD.BEM_LIN_FIELD_URANKAR  = 3;
-
-% % Table to match unrecognized channel location names to their known aliases
-% CHANNEL_LOC_ALIASES = {
-%     % this set of aliases are published in doi:10.1097/WNP.0000000000000316 and
-%     % doi:10.1016/S1388-2457(00)00527-7.
-%     "Cb1": "POO7",
-%     "Cb2": "POO8",
-%     "CB1": "POO7",
-%     "CB2": "POO8",
-%     "T1": "T9",
-%     "T2": "T10",
-%     "T3": "T7",
-%     "T4": "T8",
-%     "T5": "T9",
-%     "T6": "T10",
-%     "M1": "TP9",
-%     "M2": "TP10",
-%     % EGI ref chan is named VREF/Vertex Ref.
-%     % In the standard montages for EGI, the ref is named Cz
-%     "VREF": "Cz",
-%     "Vertex Reference": "Cz"
-%     % add a comment here (with doi of a published source) above any new
-%     % aliases, as they are added
-% };
-
