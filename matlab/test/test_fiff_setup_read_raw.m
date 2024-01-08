@@ -33,4 +33,22 @@ if ~isfield(raws, 'longraw')
 end
 try, raw.info = rmfield(raw.info, 'filename'); end
 try, raws.longraw.info = rmfield(raws.longraw.info, 'filename'); end
-assert(isequaln(raw, raws.longraw));
+
+if isfield(raw, 'fastread') && raw.fastread~=0
+  raw = rmfield(raw, 'fastread');
+
+  % the version stored on disk is based on the representation that allows
+  % for fast reading, i.e. the former has an a struct-array 'ent' with
+  % metadata for each of the data blocks, the latter has metadata that is
+  % relevant for all data blocks at once, also the data type of the samples
+  % may be different (int32 vs. double), this is not relevant for most
+  % conventional use of thos quantities downstream in matlab
+  raw.first_samp = double(raw.first_samp);
+  raw.last_samp  = double(raw.last_samp);
+  assert(isequaln(rmfield(raw, 'rawdir'), rmfield(raws.longraw, 'rawdir')));
+
+elseif isfield(raw, 'fastread')
+  raw = rmfield(raw, 'fastread');
+  assert(isequaln(raw, raws.longraw));
+end
+
