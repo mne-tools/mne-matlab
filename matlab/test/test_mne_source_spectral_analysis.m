@@ -1,4 +1,4 @@
-function test_source_spectral_analysis()
+function test_mne_source_spectral_analysis()
 % Test PSD computation for sources
 
 data_path = getenv('MNE_SAMPLE_DATASET_PATH');
@@ -15,4 +15,3 @@ cfg.last_samp = 40000;
 cfg.outfile = 'source_psd'
 
 [res] = mne_source_spectral_analysis(fname_data,cfg);
-
