@@ -7,3 +7,4 @@ fname = 'data/raw_data_tsss_mc.fif'; % new file
 [fid, tree, dir] = fiff_open(fname);
 [info, meas] = fiff_read_meas_info(fid, tree);
 disp(info.dig)
+assert(length(info.dig)==332, 'failed')
